@@ -1,7 +1,7 @@
 var currentDateOffset = 0;
 
 async function getData(dateOffset = currentDateOffset) {
-    return await fetch("/php/getData.php?dateOffset="+dateOffset).then(response => response.json());
+    return await fetch("./php/getData.php?dateOffset="+dateOffset).then(response => response.json());
 }
 
 function drawSubstitutionTable() {
