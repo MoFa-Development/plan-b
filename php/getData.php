@@ -53,7 +53,7 @@ $api_json = "{
 	\"showSubstitutionFrom\": 1615,
 	\"showTeacherOnEvent\": true,
 	\"showAbsentTeacher\": true,
-	\"strikethroughAbsentTeacher\": false,
+	\"strikethroughAbsentTeacher\": true,
 	\"activityTypeIds\": [
 		2,
 		3

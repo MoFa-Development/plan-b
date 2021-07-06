@@ -1,7 +1,7 @@
 var currentDateOffset = 0;
 
 async function getData(dateOffset = currentDateOffset) {
-    return await fetch("./php/getData.php?dateOffset="+dateOffset).then(response => response.json());
+    return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
 }
 
 function drawSubstitutionTable() {
@@ -64,33 +64,35 @@ function drawSubstitutionTable() {
             //substElement.innerHTML = `[${classes.join(", ")}] Stunden: ${periods} (${course}) ${room} ${teacher} <br> ${message} <hr>`;
             
             let periodsElement = document.createElement("p");
-            periodsElement.innerHTML = periods;
+            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\">" + periods;
             periodsElement.id = "periods";
             substElement.appendChild(periodsElement);
             
             let classesElement = document.createElement("p");
-            classesElement.innerHTML = classes.join(", ");
+            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\">" + classes.join(", ");
             classesElement.id = "classes";
             substElement.appendChild(classesElement);
             
             let courseElement = document.createElement("p");
-            courseElement.innerHTML = course;
+            courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\">" + course;
             courseElement.id = "course"
             substElement.appendChild(courseElement);
             
-            let roomElement = document.createElement("p");
-            roomElement.innerHTML = room;
-            roomElement.id = "room"
-            substElement.appendChild(roomElement);
+            if(room) {
+                let roomElement = document.createElement("p");
+                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\">" + room;
+                roomElement.id = "room"
+                substElement.appendChild(roomElement);
+            }
             
             let teacherElement = document.createElement("p");
-            teacherElement.innerHTML = teacher;
+            teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\">" + teacher;
             teacherElement.id = "teacher"
             substElement.appendChild(teacherElement);
             
-            if(message) {
+            if(message && message != "Text") {
                 let messageElement = document.createElement("p");
-                messageElement.innerHTML = message;
+                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\">" + message;
                 messageElement.id = "message";
                 substElement.appendChild(messageElement);
             }

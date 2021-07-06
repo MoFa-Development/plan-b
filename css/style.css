@@ -55,6 +55,12 @@ button {
     margin-right: 20%;
 }
 
+.subst-icon {
+    height: 15pt;
+    width: auto;
+    margin-right: 5pt;
+}
+
 #navbar {
     position: sticky;
     top: 0;
@@ -69,4 +75,9 @@ button {
 
 .substMonitorSubstElem {
     text-decoration: underline;
+}
+
+.cancelStyle {
+    text-decoration: line-through;
+    color: #788286;
 }
