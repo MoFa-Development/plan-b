@@ -9,28 +9,32 @@ body {
 button {
     border: none;
     color: #1c2024;
-    background-color: #bdc3c7;
+    background-color: transparent;
+}
+
+#navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #cfd3d6;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr;
+    box-sizing: border-box;
+    padding: none;
+    margin: none;
     height: 30pt;
-    width: 10%;
 }
 
 #btn-prev-day {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    height: 30pt;
 }
 
 #btn-next-day {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    height: 30pt;
 }
 
 #title-day {
-    display: block;
-    margin: auto;
     text-align: center;
     font-size: 14pt;
     line-height: 30pt;
@@ -59,18 +63,44 @@ button {
     height: 15pt;
     width: auto;
     margin-right: 5pt;
+    margin-left: 5pt;
 }
 
-#navbar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #95a5a6;
-    box-sizing: border-box;
-    padding: none;
-    margin: none;
-    height: 30pt;
+.subst-data {
+    display: flex;
+    vertical-align: center;
+}
+
+.subst-element {
+    display: grid;
+    column-gap: 14pt;
+    row-gap: 0;
+    padding-left: 14pt;
+    padding-right: 14pt;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.subst-element > #periods {
+    grid-row: 2;
+    grid-column: 1;
+}
+.subst-element > #classes {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.subst-element:nth-child(odd) {
+    background-color: #cfd3d6;
+    border-color: #cfd3d6;
+    margin-top: 14pt;
+    margin-bottom: 14pt;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .substMonitorSubstElem {
@@ -80,4 +110,54 @@ button {
 .cancelStyle {
     text-decoration: line-through;
     color: #788286;
+}
+
+@media (max-width: 980px) {
+    body {
+        font-size: 32pt;
+    }
+
+    #navbar {
+        box-sizing: border-box;
+        padding: none;
+        margin: none;
+        height: 80pt;
+    }
+
+    #title-day {
+        text-align: center;
+        font-size: 32pt;
+        line-height: 80pt;
+    }
+
+    #btn-prev-day {
+        height: 80pt;
+    }
+    
+    #btn-next-day {
+        height: 80pt;
+    }
+
+    .navbar-arrow {
+        height: 60pt;
+        width: auto;
+    }
+
+    .subst-icon {
+        height: 40pt;
+        width: auto;
+        margin-right: 10pt;
+        margin-left: 10pt;
+    }
+
+    #messages {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    #substitutions {
+        margin-top: 60pt;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

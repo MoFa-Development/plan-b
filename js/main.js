@@ -64,36 +64,42 @@ function drawSubstitutionTable() {
             //substElement.innerHTML = `[${classes.join(", ")}] Stunden: ${periods} (${course}) ${room} ${teacher} <br> ${message} <hr>`;
             
             let periodsElement = document.createElement("p");
-            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\">" + periods;
+            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + periods + "</div>";
             periodsElement.id = "periods";
+            periodsElement.classList.add("subst-data")
             substElement.appendChild(periodsElement);
             
             let classesElement = document.createElement("p");
-            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\">" + classes.join(", ");
+            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + classes.join(", ") + "</div>";
             classesElement.id = "classes";
+            classesElement.classList.add("subst-data")
             substElement.appendChild(classesElement);
             
             let courseElement = document.createElement("p");
-            courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\">" + course;
+            courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + "</div>";
             courseElement.id = "course"
+            courseElement.classList.add("subst-data")
             substElement.appendChild(courseElement);
             
             if(room) {
                 let roomElement = document.createElement("p");
-                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\">" + room;
+                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
                 roomElement.id = "room"
+                roomElement.classList.add("subst-data")
                 substElement.appendChild(roomElement);
             }
             
             let teacherElement = document.createElement("p");
-            teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\">" + teacher;
+            teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
             teacherElement.id = "teacher"
+            teacherElement.classList.add("subst-data")
             substElement.appendChild(teacherElement);
             
             if(message && message != "Text") {
                 let messageElement = document.createElement("p");
-                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\">" + message;
+                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + message + "</div>";
                 messageElement.id = "message";
+                messageElement.classList.add("subst-data")
                 substElement.appendChild(messageElement);
             }
             
@@ -101,7 +107,6 @@ function drawSubstitutionTable() {
             cssClasses.forEach(cssClass => substElement.classList.add(cssClass));
             
             substitutions.appendChild(substElement);
-            substitutions.appendChild(document.createElement("hr"))
         });
 
     });
