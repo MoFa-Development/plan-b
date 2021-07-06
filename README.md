@@ -1,3 +1,5 @@
-# substitution table
+# Substitution Table
 
-Another web based client for WebUntis
+Just another web client for WebUntis
+
+Auto deployed [here](https://antricks.dev/vertretungen/)
