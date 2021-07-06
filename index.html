@@ -3,15 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="icon" href="icons/oeg-logo-blue.svg" sizes="any" type="image/svg+xml">
 	<title>Vertretungsplan</title>
 </head>
 <body>
 	<div id="navbar">
-		<button id="btn-prev-day" onclick="prevDay();">&lt;</button>
+		<button id="btn-prev-day" onclick="prevDay();"><img src="icons/arrow-left.svg" height="24pt" width="auto"></button>
 		<span id="title-day"></span>
-		<button id="btn-next-day" onclick="nextDay();">&gt;</button>
+		<button id="btn-next-day" onclick="nextDay();"><img src="icons/arrow-right.svg" height="24pt" width="auto"></button>
 	</div>
-	<div id="main"></div>
+	<div id="messages"></div>
+	<div id="substitutions"></div>
 	<script src="js/main.js"></script>
 </body>
 </html>

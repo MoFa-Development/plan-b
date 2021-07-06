@@ -32,11 +32,23 @@ button {
     display: block;
     margin: auto;
     text-align: center;
-    font-size: 15pt;
+    font-size: 14pt;
     line-height: 30pt;
 }
 
-#main {
+#messages {
+    margin-top: 30pt;
+
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.message {
+    display: list-item;
+    margin-bottom: 10pt;
+}
+
+#substitutions {
     margin-top: 30pt;
 
     margin-left: 20%;
@@ -44,7 +56,7 @@ button {
 }
 
 #navbar {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -56,5 +68,5 @@ button {
 }
 
 .substMonitorSubstElem {
-    text-decoration: line-through;
+    text-decoration: underline;
 }
