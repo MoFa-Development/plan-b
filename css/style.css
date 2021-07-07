@@ -1,14 +1,26 @@
 body {
+    --background: #ecf0f1;
+    --background-secondary: #cfd3d6;
+    --text-color-primary: #1c2024;
+    --text-color-canceled: #788286;
+    
+    --side-margin: 20%;
+
     padding: 0;
     margin: 0;
-    background-color: #ecf0f1;
-    color: #1c2024;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    background-color: var(--background);
+    color: var(--text-color-primary);
+    
+    font-family: 'Roboto', sans-serif;
+    font-size: 14pt;
+    color: var(--text-color-primary);
+    letter-spacing: 0.03em;
 }
 
 button {
     border: none;
-    color: #1c2024;
+    color: var(--text-color-primary);
     background-color: transparent;
 }
 
@@ -17,34 +29,41 @@ button {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #cfd3d6;
+    background-color: var(--background-secondary);
     display: grid;
     grid-template-columns: 1fr 7fr 1fr;
     box-sizing: border-box;
     padding: none;
     margin: none;
-    height: 30pt;
+    height: 2.5em;
+
+    z-index: 1;
+}
+
+.navbar-arrow {
+    height: 50%;
+    width: auto;
 }
 
 #btn-prev-day {
-    height: 30pt;
+    height: 100%;
 }
 
 #btn-next-day {
-    height: 30pt;
+    height: 100%;
 }
 
 #title-day {
     text-align: center;
-    font-size: 14pt;
-    line-height: 30pt;
+    font-size: 1.2em;
+    line-height: 2em;
 }
 
 #messages {
     margin-top: 30pt;
 
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: var(--side-margin);
+    margin-right: var(--side-margin);
 }
 
 .message {
@@ -55,12 +74,12 @@ button {
 #substitutions {
     margin-top: 30pt;
 
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: var(--side-margin);
+    margin-right: var(--side-margin);
 }
 
 .subst-icon {
-    height: 15pt;
+    height: 1.2em;
     width: auto;
     margin-right: 5pt;
     margin-left: 5pt;
@@ -73,12 +92,13 @@ button {
 
 .subst-element {
     display: grid;
-    column-gap: 14pt;
+    column-gap: 1em;
     row-gap: 0;
-    padding-left: 14pt;
-    padding-right: 14pt;
+    margin-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
 }
 
 .subst-element > #periods {
@@ -91,10 +111,8 @@ button {
 }
 
 .subst-element:nth-child(odd) {
-    background-color: #cfd3d6;
-    border-color: #cfd3d6;
-    margin-top: 14pt;
-    margin-bottom: 14pt;
+    background-color: var(--background-secondary);
+    border-color: var(--background-secondary);
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -o-border-radius: 10px;
@@ -109,55 +127,63 @@ button {
 
 .cancelStyle {
     text-decoration: line-through;
-    color: #788286;
+    color: var(--text-color-canceled);
 }
 
-@media (max-width: 980px) {
+@media screen and (max-width: 1200px) {
     body {
-        font-size: 32pt;
+        /*background-color: red;*/
+        --side-margin: 10%;
     }
 
-    #navbar {
-        box-sizing: border-box;
-        padding: none;
-        margin: none;
-        height: 80pt;
+    .subst-element {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
     }
 
-    #title-day {
-        text-align: center;
-        font-size: 32pt;
-        line-height: 80pt;
+    .subst-element > #periods {
+        grid-row: 1;
+        grid-column: 2;
     }
 
-    #btn-prev-day {
-        height: 80pt;
+    .subst-element > #classes {
+        grid-row: 1;
+        grid-column: 1;
     }
-    
-    #btn-next-day {
-        height: 80pt;
+}
+
+@media screen and (max-width: 900px) {
+    body {
+        /*background-color: red;*/
+        --side-margin: 5%;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        --background: #1c2024;
+        --background-secondary: #38393a;
+        --text-color-primary: #ecf0f1;
+        --text-color-canceled: #8f8970;
     }
 
     .navbar-arrow {
-        height: 60pt;
-        width: auto;
+        filter: contrast(0) brightness(2);
     }
 
     .subst-icon {
-        height: 40pt;
-        width: auto;
-        margin-right: 10pt;
-        margin-left: 10pt;
+        filter: contrast(0) brightness(1.2);
     }
+}
 
-    #messages {
-        margin-left: 5%;
-        margin-right: 5%;
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    body {
+        font-size: 28pt;
     }
+}
 
-    #substitutions {
-        margin-top: 60pt;
-        margin-left: 0;
-        margin-right: 0;
+@media screen and (-webkit-min-device-pixel-ratio: 4) {
+    body {
+        font-size: 56pt;
     }
 }

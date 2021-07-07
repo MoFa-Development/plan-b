@@ -53,7 +53,8 @@ function drawSubstitutionTable() {
             let course      = element.data[3];
             let room        = element.data[4];
             let teacher     = element.data[5];
-            let message     = element.data[6];
+            let subst_type  = element.data[6];
+            let message     = element.data[7];
 
             let cssClasses  = element.cssClasses;
             let group       = element.group;
@@ -95,7 +96,24 @@ function drawSubstitutionTable() {
             teacherElement.classList.add("subst-data")
             substElement.appendChild(teacherElement);
             
-            if(message && message != "Text") {
+            if(subst_type && subst_type != "Text") {
+                let typeElement = document.createElement("p");
+
+                icon = "information";
+                
+                if(subst_type == "Entfall") {
+                    icon = "cancelled";
+                } else if(subst_type == "Raum&auml;nderung") {
+                    icon = "swap";
+                }
+
+                typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + subst_type + "</div>";
+                typeElement.id = "type"
+                typeElement.classList.add("subst-data")
+                substElement.appendChild(typeElement);
+            }
+            
+            if(message) {
                 let messageElement = document.createElement("p");
                 messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + message + "</div>";
                 messageElement.id = "message";
