@@ -13,7 +13,7 @@ body {
     color: var(--text-color-primary);
     
     font-family: 'Roboto', sans-serif;
-    font-size: 14pt;
+    /*font-size: 14pt;*/
     color: var(--text-color-primary);
     letter-spacing: 0.03em;
 }
@@ -64,6 +64,8 @@ button {
 
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
+
+    transition: margin 0.5s;
 }
 
 .message {
@@ -76,6 +78,8 @@ button {
 
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
+
+    transition: margin 0.5s;
 }
 
 .subst-icon {
@@ -152,7 +156,7 @@ button {
     }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 700px) {
     body {
         /*background-color: red;*/
         --side-margin: 5%;
@@ -162,7 +166,7 @@ button {
 @media screen and (prefers-color-scheme: dark) {
     body {
         --background: #1c2024;
-        --background-secondary: #38393a;
+        --background-secondary: #3a3c3f;
         --text-color-primary: #ecf0f1;
         --text-color-canceled: #8f8970;
     }
@@ -176,14 +180,26 @@ button {
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) {
+@media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
+    body {
+        font-size: 14pt;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (max-width: 1000px) {
     body {
         font-size: 28pt;
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 4) {
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (min-width: 1000px) {
     body {
-        font-size: 56pt;
+        font-size: 16pt;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    body {
+        font-size: 42pt;
     }
 }
