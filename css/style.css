@@ -13,7 +13,6 @@ body {
     color: var(--text-color-primary);
     
     font-family: 'Roboto', sans-serif;
-    /*font-size: 14pt;*/
     color: var(--text-color-primary);
     letter-spacing: 0.03em;
 }
@@ -60,7 +59,7 @@ button {
 }
 
 #messages {
-    margin-top: 30pt;
+    margin-top: 1em;
 
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
@@ -70,11 +69,12 @@ button {
 
 .message {
     display: list-item;
-    margin-bottom: 10pt;
+    margin-bottom: 0.8em;
+    margin-left: 1em;
 }
 
 #substitutions {
-    margin-top: 30pt;
+    margin-top: 2em;
 
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
@@ -85,8 +85,8 @@ button {
 .subst-icon {
     height: 1.2em;
     width: auto;
-    margin-right: 5pt;
-    margin-left: 5pt;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
 }
 
 .subst-data {
