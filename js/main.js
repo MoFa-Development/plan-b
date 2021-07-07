@@ -18,7 +18,20 @@ function drawSubstitutionTable() {
     }
 
     getData(currentDateOffset).then(data => {
-        
+
+        next_day_btn = document.getElementById("btn-next-day");
+        prev_day_btn = document.getElementById("btn-prev-day");
+
+        if(data.payload.nextDate == 0) {
+            next_day_btn.disabled = true;
+            next_day_btn.style.visibility = "hidden";
+            next_day_btn.classList.add("disabled");
+        } else {
+            next_day_btn.disabled = false;
+            next_day_btn.style.visibility = "visible";
+            next_day_btn.classList.remove("disabled");
+        }
+
         day = data.payload.date.toString().slice(6,8);
         month = data.payload.date.toString().slice(4,6);
         year = data.payload.date.toString().slice(0,4);

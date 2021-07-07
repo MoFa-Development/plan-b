@@ -163,6 +163,13 @@ button {
     }
 }
 
+body.darkmode {
+    --background: #1c2024;
+    --background-secondary: #3a3c3f;
+    --text-color-primary: #ecf0f1;
+    --text-color-canceled: #8f8970;
+}
+
 @media screen and (prefers-color-scheme: dark) {
     body {
         --background: #1c2024;
