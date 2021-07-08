@@ -4,22 +4,22 @@
     "description": "Alternativer Vertretungsplan, Abschlussprojekt von Moritz Decker und Fabian Keßler für Informatik Klasse 10",
     "icons": [
         {
-            "src": "/icons/oeg-logo-blue-40.png",
+            "src": "icons/oeg-logo-blue-40.png",
             "sizes": "40x40",
             "type": "image/png"
         },
         {
-            "src": "/icons/oeg-logo-blue-400.png",
+            "src": "icons/oeg-logo-blue-400.png",
             "sizes": "400x400",
             "type": "image/png"
         },
         {
-            "src": "/icons/oeg-logo-blue-512.png",
+            "src": "icons/oeg-logo-blue-512.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "/icons/oeg-logo-blue-640.png",
+            "src": "icons/oeg-logo-blue-640.png",
             "sizes": "640x640",
             "type": "image/png"
         }
