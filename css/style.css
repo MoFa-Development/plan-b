@@ -237,13 +237,19 @@ body.darkmode {
     }
 
     #settings-btn {
-        width: 10.5em;
-        height: 10.5em;
+        width: 7em;
+        height: 7em;
     }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
     body {
-        font-size: 42pt;
+        font-size: 28pt;
+    }
+
+
+    #settings-btn {
+        width: 7em;
+        height: em;
     }
 }
