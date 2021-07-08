@@ -1,4 +1,4 @@
-var currentDateOffset = 1;
+var currentDateOffset = 0;
 var selectedClass = "";
 
 async function getData(dateOffset = currentDateOffset) {
