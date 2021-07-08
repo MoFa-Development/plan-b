@@ -63,6 +63,8 @@ button {
     
     outline-width: 5px;
     outline-color: var(--text-color-primary);
+
+    transition: margin 0.5s;
 }
 
 .affected-class:hover {

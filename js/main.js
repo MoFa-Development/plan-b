@@ -1,8 +1,64 @@
-var currentDateOffset = 0;
+var currentDateOffset = 1;
 var selectedClass = "";
 
 async function getData(dateOffset = currentDateOffset) {
     return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
+}
+
+function drawMessages(data) {
+    var messages = document.getElementById("messages");
+
+    while (messages.firstChild) {
+        messages.removeChild(messages.firstChild);
+    }
+
+    data.payload.messageData.messages.forEach(messageData => {
+        let messageElement = document.createElement("div");
+        messageElement.classList.add("message")
+
+        if(messageData.subject) {
+            let subjectElement = document.createElement("div");
+            subjectElement.innerHTML = messageData.subject;
+            subjectElement.id = "subject";
+            messageElement.appendChild(subjectElement);
+        }
+
+        let messageBodyElement = document.createElement("div");
+        messageBodyElement.innerHTML = messageData.body;
+        messageBodyElement.id = "message-body";
+        messageElement.appendChild(messageBodyElement);
+
+        messages.appendChild(messageElement);
+    });
+}
+
+function drawAffectedClasses(data) {
+    var affectedClassesElement = document.getElementById("affected-classes");
+
+    while (affectedClassesElement.firstChild) {
+        affectedClassesElement.removeChild(affectedClassesElement.firstChild);
+    }
+
+    var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a) > parseInt(b));
+    console.log(affectedClasses);
+
+    affectedClasses.forEach((affectedClass) => {
+        affectedClassesElement = document.getElementById("affected-classes");
+        
+        affectedClassElement = document.createElement("div");
+        affectedClassElement.innerText = affectedClass;
+        affectedClassElement.classList.add("affected-class");
+        
+        if(affectedClass == selectedClass) {
+            affectedClassElement.classList.add("selected");
+        }
+
+        affectedClassElement.onclick = function() {
+            setSelectedClass(affectedClass, data);
+        }
+
+        affectedClassesElement.appendChild(affectedClassElement);
+    });
 }
 
 function drawSubstitutions(data) {
@@ -103,19 +159,8 @@ function drawSubstitutions(data) {
 }
 
 function draw() {
-    var messages = document.getElementById("messages");
-    var affectedClassesElement = document.getElementById("affected-classes");
-    var day_title = document.getElementById("title-day");
-
+    var dateTitleElement = document.getElementById("title-day");
     
-    while (affectedClassesElement.firstChild) {
-        affectedClassesElement.removeChild(affectedClassesElement.firstChild);
-    }
-
-    while (messages.firstChild) {
-        messages.removeChild(messages.firstChild);
-    }
-
     getData(currentDateOffset).then(data => {
 
         next_day_btn = document.getElementById("btn-next-day");
@@ -136,47 +181,11 @@ function draw() {
         year = data.payload.date.toString().slice(0,4);
         date_string = day + "." + month + "." + year;
 
-        day_title.innerHTML = data.payload.weekDay + ", " + date_string;
+        dateTitleElement.innerHTML = data.payload.weekDay + ", " + date_string;
 
-        data.payload.messageData.messages.forEach(messageData => {
-            let messageElement = document.createElement("div");
-            messageElement.classList.add("message")
+        drawMessages(data);
 
-            if(messageData.subject) {
-                let subjectElement = document.createElement("div");
-                subjectElement.innerHTML = messageData.subject;
-                subjectElement.id = "subject";
-                messageElement.appendChild(subjectElement);
-            }
-
-            let messageBodyElement = document.createElement("div");
-            messageBodyElement.innerHTML = messageData.body;
-            messageBodyElement.id = "message-body";
-            messageElement.appendChild(messageBodyElement);
-
-            messages.appendChild(messageElement);
-        })
-
-        var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => a > b).sort((a, b) => parseInt(a) > parseInt(b));
-        console.log(affectedClasses);
-
-        affectedClasses.forEach((affectedClass) => {
-            affectedClassesElement = document.getElementById("affected-classes");
-            
-            affectedClassElement = document.createElement("div");
-            affectedClassElement.innerText = affectedClass;
-            affectedClassElement.classList.add("affected-class");
-            
-            if(affectedClass == selectedClass) {
-                affectedClassElement.classList.add("selected");
-            }
-
-            affectedClassElement.onclick = function() {
-                setSelectedClass(affectedClass, data);
-            }
-
-            affectedClassesElement.appendChild(affectedClassElement);
-        });
+        drawAffectedClasses(data);
 
         drawSubstitutions(data);
     });
