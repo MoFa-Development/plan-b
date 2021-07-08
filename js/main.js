@@ -63,7 +63,7 @@ function drawSubstitutionTable() {
         data.payload.rows.forEach(element => {
 
             let periods     = element.data[0];
-            let classes     = element.data[1].split(", ").sort((a, b) => parseInt(a) - parseInt(b));
+            let classes     = element.data[1].split(", ").sort((a, b) => a > b);
             let course_long = element.data[2];
             let course      = element.data[3];
             let room        = element.data[4];
