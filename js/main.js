@@ -159,8 +159,28 @@ function prevDay() {
     drawSubstitutionTable();
 }
 
+function showSettings() {
+    document.getElementById("settings-overlay-container").style.visibility = "visible";
+    document.getElementById("settings-overlay-container").style.opacity = 1;
+    document.getElementById("settings-overlay-container").style["-moz-opacity"] = 1;
+}
+
+
+function hideSettings() {
+    document.getElementById("settings-overlay-container").style.visibility = "hidden";
+    document.getElementById("settings-overlay-container").style.opacity = 0;
+    document.getElementById("settings-overlay-container").style["-moz-opacity"] = 0;
+}
+
 if(window.addEventListener) {
     window.addEventListener('load', drawSubstitutionTable);
+    window.addEventListener('keyup', (e) => {
+        if(e.code == "Escape") {
+            hideSettings();
+        } else if (e.code = "Space") {
+            // Die lange Taste wurde gedrückt :O
+        }
+    })
 } else {
     window.attachEvent('onload', drawSubstitutionTable);
 }

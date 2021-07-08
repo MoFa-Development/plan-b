@@ -18,7 +18,18 @@
 		<span id="title-day"></span>
 		<button id="btn-next-day" onclick="nextDay();"><img src="icons/arrow-right.svg" class="navbar-arrow"></button>
 	</div>
-	<button id="settings-btn"><img src="icons/settings.svg" class="settings-btn-icon"></button>
+	<button id="settings-btn" onclick="showSettings()"><img src="icons/settings.svg" class="settings-btn-icon"></button>
+	<div id="settings-overlay-container">
+		<div id="escape-right" onclick="hideSettings();"></div>
+		<div id="escape-left" onclick="hideSettings();"></div>
+		<div id="escape-bottom" onclick="hideSettings();"></div>
+		<div id="escape-top" onclick="hideSettings();"></div>
+		<div id="settings-overlay">
+			<h3>About</h3>
+			<a href="https://github.com/Antricks/substitution-table" target="_blank"><p><img src="icons/github.svg" class="icon">GitHub Repo</p></a>
+			<a href="https://antricks.dev/" target="_blank"><img id="penguin" src="icons/penguin.png"></a>
+		</div>
+	</div>
 	<div id="messages"></div>
 	<div id="substitutions"><p>Keine Vertretungen...</p></div>
 	<script src="js/main.js"></script>
