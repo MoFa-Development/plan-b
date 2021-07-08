@@ -58,12 +58,12 @@ function drawSubstitutionTable() {
             messages.appendChild(messageElement);
         })
 
-        data.payload.rows.sort((a, b) => {return parseInt(a.group) - parseInt(b.group)});
+        data.payload.rows.sort((a, b) => parseInt(a.group) - parseInt(b.group));
 
         data.payload.rows.forEach(element => {
 
             let periods     = element.data[0];
-            let classes     = element.data[1].split(", ");
+            let classes     = element.data[1].split(", ").sort((a, b) => parseInt(a) - parseInt(b));
             let course_long = element.data[2];
             let course      = element.data[3];
             let room        = element.data[4];

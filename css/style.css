@@ -20,11 +20,11 @@ body {
 }
 
 a {
-    color: var(--accent);
+    color: var(--accent-dark);
 }
 
 a:hover {
-    color: var(--accent-dark);
+    color: var(--accent);
 }
 
 button {
@@ -187,6 +187,7 @@ button {
     text-align: center;
     font-size: 1.1em;
     line-height: 2em;
+    font-weight: bold;
 }
 
 #messages {
@@ -296,13 +297,6 @@ button {
     }
 }
 
-body.darkmode {
-    --background: #1c2024;
-    --background-secondary: #3a3c3f;
-    --text-color-primary: #ecf0f1;
-    --text-color-canceled: #8f8970;
-}
-
 @media screen and (prefers-color-scheme: dark) {
     body {
         --background: #1c2024;
@@ -321,6 +315,18 @@ body.darkmode {
 
     .icon {
         filter: contrast(0) brightness(1.8);
+    }
+
+    .settings-btn-icon {
+        filter: contrast(0) brightness(1.7);
+    }
+
+    a {
+        color: var(--accent);
+    }
+
+    a:hover {
+        color: var(--accent-dark);
     }
 }
 
