@@ -6,6 +6,8 @@ body {
     --accent: #26a69a;
     --accent-dark: #00766c;
 
+    --round-radius: 0.7em;
+    
     --side-margin: 20%;
 
     padding: 0;
@@ -42,6 +44,54 @@ button {
 
     margin-right: 0.5em;
     margin-left: 0.5em;
+}
+
+#affected-classes {
+    display: flex;
+
+    height: 2.5em;
+    
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 2em;
+    margin-left: var(--side-margin);
+    margin-right: var(--side-margin);
+
+    background-color: var(--background-secondary);
+    border-radius: var(--round-radius);
+    
+    outline-width: 5px;
+    outline-color: var(--text-color-primary);
+}
+
+.affected-class:hover {
+    cursor: pointer;
+}
+
+.affected-class {
+    display: flex;
+    
+    width: auto;
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+
+    outline-color: var(--text-color-primary);
+    border-radius: var(--round-radius);
+
+    transition: padding 0.5s;
+}
+
+.affected-class.selected {
+    background-color: var(--accent);
+    padding-left: 1em;
+    padding-right: 1em
 }
 
 #settings-btn {
@@ -134,7 +184,7 @@ button {
     width: calc(100% - var(--side-margin) * 2);
 
     padding: 1em;
-    border-radius: 1em;
+    border-radius: var(--round-radius);
 
     transition: width 0.5s;
 }
@@ -249,12 +299,7 @@ button {
 .subst-element:nth-child(odd) {
     background-color: var(--background-secondary);
     border-color: var(--background-secondary);
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -o-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
+    border-radius: var(--round-radius);
 }
 
 .substMonitorSubstElem {
