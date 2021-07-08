@@ -3,7 +3,9 @@ body {
     --background-secondary: #cfd3d6;
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
-    
+    --background-settings-btn: #26a69a;
+    --background-settings-btn-active: #00766c;
+
     --side-margin: 20%;
 
     padding: 0;
@@ -21,6 +23,29 @@ button {
     border: none;
     color: var(--text-color-primary);
     background-color: transparent;
+}
+
+#settings-btn {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+
+    background-color: var(--background-settings-btn);
+
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+}
+
+#settings-btn:active {
+    background-color: var(--background-settings-btn-active);
+}
+
+.settings-btn-icon {
+    height: 80%;
+    width: auto;
+
+    margin-top: 0.2em;
 }
 
 #navbar {
@@ -134,12 +159,7 @@ button {
     color: var(--text-color-canceled);
 }
 
-@media screen and (max-width: 1200px) {
-    body {
-        /*background-color: red;*/
-        --side-margin: 10%;
-    }
-
+@media screen and (orientation: portrait) {
     .subst-element {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, auto);
@@ -153,6 +173,13 @@ button {
     .subst-element > #classes {
         grid-row: 1;
         grid-column: 1;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    body {
+        /*background-color: red;*/
+        --side-margin: 10%;
     }
 }
 
@@ -197,11 +224,21 @@ body.darkmode {
     body {
         font-size: 28pt;
     }
+
+    #settings-btn {
+        width: 7em;
+        height: 7em;
+    }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (min-width: 1000px) {
     body {
-        font-size: 16pt;
+        font-size: 42pt;
+    }
+
+    #settings-btn {
+        width: 10.5em;
+        height: 10.5em;
     }
 }
 
