@@ -337,9 +337,9 @@ button {
     }
 
     #affected-classes {
-        overflow-x: auto;
+        overflow: auto;
         white-space: nowrap;
-    
+
         background-image: linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0)), linear-gradient(to left, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0));
         /* Shadows */
         /* Shadow covers */
