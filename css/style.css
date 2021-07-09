@@ -48,6 +48,11 @@ button {
     margin-left: 0.5em;
 }
 
+#loading {
+    text-align: center;
+    width: 100%;
+}
+
 #affected-classes {
     display: flex;
 

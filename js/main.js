@@ -190,6 +190,9 @@ function drawSubstitutions(data) {
 }
 
 function draw() {
+    var loadingElement = document.getElementById("loading");
+    loadingElement.style.visibility = "visible";
+    
     var dateTitleElement = document.getElementById("title-day");
     
     getData(currentDateOffset).then(data => {
@@ -222,6 +225,8 @@ function draw() {
 
         drawSubstitutions(data);
     });
+
+    loadingElement.style.visibility = "hidden";
 }
 
 function nextDay() {
