@@ -6,6 +6,8 @@ body {
     --accent: #26a69a;
     --accent-dark: #00766c;
 
+    --shadow: rgba(0, 0, 0, 0.3);
+
     --round-radius: 0.7em;
     
     --side-margin: 20%;
@@ -64,7 +66,23 @@ button {
     outline-width: 5px;
     outline-color: var(--text-color-primary);
 
-    transition: margin 0.5s;
+    overflow-x: auto;
+    overflow-y: none;
+    /*white-space: nowrap;*/  
+
+    transition: margin 0.5s, box-shadow 0.5s;
+}
+
+#affected-classes.overflow-both {
+    box-shadow: inset 2em 0 2.6em -2em var(--shadow), inset -2em 0 2.6em -2em var(--shadow);
+}
+
+#affected-classes.overflow-left {
+    box-shadow: inset 2em 0 2.6em -2em var(--shadow);
+}
+
+#affected-classes.overflow-right {
+    box-shadow: inset -2em 0 2.6em -2em var(--shadow);
 }
 
 .affected-class:hover {
@@ -351,19 +369,6 @@ button {
         grid-row: 1;
         grid-column: 1;
     }
-
-    #affected-classes {
-        overflow: auto;
-        white-space: nowrap;
-
-        background-image: linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0)), linear-gradient(to left, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0));
-        /* Shadows */
-        /* Shadow covers */
-        background-position: left center, right center, left center, right center;
-        background-repeat: no-repeat;
-        background-size: 1em 100%, 1em 100%, 1em 100%, 1em 100%;
-        background-attachment: local, local, scroll, scroll;      
-    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -390,6 +395,8 @@ button {
         --background-secondary: #3a3c3f;
         --text-color-primary: #ecf0f1;
         --text-color-canceled: #8f8970;
+
+        --shadow: rgba(0, 0, 0, 0.8);
     }
 
     .navbar-arrow {

@@ -5,6 +5,35 @@ async function getData(dateOffset = currentDateOffset) {
     return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
 }
 
+function decideOverflow() {
+    var element = document.getElementById("affected-classes");
+
+    scroll = element.scrollLeft;
+    scroll_max = element.scrollWidth - element.clientWidth;
+    element_width = element.clientWidth;
+
+    console.debug(scroll);
+    console.debug(scroll_max);
+    console.debug(element_width);
+
+    if(scroll_max == 0) {
+        element.style.justifyContent = "center";
+        element.classList.remove("overflow-both", "overflow-left", "overflow-right");
+    } else if(scroll <= 0) {
+        element.style.justifyContent = "left";
+        element.classList.add("overflow-right");
+        element.classList.remove("overflow-both", "overflow-left");
+    } else if(scroll < scroll_max) {
+        element.style.justifyContent = "left";
+        element.classList.add("overflow-both");
+        element.classList.remove("overflow-right", "overflow-left");
+    } else {
+        element.style.justifyContent = "left";
+        element.classList.add("overflow-left");
+        element.classList.remove("overflow-right", "overflow-both");
+    }
+}
+
 function drawMessages(data) {
     var messages = document.getElementById("messages");
 
@@ -59,6 +88,8 @@ function drawAffectedClasses(data) {
 
         affectedClassesElement.appendChild(affectedClassElement);
     });
+
+    affectedClassesElement.onscroll = decideOverflow;
 }
 
 function drawSubstitutions(data) {
@@ -187,6 +218,8 @@ function draw() {
 
         drawAffectedClasses(data);
 
+        decideOverflow();
+
         drawSubstitutions(data);
     });
 }
@@ -224,22 +257,31 @@ function showSettings() {
     document.getElementById("settings-overlay-container").style["-moz-opacity"] = 1;
 }
 
-
 function hideSettings() {
     document.getElementById("settings-overlay-container").style.visibility = "hidden";
     document.getElementById("settings-overlay-container").style.opacity = 0;
     document.getElementById("settings-overlay-container").style["-moz-opacity"] = 0;
 }
 
-if(window.addEventListener) {
-    window.addEventListener('load', draw);
-    window.addEventListener('keyup', (e) => {
+events = {
+    "load": draw,
+    "keyup": (e) => {
         if(e.code == "Escape") {
             hideSettings();
         } else if (e.code = "Space") {
             // Die lange Taste wurde gedrückt :O
         }
-    })
+    },
+    "resize": decideOverflow,
+    "deviceorientation": decideOverflow
+}
+
+if(window.addEventListener) {
+    for(const [event_type, event_func] of Object.entries(events)) {
+        window.addEventListener(event_type, event_func);
+    }
 } else {
-    window.attachEvent('onload', draw);
+    for(const [event_type, event_func] of Object.entries(events)) {
+        window.attachEvent(event_type, event_func);
+    }
 }
