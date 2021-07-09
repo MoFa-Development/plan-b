@@ -106,6 +106,13 @@ button {
     width: 3.5em;
     height: 3.5em;
     border-radius: 50%;
+
+    transition: transform .2s;
+    cursor: pointer;
+}
+
+#settings-btn:hover {
+    transform: scale(1.1);
 }
 
 #settings-btn:active {
@@ -358,6 +365,10 @@ button {
 }
 
 @media screen and (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+    
     body {
         --background: #1c2024;
         --background-secondary: #3a3c3f;
