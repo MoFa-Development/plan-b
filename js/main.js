@@ -270,6 +270,7 @@ function hideSettings() {
 
 events = {
     "load": draw,
+    "load": loadSettings,
     "keyup": (e) => {
         if(e.code == "Escape") {
             hideSettings();
@@ -290,3 +291,50 @@ if(window.addEventListener) {
         window.attachEvent(event_type, event_func);
     }
 }
+
+
+const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
+
+function loadSettings() {
+    if(getCookie("accent_color"))
+        document.querySelector('body').style.setProperty('--accent', getCookie("accent_color"));
+    for(c of COLORS){
+        let colorSelector = document.createElement("div");
+        colorSelector.setAttribute("style", "background: " + c);
+        colorSelector.setAttribute("class", "colorSelector");
+        colorSelector.setAttribute("onclick","colorClick(this);");
+        document.getElementById("colors").appendChild(colorSelector);
+    }
+}
+
+function colorClick(obj) {
+    Array.from(document.getElementsByClassName("colorSelector")).forEach((el) => {
+        el.classList.remove("selected");
+    });
+    obj.classList.add("selected");
+    document.querySelector('body').style.setProperty('--accent', obj.style.backgroundColor);
+    setCookie("accent_color", obj.style.backgroundColor, 999999);
+}
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }

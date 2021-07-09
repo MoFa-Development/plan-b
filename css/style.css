@@ -4,7 +4,7 @@ body {
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
     --accent: #26a69a;
-    --accent-dark: #00766c;
+    --accent-dark: rgba(var(--accent), 0.8);
 
     --shadow: rgba(0, 0, 0, 0.3);
 
@@ -220,6 +220,38 @@ button {
     border-radius: var(--round-radius);
 
     transition: width 0.5s;
+}
+
+#settings-overlay > h3 {
+    font-size: 2em;
+}
+
+#settings-overlay > h4 {
+    font-size: 1.5em;
+}
+
+#settings-overlay > p {
+    font-size: 1.2em;
+}
+
+.colorSelector {
+    display: inline-block;
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    margin: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 0 2pt var(--shadow);
+
+    transition: transform 0.1s;
+}
+
+.colorSelector:hover {
+    transform: scale(1.1);
+}
+
+.colorSelector.selected {
+    box-shadow: 0 0 0 2pt var(--text-color-primary);
 }
 
 #settings-footer {
