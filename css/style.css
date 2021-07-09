@@ -328,6 +328,19 @@ button {
         grid-row: 1;
         grid-column: 1;
     }
+
+    #affected-classes {
+        overflow-x: auto;
+        white-space: nowrap;
+    
+        background-image: linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, var(--background-secondary), var(--background-secondary)), linear-gradient(to right, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0)), linear-gradient(to left, rgba(0, 0, 20, .50), rgba(255, 255, 255, 0));
+        /* Shadows */
+        /* Shadow covers */
+        background-position: left center, right center, left center, right center;
+        background-repeat: no-repeat;
+        background-size: 1em 100%, 1em 100%, 1em 100%, 1em 100%;
+        background-attachment: local, local, scroll, scroll;      
+    }
 }
 
 @media screen and (max-width: 1200px) {
