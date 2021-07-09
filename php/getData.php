@@ -78,10 +78,6 @@ $context = stream_context_create(
 
 $contents = file_get_contents($api_URL, false, $context);
 
-
-if($_SERVER['SERVER_NAME'] == "localhost")
-	echo file_get_contents('./fakeData.txt');
-else
-	echo $contents;
+echo $contents;
 
 ?>
