@@ -384,6 +384,13 @@ function loadSettings() {
 
 function setIsTeacher(obj) {
     is_teacher = obj.checked;
+
+    if(is_teacher) {
+        selectedClass = "";
+    } else {
+        selectedTeacher = "";
+    }
+
     setCookie("is_teacher", is_teacher, 999999);
     draw();
 }
