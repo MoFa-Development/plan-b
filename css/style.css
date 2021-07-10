@@ -122,6 +122,10 @@ button {
 }
 
 #settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     position: fixed;
     right: 2em;
     bottom: 1em;
@@ -147,9 +151,6 @@ button {
 .settings-btn-icon {
     height: 60%;
     width: auto;
-
-    margin: auto;
-    display: block;
 }
 
 #settings-overlay-container {
