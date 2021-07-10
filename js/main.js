@@ -7,6 +7,30 @@ async function getData(dateOffset = currentDateOffset) {
     return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
 }
 
+function getAffectedTeachers(data) {
+    var affectedTeachers = [];
+
+    data.payload.rows.forEach((element) => {
+        teacher_data_raw = element.data[5];
+        teacher_data_text = teacher_data_raw.replace(/(<([^>]+)>)/ig, '');
+        teacher_data_text = teacher_data_text.replace(/(\(|\)|\,)/ig, '');
+
+        teachers = teacher_data_text.split(" ")
+
+        teachers.forEach((teacher) => {
+            if(!affectedTeachers.includes(teacher) && teacher != "---") {
+                affectedTeachers.push(teacher);
+            }
+        })
+
+        console.debug("teachers", teachers);
+    })
+
+    affectedTeachers = affectedTeachers.sort((a, b) => a > b);
+
+    return affectedTeachers;
+}
+
 function decideOverflow() {
     var element = document.getElementById("affected-elements");
 
@@ -71,7 +95,7 @@ function drawAffectedElements(data) {
     }
 
     if (is_teacher) {
-        var affectedTeachers = ["DCK", "KEß", "TEST", "FOO", "BAR"];
+        var affectedTeachers = getAffectedTeachers(data);
 
         affectedTeachers.forEach((affectedTeacher) => {
             
@@ -138,7 +162,7 @@ function drawSubstitutions(data) {
         let cssClasses  = element.cssClasses;
         let group       = element.group;
 
-        if(group == classes[0] && (selectedClass == "" || classes.includes(selectedClass))) {
+        if(group == classes[0] && (selectedClass == "" || classes.includes(selectedClass)) && (selectedTeacher == "" || teacher.includes(selectedTeacher))) {
             let substElement = document.createElement("div");
             //p.appendChild(document.createTextNode(`[${classes.join(", ")}] Stunden: ${periods} (${course}) ${room} ${teacher} --- ${message}`));
             
