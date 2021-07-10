@@ -496,6 +496,7 @@ input:checked + .slider:before {
     body {
         --background: #1c2024;
         --background-secondary: #3a3c3f;
+        --background-tertiary: #9ea2a5;
         --text-color-primary: #ecf0f1;
         --text-color-canceled: #8f8970;
 
