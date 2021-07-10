@@ -259,13 +259,11 @@ function setSelectedClass(_selectedClass, data) {
 function showSettings() {
     document.getElementById("settings-overlay-container").style.visibility = "visible";
     document.getElementById("settings-overlay-container").style.opacity = 1;
-    document.getElementById("settings-overlay-container").style["-moz-opacity"] = 1;
 }
 
 function hideSettings() {
     document.getElementById("settings-overlay-container").style.visibility = "hidden";
     document.getElementById("settings-overlay-container").style.opacity = 0;
-    document.getElementById("settings-overlay-container").style["-moz-opacity"] = 0;
 }
 
 events = [
@@ -321,7 +319,7 @@ function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax;";
 }
 
 function getCookie(cname) {

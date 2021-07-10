@@ -74,7 +74,7 @@ button {
     outline-color: var(--text-color-primary);
 
     overflow-x: auto;
-    overflow-y: none;
+    overflow-y: hidden;
     /*white-space: nowrap;*/  
 
     transition: margin 0.5s, box-shadow 0.5s;
@@ -154,7 +154,6 @@ button {
 
 #settings-overlay-container {
     visibility: hidden;
-    -moz-opacity: 0;
     opacity: 0;
 
     position: fixed;
@@ -167,7 +166,7 @@ button {
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 
-    transition: backdrop-filter 0.5s, -webkit-backdrop-filter 0.5s, -moz-opacity 0.5s, opacity 0.5s, visibility 0.5s;
+    transition: backdrop-filter 0.5s, -webkit-backdrop-filter 0.5s, opacity 0.5s, visibility 0.5s;
 
     display: flex;
 
@@ -294,8 +293,8 @@ button {
     display: grid;
     grid-template-columns: 1fr 7fr 1fr;
     box-sizing: border-box;
-    padding: none;
-    margin: none;
+    padding: 0;
+    margin: 0;
     height: 2.5em;
 
     z-index: 1;
@@ -496,9 +495,8 @@ button {
         font-size: 28pt;
     }
 
-
     #settings-btn {
         width: 7em;
-        height: em;
+        height: 7em;
     }
 }
