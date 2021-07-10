@@ -6,6 +6,8 @@ body {
     --accent: #26a69a;
     --accent-dark: rgba(var(--accent), 0.8);
 
+    --accent-dark: hue(var(--accent), 90deg);
+
     --shadow: rgba(0, 0, 0, 0.3);
 
     --round-radius: 0.7em;

@@ -268,30 +268,33 @@ function hideSettings() {
     document.getElementById("settings-overlay-container").style["-moz-opacity"] = 0;
 }
 
-events = {
-    "load": draw,
-    "load": loadSettings,
-    "keyup": (e) => {
+window.onload = function() {
+    alert("test!");
+}
+
+events = [
+    ["load", loadSettings],
+    ["load", draw],
+    ["keyup", (e) => {
         if(e.code == "Escape") {
             hideSettings();
         } else if (e.code = "Space") {
             // Die lange Taste wurde gedrückt :O
         }
-    },
-    "resize": decideOverflow,
-    "deviceorientation": decideOverflow
-}
+    }],
+    ["resize", decideOverflow],
+    ["deviceorientation", decideOverflow]
+]
 
 if(window.addEventListener) {
-    for(const [event_type, event_func] of Object.entries(events)) {
-        window.addEventListener(event_type, event_func);
-    }
+    addEvent = window.addEventListener;
 } else {
-    for(const [event_type, event_func] of Object.entries(events)) {
-        window.attachEvent(event_type, event_func);
-    }
+    addEvent = window.attachEvent;
 }
 
+for([event_name, func] of events) {
+    addEvent(event_name, func);
+}
 
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
 
