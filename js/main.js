@@ -252,7 +252,8 @@ function setSelectedClass(_selectedClass, data) {
     }
 
     drawSubstitutions(data);
-    console.log(selectedClass);
+    
+    //console.debug("selectedClass", selectedClass);
 }
 
 function showSettings() {
