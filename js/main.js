@@ -1,5 +1,6 @@
 var currentDateOffset = 0;
 var selectedClass = "";
+var is_teacher = false;
 
 async function getData(dateOffset = currentDateOffset) {
     return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
@@ -266,7 +267,7 @@ function hideSettings() {
     document.getElementById("settings-overlay-container").style.opacity = 0;
 }
 
-events = [
+const EVENTS = [
     ["load", loadSettings],
     ["load", draw],
     ["keyup", (e) => {
@@ -278,7 +279,7 @@ events = [
     }],
     ["resize", decideOverflow],
     ["deviceorientation", decideOverflow]
-]
+];
 
 if(window.addEventListener) {
     addEvent = window.addEventListener;
@@ -286,7 +287,7 @@ if(window.addEventListener) {
     addEvent = window.attachEvent;
 }
 
-for([event_name, func] of events) {
+for([event_name, func] of EVENTS) {
     addEvent(event_name, func);
     //console.debug("event_name", event_name);
     //console.debug("func", func);
@@ -295,8 +296,15 @@ for([event_name, func] of events) {
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
 
 function loadSettings() {
-    if(getCookie("accent_color"))
+    if(getCookie("accent_color")) {
         document.querySelector('body').style.setProperty('--accent', getCookie("accent_color"));
+    }
+
+    if(getCookie("is_teacher")) {
+        is_teacher = getCookie("is_teacher") == "true"
+        document.getElementById("is-teacher").enabled = is_teacher;
+    }
+
     for(c of COLORS){
         let colorSelector = document.createElement("div");
         colorSelector.setAttribute("style", "background: " + c);
@@ -304,6 +312,11 @@ function loadSettings() {
         colorSelector.setAttribute("onclick","colorClick(this);");
         document.getElementById("colors").appendChild(colorSelector);
     }
+}
+
+function setIsTeacher(obj) {
+    is_teacher = obj.checked;
+    setCookie("is_teacher", is_teacher, 999999);
 }
 
 function colorClick(obj) {
@@ -336,4 +349,4 @@ function getCookie(cname) {
       }
     }
     return "";
-  }
+}
