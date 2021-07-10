@@ -3,6 +3,8 @@ var selectedClass = "";
 var selectedTeacher = "";
 var is_teacher = false;
 
+const rgb2hex = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
+
 async function getData(dateOffset = currentDateOffset) {
     return await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
 }
@@ -364,21 +366,25 @@ for([event_name, func] of EVENTS) {
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
 
 function loadSettings() {
+
+    for(c of COLORS){
+        let colorSelector = document.createElement("div");
+        colorSelector.setAttribute("style", "background: " + c);
+        colorSelector.setAttribute("id", "color" + c);
+        colorSelector.setAttribute("class", "colorSelector");
+        colorSelector.setAttribute("onclick","colorClick(this);");
+        document.getElementById("colors").appendChild(colorSelector);
+    }
+
     if(getCookie("accent_color")) {
         document.querySelector('body').style.setProperty('--accent', getCookie("accent_color"));
+        if (getCookie("accent_color"))
+            document.getElementById("color" + getCookie("accent_color").toUpperCase()).classList.add("selected");
     }
 
     if(getCookie("is_teacher")) {
         is_teacher = getCookie("is_teacher") == "true"
         document.getElementById("is-teacher").checked = is_teacher;
-    }
-
-    for(c of COLORS){
-        let colorSelector = document.createElement("div");
-        colorSelector.setAttribute("style", "background: " + c);
-        colorSelector.setAttribute("class", "colorSelector");
-        colorSelector.setAttribute("onclick","colorClick(this);");
-        document.getElementById("colors").appendChild(colorSelector);
     }
 }
 
@@ -391,7 +397,7 @@ function setIsTeacher(obj) {
         selectedTeacher = "";
     }
 
-    setCookie("is_teacher", is_teacher, 999999);
+    setCookie("is_teacher", is_teacher, 9999);
     draw();
 }
 
@@ -401,7 +407,7 @@ function colorClick(obj) {
     });
     obj.classList.add("selected");
     document.querySelector('body').style.setProperty('--accent', obj.style.backgroundColor);
-    setCookie("accent_color", obj.style.backgroundColor, 999999);
+    setCookie("accent_color", rgb2hex(obj.style.backgroundColor), 9999);
 }
 
 function setCookie(cname, cvalue, exdays) {
