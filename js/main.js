@@ -23,10 +23,12 @@ function getAffectedTeachers(data) {
             }
         })
 
-        console.debug("teachers", teachers);
+        //console.debug("teachers", teachers);
     })
 
-    affectedTeachers = affectedTeachers.sort((a, b) => a > b);
+    affectedTeachers = affectedTeachers.sort();
+
+    console.debug("affectedTeachers", affectedTeachers);
 
     return affectedTeachers;
 }
@@ -115,7 +117,7 @@ function drawAffectedElements(data) {
         });
 
     } else {
-        var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a) > parseInt(b));
+        var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
 
         affectedClasses.forEach((affectedClass) => {
             
@@ -146,12 +148,12 @@ function drawSubstitutions(data) {
         substitutionsElement.removeChild(substitutionsElement.firstChild);
     }
 
-    data.payload.rows.sort((a, b) => parseInt(a.group) - parseInt(b.group));
+    data.payload.rows.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
 
     data.payload.rows.forEach(element => {
 
         let periods     = element.data[0];
-        let classes     = element.data[1].split(", ").sort((a, b) => a > b);
+        let classes     = element.data[1].split(", ").sort().sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
         let course_long = element.data[2];
         let course      = element.data[3];
         let room        = element.data[4];
