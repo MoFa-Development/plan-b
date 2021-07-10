@@ -302,7 +302,7 @@ function loadSettings() {
 
     if(getCookie("is_teacher")) {
         is_teacher = getCookie("is_teacher") == "true"
-        document.getElementById("is-teacher").enabled = is_teacher;
+        document.getElementById("is-teacher").checked = is_teacher;
     }
 
     for(c of COLORS){
