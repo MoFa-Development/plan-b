@@ -1,5 +1,6 @@
 var currentDateOffset = 0;
 var selectedClass = "";
+var selectedTeacher = "";
 var is_teacher = false;
 
 async function getData(dateOffset = currentDateOffset) {
@@ -7,7 +8,7 @@ async function getData(dateOffset = currentDateOffset) {
 }
 
 function decideOverflow() {
-    var element = document.getElementById("affected-classes");
+    var element = document.getElementById("affected-elements");
 
     scroll = element.scrollLeft;
     scroll_max = element.scrollWidth - element.clientWidth;
@@ -62,34 +63,55 @@ function drawMessages(data) {
     });
 }
 
-function drawAffectedClasses(data) {
-    var affectedClassesElement = document.getElementById("affected-classes");
+function drawAffectedElements(data) {
+    var affectedElementsElement = document.getElementById("affected-elements");
 
-    while (affectedClassesElement.firstChild) {
-        affectedClassesElement.removeChild(affectedClassesElement.firstChild);
+    while (affectedElementsElement.firstChild) {
+        affectedElementsElement.removeChild(affectedElementsElement.firstChild);
     }
 
-    var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a) > parseInt(b));
+    if (is_teacher) {
+        var affectedTeachers = ["DCK", "KEß", "TEST", "FOO", "BAR"];
 
-    affectedClasses.forEach((affectedClass) => {
-        affectedClassesElement = document.getElementById("affected-classes");
-        
-        affectedClassElement = document.createElement("div");
-        affectedClassElement.innerText = affectedClass;
-        affectedClassElement.classList.add("affected-class");
-        
-        if(affectedClass == selectedClass) {
-            affectedClassElement.classList.add("selected");
-        }
+        affectedTeachers.forEach((affectedTeacher) => {
+            
+            affectedTeacherElement = document.createElement("div");
+            affectedTeacherElement.innerText = affectedTeacher;
+            affectedTeacherElement.classList.add("affected-element");
+            
+            if(affectedTeacher == selectedTeacher) {
+                affectedTeacherElement.classList.add("selected");
+            }
 
-        affectedClassElement.onclick = function() {
-            setSelectedClass(affectedClass, data);
-        }
+            affectedTeacherElement.onclick = function() {
+                setSelectedTeacher(affectedTeacher, data);
+            }
 
-        affectedClassesElement.appendChild(affectedClassElement);
-    });
+            affectedElementsElement.appendChild(affectedTeacherElement);
+        });
 
-    affectedClassesElement.onscroll = decideOverflow;
+    } else {
+        var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a) > parseInt(b));
+
+        affectedClasses.forEach((affectedClass) => {
+            
+            affectedClassElement = document.createElement("div");
+            affectedClassElement.innerText = affectedClass;
+            affectedClassElement.classList.add("affected-element");
+            
+            if(affectedClass == selectedClass) {
+                affectedClassElement.classList.add("selected");
+            }
+
+            affectedClassElement.onclick = function() {
+                setSelectedClass(affectedClass, data);
+            }
+
+            affectedElementsElement.appendChild(affectedClassElement);
+        });
+    }
+
+    affectedElementsElement.onscroll = decideOverflow;
 }
 
 function drawSubstitutions(data) {
@@ -219,7 +241,7 @@ function draw() {
 
         drawMessages(data);
 
-        drawAffectedClasses(data);
+        drawAffectedElements(data);
 
         decideOverflow();
 
@@ -240,11 +262,12 @@ function prevDay() {
 }
 
 function setSelectedClass(_selectedClass, data) {
+    selectedTeacher = "";
     selectedClass = _selectedClass;
 
-    var affectedClassesElement = document.getElementById("affected-classes");
+    var affectedElementsElement = document.getElementById("affected-elements");
     
-    for(element of affectedClassesElement.children) {
+    for(element of affectedElementsElement.children) {
         if(element.innerText == selectedClass) {
             element.classList.add("selected")
         } else {
@@ -255,6 +278,25 @@ function setSelectedClass(_selectedClass, data) {
     drawSubstitutions(data);
     
     //console.debug("selectedClass", selectedClass);
+}
+
+function setSelectedTeacher(_selectedTeacher, data) {
+    selectedClass = "";
+    selectedTeacher = _selectedTeacher;
+
+    var affectedElementsElement = document.getElementById("affected-elements");
+    
+    for(element of affectedElementsElement.children) {
+        if(element.innerText == selectedTeacher) {
+            element.classList.add("selected")
+        } else {
+            element.classList.remove("selected");
+        }
+    }
+
+    drawSubstitutions(data);
+    
+    console.debug("selectedTeacher", selectedTeacher);
 }
 
 function showSettings() {
@@ -317,6 +359,7 @@ function loadSettings() {
 function setIsTeacher(obj) {
     is_teacher = obj.checked;
     setCookie("is_teacher", is_teacher, 999999);
+    draw();
 }
 
 function colorClick(obj) {

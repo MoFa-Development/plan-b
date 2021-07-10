@@ -4,12 +4,12 @@ body {
     --background-tertiary: #b6bbbe;
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
-    --accent: #26a69a;
+    --accent: #00897b;
     --accent-dark: rgba(var(--accent), 0.8);
 
     --shadow: rgba(0, 0, 0, 0.3);
 
-    --round-radius: 0.7em;
+    --round-radius: .7em;
     
     --side-margin: 20%;
 
@@ -21,7 +21,7 @@ body {
     
     font-family: 'Roboto', sans-serif;
     color: var(--text-color-primary);
-    letter-spacing: 0.03em;
+    letter-spacing: .03em;
 }
 
 a {
@@ -45,8 +45,8 @@ button {
     height: 1.4em;
     width: auto;
 
-    margin-right: 0.5em;
-    margin-left: 0.5em;
+    margin-right: .5em;
+    margin-left: .5em;
 }
 
 #loading {
@@ -54,7 +54,7 @@ button {
     width: 100%;
 }
 
-#affected-classes {
+#affected-elements {
     display: flex;
 
     height: 2.5em;
@@ -76,26 +76,26 @@ button {
     overflow-y: hidden;
     /*white-space: nowrap;*/  
 
-    transition: margin 0.5s, box-shadow 0.5s;
+    transition: margin .5s, box-shadow .5s;
 }
 
-#affected-classes.overflow-both {
+#affected-elements.overflow-both {
     box-shadow: inset 2em 0 2.6em -2em var(--shadow), inset -2em 0 2.6em -2em var(--shadow);
 }
 
-#affected-classes.overflow-left {
+#affected-elements.overflow-left {
     box-shadow: inset 2em 0 2.6em -2em var(--shadow);
 }
 
-#affected-classes.overflow-right {
+#affected-elements.overflow-right {
     box-shadow: inset -2em 0 2.6em -2em var(--shadow);
 }
 
-.affected-class:hover {
+.affected-element:hover {
     cursor: pointer;
 }
 
-.affected-class {
+.affected-element {
     display: flex;
     
     width: auto;
@@ -105,16 +105,16 @@ button {
     justify-content: center;
     text-align: center;
     
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-left: .5em;
+    padding-right: .5em;
 
     outline-color: var(--text-color-primary);
     border-radius: var(--round-radius);
 
-    transition: padding 0.5s;
+    transition: padding .5s;
 }
 
-.affected-class.selected {
+.affected-element.selected {
     background-color: var(--accent);
     padding-left: 1em;
     padding-right: 1em
@@ -158,8 +158,8 @@ button {
     left: .2em;
     bottom: .2em;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .4s, width 0s, height 0s;
+    transition: .4s, width 0s, height 0s;
 }
 
 input:checked + .slider {
@@ -227,11 +227,11 @@ input:checked + .slider:before {
     left: 0px;
     right: 0px;
 
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, .3);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 
-    transition: backdrop-filter 0.5s, -webkit-backdrop-filter 0.5s, opacity 0.5s, visibility 0.5s;
+    transition: backdrop-filter .5s, -webkit-backdrop-filter .5s, opacity .5s, visibility .5s;
 
     display: flex;
 
@@ -285,7 +285,7 @@ input:checked + .slider:before {
     padding: 1em;
     border-radius: var(--round-radius);
 
-    transition: width 0.5s;
+    transition: width .5s;
 }
 
 #settings-overlay > h3 {
@@ -309,7 +309,7 @@ input:checked + .slider:before {
     cursor: pointer;
     box-shadow: 0 0 0 2pt var(--shadow);
 
-    transition: transform 0.1s;
+    transition: transform .1s;
 }
 
 .colorSelector:hover {
@@ -332,7 +332,7 @@ input:checked + .slider:before {
 
     right: var(--side-margin);
 
-    transition: right 0.5s, transform 0.5s;
+    transition: right .5s, transform .5s;
 }
 
 .avatar-link:hover {
@@ -392,12 +392,12 @@ input:checked + .slider:before {
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
 
-    transition: margin 0.5s;
+    transition: margin .5s;
 }
 
 .message {
     display: list-item;
-    margin-bottom: 0.8em;
+    margin-bottom: .8em;
     margin-left: 1em;
 }
 
@@ -407,14 +407,14 @@ input:checked + .slider:before {
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
 
-    transition: margin 0.5s;
+    transition: margin .5s;
 }
 
 .subst-icon {
     height: 1.2em;
     width: auto;
-    margin-right: 0.5em;
-    margin-left: 0.5em;
+    margin-right: .5em;
+    margin-left: .5em;
 }
 
 .subst-data {
