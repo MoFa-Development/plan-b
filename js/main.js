@@ -69,7 +69,6 @@ function drawAffectedClasses(data) {
     }
 
     var affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a) > parseInt(b));
-    console.log(affectedClasses);
 
     affectedClasses.forEach((affectedClass) => {
         affectedClassesElement = document.getElementById("affected-classes");
@@ -266,10 +265,6 @@ function hideSettings() {
     document.getElementById("settings-overlay-container").style.visibility = "hidden";
     document.getElementById("settings-overlay-container").style.opacity = 0;
     document.getElementById("settings-overlay-container").style["-moz-opacity"] = 0;
-}
-
-window.onload = function() {
-    alert("test!");
 }
 
 events = [
