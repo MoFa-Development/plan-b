@@ -24,6 +24,14 @@ body {
     letter-spacing: .03em;
 }
 
+::-moz-selection {
+    background: var(--accent);
+}
+
+::selection {
+    background: var(--accent);
+}
+
 a {
     color: var(--accent-dark);
 }
