@@ -24,13 +24,9 @@ function getAffectedTeachers(data) {
                 affectedTeachers.push(teacher);
             }
         })
-
-        //console.debug("teachers", teachers);
     })
 
     affectedTeachers = affectedTeachers.sort();
-
-    console.debug("affectedTeachers", affectedTeachers);
 
     return affectedTeachers;
 }
@@ -41,10 +37,6 @@ function decideOverflow() {
     scroll = element.scrollLeft;
     scroll_max = element.scrollWidth - element.clientWidth;
     element_width = element.clientWidth;
-
-    //console.debug("scroll", scroll);
-    //console.debug("scroll_max", scroll_max);
-    //console.debug("element_width", element_width);
 
     if(scroll_max == 0) {
         element.style.justifyContent = "center";
@@ -304,8 +296,6 @@ function setSelectedClass(_selectedClass, data) {
     }
 
     drawSubstitutions(data);
-    
-    //console.debug("selectedClass", selectedClass);
 }
 
 function setSelectedTeacher(_selectedTeacher, data) {
@@ -323,8 +313,6 @@ function setSelectedTeacher(_selectedTeacher, data) {
     }
 
     drawSubstitutions(data);
-    
-    console.debug("selectedTeacher", selectedTeacher);
 }
 
 function showSettings() {
@@ -359,8 +347,6 @@ if(window.addEventListener) {
 
 for([event_name, func] of EVENTS) {
     addEvent(event_name, func);
-    //console.debug("event_name", event_name);
-    //console.debug("func", func);
 }
 
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
