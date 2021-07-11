@@ -5,7 +5,7 @@ body {
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
     --accent: #00897b;
-    --accent-dark: rgba(var(--accent), 0.8);
+    --accent-dark: #006d62;
 
     --shadow: rgba(0, 0, 0, 0.3);
 
