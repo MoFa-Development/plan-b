@@ -283,7 +283,12 @@ function prevDay() {
 
 function setSelectedClass(_selectedClass, data) {
     selectedTeacher = "";
-    selectedClass = _selectedClass;
+
+    if (selectedClass == _selectedClass)
+        selectedClass = "";
+    else
+        selectedClass = _selectedClass;
+
 
     var affectedElementsElement = document.getElementById("affected-elements");
     
