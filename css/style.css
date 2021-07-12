@@ -166,8 +166,9 @@ button {
     left: .2em;
     bottom: .2em;
     background-color: white;
-    -webkit-transition: .4s, width 0s, height 0s;
-    transition: .4s, width 0s, height 0s;
+    -webkit-transition: .2s, width 0s, height 0s;
+    transition: .2s, width 0s, height 0s;
+    transition-timing-function: cubic-bezier(.4,1.56,.51,.99);
 }
 
 input:checked + .slider {
