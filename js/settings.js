@@ -33,13 +33,13 @@ window.loadSettings = function loadSettings() {
     }
 
     if(getCookie("is_teacher")) {
-        is_teacher = getCookie("is_teacher") == "true"
-        document.getElementById("is-teacher").checked = is_teacher;
+        is_teacher = getCookie("is_teacher") == "true"    
     }
+    
+    document.getElementById("is-teacher").checked = is_teacher;
 
     if(getCookie("darkmode")) {
         darkmode = getCookie("darkmode") == "true";
-        document.getElementById("dark-mode").checked = darkmode;
     } else {
         darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches;
     }
@@ -49,4 +49,6 @@ window.loadSettings = function loadSettings() {
     } else {
         document.querySelector('body').classList.remove("dark")
     }
+
+    document.getElementById("dark-mode").checked = darkmode;
 }
