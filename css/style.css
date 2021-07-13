@@ -294,6 +294,9 @@ input:checked + .slider:before {
     border-radius: var(--round-radius);
 
     transition: width .5s;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #settings-overlay > h3 {
@@ -500,40 +503,40 @@ input:checked + .slider:before {
     :root {
         color-scheme: dark;
     }
-    
-    body {
-        --background: #1c2024;
-        --background-secondary: #3a3c3f;
-        --background-tertiary: #9ea2a5;
-        --text-color-primary: #ecf0f1;
-        --text-color-canceled: #8f8970;
+}
 
-        --shadow: rgba(0, 0, 0, 0.8);
-    }
+body.dark {
+    --background: #1c2024;
+    --background-secondary: #3a3c3f;
+    --background-tertiary: #9ea2a5;
+    --text-color-primary: #ecf0f1;
+    --text-color-canceled: #8f8970;
 
-    .navbar-arrow {
-        filter: contrast(0) brightness(2);
-    }
+    --shadow: rgba(0, 0, 0, 0.8);
+}
 
-    .subst-icon {
-        filter: contrast(0) brightness(1.2);
-    }
+body.dark .navbar-arrow {
+    filter: contrast(0) brightness(2);
+}
 
-    .icon {
-        filter: contrast(0) brightness(1.8);
-    }
+body.dark .subst-icon {
+    filter: contrast(0) brightness(1.2);
+}
 
-    .settings-btn-icon {
-        filter: contrast(0) brightness(1.7);
-    }
+body.dark .icon {
+    filter: contrast(0) brightness(1.8);
+}
 
-    a {
-        color: var(--accent);
-    }
+body.dark .settings-btn-icon {
+    filter: contrast(0) brightness(1.7);
+}
 
-    a:hover {
-        color: var(--accent-dark);
-    }
+body.dark a {
+    color: var(--accent);
+}
+
+body.dark a:hover {
+    color: var(--accent-dark);
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {

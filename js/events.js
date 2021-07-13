@@ -1,3 +1,5 @@
+const DARKMODE_AFFECTED_QUERIES = ["body", ".navbar-arrow", ".subst-icon", ".icon", ".settings-btn-icon", "a"];
+
 window.initEvents = function() {
     
     const EVENTS = [
@@ -39,7 +41,6 @@ window.setSelectedClass = function(_selectedClass, data) {
     else
         selectedClass = _selectedClass;
 
-
     let affectedElementsElement = document.getElementById("affected-elements");
     
     let element
@@ -56,14 +57,19 @@ window.setSelectedClass = function(_selectedClass, data) {
 
 window.setSelectedTeacher = function(_selectedTeacher, data) {
     selectedClass = "";
-    selectedTeacher = _selectedTeacher;
+
+    if (selectedTeacher == _selectedTeacher)
+        selectedTeacher = "";
+    else
+        selectedTeacher = _selectedTeacher;
 
     let affectedElementsElement = document.getElementById("affected-elements");
     
     let element
+    
     for(element of affectedElementsElement.children) {
         if(element.innerText == selectedTeacher) {
-            element.classList.add("selected")
+            element.classList.add("selected");
         } else {
             element.classList.remove("selected");
         }
@@ -83,6 +89,18 @@ window.setIsTeacher = function(obj) {
 
     setCookie("is_teacher", is_teacher, 9999);
     draw();
+}
+
+window.setDarkmode = function(obj) {
+    darkmode = obj.checked;
+
+    setCookie("darkmode", darkmode, 9999);
+    
+    if(darkmode) {
+        document.querySelector('body').classList.add("dark");
+    } else {
+        document.querySelector('body').classList.remove("dark");
+    }
 }
 
 window.colorClick = function(obj) {

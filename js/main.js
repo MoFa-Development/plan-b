@@ -10,6 +10,6 @@ window.currentDateOffset = 0;
 window.selectedClass = "";
 window.selectedTeacher = "";
 window.is_teacher = false;
-
+window.darkmode = false;
 
 initEvents();
