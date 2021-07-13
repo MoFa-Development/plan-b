@@ -56,7 +56,11 @@ window.setSelectedClass = function(_selectedClass, data) {
 
 window.setSelectedTeacher = function(_selectedTeacher, data) {
     selectedClass = "";
-    selectedTeacher = _selectedTeacher;
+    
+    if (selectedTeacher == _selectedTeacher)
+        selectedTeacher = "";
+    else
+        selectedTeacher = _selectedTeacher;
 
     let affectedElementsElement = document.getElementById("affected-elements");
     
