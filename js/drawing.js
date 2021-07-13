@@ -151,7 +151,7 @@ window.drawSubstitutions = function(data) {
                 substElement.appendChild(courseElement);    
             }
             
-            if(room) {
+            if(room && subst_type != "Entfall") {
                 let roomElement = document.createElement("p");
                 roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
                 roomElement.id = "room"
@@ -159,11 +159,13 @@ window.drawSubstitutions = function(data) {
                 substElement.appendChild(roomElement);
             }
             
-            let teacherElement = document.createElement("p");
-            teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
-            teacherElement.id = "teacher"
-            teacherElement.classList.add("subst-data")
-            substElement.appendChild(teacherElement);
+            if(subst_type != "Entfall") {
+                let teacherElement = document.createElement("p");
+                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
+                teacherElement.id = "teacher"
+                teacherElement.classList.add("subst-data")
+                substElement.appendChild(teacherElement);
+            }
             
             if(subst_type && subst_type != "Text") {
                 let typeElement = document.createElement("p");
