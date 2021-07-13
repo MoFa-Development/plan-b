@@ -11,6 +11,21 @@ window.hideSettings = function() {
 }
 
 window.loadSettings = function loadSettings() {
+    
+    if(getCookie("darkmode")) {
+        darkmode = getCookie("darkmode") == "true";
+    } else {
+        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches;
+    }
+
+    if(darkmode) {
+        document.querySelector('body').classList.add("dark")
+    } else {
+        document.querySelector('body').classList.remove("dark")
+    }
+
+    document.getElementById("dark-mode").checked = darkmode;
+
     let c
     for(c of COLORS){
         let colorSelector = document.createElement("div");
@@ -35,20 +50,6 @@ window.loadSettings = function loadSettings() {
     if(getCookie("is_teacher")) {
         is_teacher = getCookie("is_teacher") == "true"    
     }
-    
+
     document.getElementById("is-teacher").checked = is_teacher;
-
-    if(getCookie("darkmode")) {
-        darkmode = getCookie("darkmode") == "true";
-    } else {
-        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches;
-    }
-
-    if(darkmode) {
-        document.querySelector('body').classList.add("dark")
-    } else {
-        document.querySelector('body').classList.remove("dark")
-    }
-
-    document.getElementById("dark-mode").checked = darkmode;
 }
