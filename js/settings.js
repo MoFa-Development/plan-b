@@ -40,11 +40,13 @@ window.loadSettings = function loadSettings() {
     if(getCookie("darkmode")) {
         darkmode = getCookie("darkmode") == "true";
         document.getElementById("dark-mode").checked = darkmode;
-        
-        if(darkmode) {
-            document.querySelector('body').classList.add("dark")
-        } else {
-            document.querySelector('body').classList.remove("dark")
-        }
+    } else {
+        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches;
+    }
+
+    if(darkmode) {
+        document.querySelector('body').classList.add("dark")
+    } else {
+        document.querySelector('body').classList.remove("dark")
     }
 }
