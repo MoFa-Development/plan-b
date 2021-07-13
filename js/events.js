@@ -57,7 +57,11 @@ window.setSelectedClass = function(_selectedClass, data) {
 
 window.setSelectedTeacher = function(_selectedTeacher, data) {
     selectedClass = "";
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 167752b909a0fa79dd556398c4d2f37359bbc9ef
     if (selectedTeacher == _selectedTeacher)
         selectedTeacher = "";
     else
