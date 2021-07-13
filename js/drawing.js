@@ -159,7 +159,7 @@ window.drawSubstitutions = function(data) {
                 substElement.appendChild(roomElement);
             }
             
-            if(subst_type != "Entfall") {
+            if(subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
                 let teacherElement = document.createElement("p");
                 teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
                 teacherElement.id = "teacher"
