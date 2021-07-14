@@ -113,7 +113,13 @@ window.drawSubstitutions = function(data) {
 
     data.payload.rows.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
 
-    if(is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
+    if(data.payload.rows.length == 0) {
+        let noSubstMessage = document.createElement("p");
+        noSubstMessage.classList.add("no-subst-msg");
+        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
+
+        substitutionsElement.appendChild(noSubstMessage);
+    } else if(is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für die " + selectedClass;
@@ -126,12 +132,6 @@ window.drawSubstitutions = function(data) {
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für Sie (" + selectedTeacher + ")";
-
-        substitutionsElement.appendChild(noSubstMessage);
-    } else if(data.payload.rows.length == 0) {
-        let noSubstMessage = document.createElement("p");
-        noSubstMessage.classList.add("no-subst-msg");
-        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
 
         substitutionsElement.appendChild(noSubstMessage);
     } else {
