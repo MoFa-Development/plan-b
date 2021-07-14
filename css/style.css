@@ -48,7 +48,7 @@ button {
 
 .icon {
     position: relative;
-    bottom: -0.2em;
+    bottom: -0.3em;
 
     height: 1.4em;
     width: auto;
@@ -60,6 +60,23 @@ button {
 #loading {
     text-align: center;
     width: 100%;
+}
+
+.no-subst-msg {
+    text-align: center;
+
+    height: 2.5em;
+
+    margin-top: 2em;
+    margin-left: var(--side-margin);
+    margin-right: var(--side-margin);
+
+    outline-width: 5px;
+    outline-color: var(--text-color-primary);
+
+    overflow: hidden;
+
+    transition: margin .5s, box-shadow .5s;
 }
 
 #affected-elements {
