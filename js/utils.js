@@ -44,3 +44,10 @@ window.shadeColor = function(color, percent) {
 
     return "#"+RR+GG+BB;
 }
+
+window.reset_animation = function(id) {
+  var el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = null; 
+}

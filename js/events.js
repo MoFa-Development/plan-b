@@ -117,3 +117,17 @@ window.colorClick = function(obj) {
     
     setCookie("accent_color", accent_color, 9999);
 }
+
+window.nextDay = function() {
+    currentDateOffset++;
+    draw();
+    reset_animation("title-day");
+    document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
+}
+
+window.prevDay = function() {
+    currentDateOffset--;
+    draw();
+    reset_animation("title-day");
+    document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
+}

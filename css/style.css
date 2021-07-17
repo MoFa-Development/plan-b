@@ -145,7 +145,51 @@ button {
     padding-right: 1em
 }
 
-/* "inspired by": https://www.w3schools.com/howto/howto_css_switch.asp */
+.slide-right {
+    overflow: hidden;
+    margin: auto;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+@keyframes slide-right {
+    from {
+        margin-left: -500px;
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0%;
+        opacity: 1;
+    }
+}
+
+.slide-left {
+    margin: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+@keyframes slide-left {
+    from {
+        margin-left: 500px;
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0%;
+        opacity: 1;
+    }
+}
 
 /* The switch - the box around the slider */
 .switch {
@@ -403,10 +447,36 @@ input:checked + .slider:before {
 
 #btn-prev-day {
     height: 100%;
+    cursor: pointer;
+    outline-width: 3px;
+    outline-offset: -3px;
+    outline-style: solid;
+    outline-color: transparent;
+    transition: all 0.2s;
+}
+
+#btn-prev-day:active {
+    outline-color: var(--background-tertiary);
+    background-color: var(--background);
 }
 
 #btn-next-day {
     height: 100%;
+    cursor: pointer;
+    outline-width: 3px;
+    outline-offset: -3px;
+    outline-style: solid;
+    outline-color: transparent;
+    transition: all 0.2s;
+}
+
+#btn-next-day:active {
+    outline-color: var(--background-tertiary);
+    background-color: var(--background);
+}
+
+#title-box {
+    overflow: hidden;
 }
 
 #title-day {

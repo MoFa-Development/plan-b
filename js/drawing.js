@@ -265,13 +265,3 @@ window.drawSubstitutions = function(data) {
 
     loadingElement.style.visibility = "hidden";
 }
-
-window.nextDay = function() {
-    currentDateOffset++;
-    draw();
-}
-
-window.prevDay = function() {
-    currentDateOffset--;
-    draw();
-}
