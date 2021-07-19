@@ -1,10 +1,11 @@
-const DARKMODE_AFFECTED_QUERIES = ["body", ".navbar-arrow", ".subst-icon", ".icon", ".settings-btn-icon", "a"];
-
 window.initEvents = function() {
     
     const EVENTS = [
         ["load", window.loadSettings],
         ["load", window.draw],
+        ["load", () => {
+            setInterval(handleAutoscroll, 20);
+        }],
         ["keyup", (e) => {
             if(e.code == "Escape") {
                 hideSettings();
@@ -100,6 +101,54 @@ window.setDarkmode = function(obj) {
         document.querySelector('body').classList.add("dark");
     } else {
         document.querySelector('body').classList.remove("dark");
+    }
+}
+
+window.setAutoscroll = function(obj) {
+    autoscroll = obj.checked;
+
+    setCookie("autoscroll", autoscroll, 9999);
+
+    if(autoscroll) {
+        document.getElementById("substitutions").classList.add("autoscroll");
+    } else {
+        document.getElementById("substitutions").classList.remove("autoscroll");
+    }
+}
+
+window.handleAutoscroll = function(obj) {
+    if(autoscroll) {
+        document.querySelector("body").style.maxHeight = "100vh";
+
+        let autoscrollElements = Array.from(document.getElementsByClassName("autoscroll"));
+        
+        autoscrollElements.forEach((e) => {
+            let scroll = e.scrollTop;
+            let scrollMax = e.scrollHeight - e.clientHeight;
+
+            if(!e.waitCount) {
+                e.waitCount = 0;
+            }
+
+            if(scrollMax != 0 && scroll < scrollMax) {
+            
+                if(e.waitCount == 0) {
+                    e.scrollTop += 1;
+                } else {
+                    e.waitCount--;
+                }
+            
+            } else if(scrollMax != 0) {
+                                   
+                if(e.waitCount == 200) {
+                    e.scrollTop = 0;
+                } else {
+                    e.waitCount++;
+                }
+            }
+        });
+    } else {
+        document.querySelector("body").style.maxHeight = "100%";
     }
 }
 

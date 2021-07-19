@@ -11,5 +11,6 @@ window.selectedClass = "";
 window.selectedTeacher = "";
 window.is_teacher = false;
 window.darkmode = false;
+window.autoscroll = false;
 
 initEvents();

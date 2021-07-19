@@ -13,6 +13,9 @@ body {
     
     --side-margin: 20%;
 
+    display: flex;
+    flex-direction: column;
+
     padding: 0;
     margin: 0;
 
@@ -82,12 +85,12 @@ button {
 #affected-elements {
     display: flex;
 
-    height: 2.5em;
+    min-height: 2.5em;
     
     justify-content: center;
     align-items: center;
 
-    margin-top: 2em;
+    margin-top: 1em;
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
 
@@ -666,4 +669,9 @@ body.dark a:hover {
         width: 7em;
         height: 7em;
     }
+}
+
+#substitutions.autoscroll {
+    overflow-y: hidden;
+    flex: 1;
 }

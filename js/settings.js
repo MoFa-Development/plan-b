@@ -19,12 +19,28 @@ window.loadSettings = function loadSettings() {
     }
 
     if(darkmode) {
-        document.querySelector('body').classList.add("dark")
+        document.querySelector('body').classList.add("dark");
     } else {
-        document.querySelector('body').classList.remove("dark")
+        document.querySelector('body').classList.remove("dark");
     }
 
-    document.getElementById("dark-mode").checked = darkmode;
+    document.getElementById("dark-mode-switch").checked = darkmode;
+
+
+    if(getCookie("autoscroll")) {
+        autoscroll = getCookie("autoscroll") == "true";
+    } else {
+        autoscroll = false;
+    }
+
+    if(autoscroll) {
+        document.getElementById("substitutions").classList.add("autoscroll");
+    } else {
+        document.getElementById("substitutions").classList.remove("autoscroll");
+    }
+
+    document.getElementById("autoscroll-switch").checked = autoscroll;
+
 
     let c
     for(c of COLORS){
@@ -46,6 +62,7 @@ window.loadSettings = function loadSettings() {
         if(COLORS.includes(accent_color.toUpperCase()))
             document.getElementById("color" + accent_color.toUpperCase()).classList.add("selected");
     }
+
 
     if(getCookie("is_teacher")) {
         is_teacher = getCookie("is_teacher") == "true"    
