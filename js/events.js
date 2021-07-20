@@ -1,10 +1,17 @@
+const autoscrollFPS = 30;
+const autoscrollWait = 3.0;
+const autoscrollPixelPerFrame = 2; 
+
+const autoscrollInterval = 1000 / autoscrollFPS;
+const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS;
+
 window.initEvents = function() {
     
     const EVENTS = [
         ["load", window.loadSettings],
         ["load", window.draw],
         ["load", () => {
-            setInterval(handleAutoscroll, 20);
+            setInterval(handleAutoscroll, autoscrollInterval);
         }],
         ["keyup", (e) => {
             if(e.code == "Escape") {
@@ -133,14 +140,14 @@ window.handleAutoscroll = function(obj) {
             if(scrollMax != 0 && scroll < scrollMax) {
             
                 if(e.waitCount == 0) {
-                    e.scrollTop += 1;
+                    e.scrollTop += autoscrollPixelPerFrame;
                 } else {
                     e.waitCount--;
                 }
             
             } else if(scrollMax != 0) {
                                    
-                if(e.waitCount == 200) {
+                if(e.waitCount == autoscrollWaitCount) {
                     e.scrollTop = 0;
                 } else {
                     e.waitCount++;
