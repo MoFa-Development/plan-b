@@ -681,14 +681,12 @@ body.dark a:hover {
 * {
     scrollbar-color: var(--background-tertiary) var(--background-secondary);
 }
-  
+
 /* Works on Chrome, Edge, and Safari */
-  
 *::-webkit-scrollbar-track {
     background: var(--background-secondary);
 }
-  
+
 *::-webkit-scrollbar-thumb {
     background-color: var(--background-tertiary);
-    border: 3px solid var(--background-secondary);
 }
