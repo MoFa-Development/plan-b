@@ -70,3 +70,55 @@ window.loadSettings = function loadSettings() {
 
     document.getElementById("is-teacher").checked = is_teacher;
 }
+
+window.setIsTeacher = function(obj) {
+    is_teacher = obj.checked;
+
+    if(is_teacher) {
+        selectedClass = "";
+    } else {
+        selectedTeacher = "";
+    }
+
+    setCookie("is_teacher", is_teacher, 9999);
+    draw();
+}
+
+window.setDarkmode = function(obj) {
+    darkmode = obj.checked;
+
+    setCookie("darkmode", darkmode, 9999);
+
+    if(darkmode) {
+        document.querySelector('body').classList.add("dark");
+    } else {
+        document.querySelector('body').classList.remove("dark");
+    }
+}
+
+window.setAutoscroll = function(obj) {
+    autoscroll = obj.checked;
+
+    setCookie("autoscroll", autoscroll, 9999);
+
+    if(autoscroll) {
+        document.getElementById("substitutions").classList.add("autoscroll");
+    } else {
+        document.getElementById("substitutions").classList.remove("autoscroll");
+    }
+}
+
+window.colorClick = function(obj) {
+    Array.from(document.getElementsByClassName("colorSelector")).forEach((el) => {
+        el.classList.remove("selected");
+    });
+    obj.classList.add("selected");
+    
+    let accent_color = rgb2hex(obj.style.backgroundColor);
+    let accent_dark = shadeColor(accent_color, -20); 
+
+    document.querySelector('body').style.setProperty('--accent', accent_color);
+    document.querySelector('body').style.setProperty('--accent-dark', accent_dark);
+    
+    setCookie("accent_color", accent_color, 9999);
+}
