@@ -226,13 +226,22 @@ window.drawSubstitutions = function(data) {
     }
     }
     
-    window.draw = function() {
-        let loadingElement = document.getElementById("loading");
-        loadingElement.style.visibility = "visible";
-    
+window.draw = function() {
+
+    let loadingElement = document.getElementById("loading");
+    loadingElement.style.visibility = "visible";
+
     let dateTitleElement = document.getElementById("title-day");
     
     getData(currentDateOffset).then(data => {
+        
+        if(data.payload.rows.length == 0) {
+            console.debug(data);
+
+            document.getElementById("affected-elements").innerHTML = "<p>Keine Vertretungen.</p>";
+
+            return;
+        }
 
         let next_day_btn = document.getElementById("btn-next-day");
         let prev_day_btn = document.getElementById("btn-prev-day");
