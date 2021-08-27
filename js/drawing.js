@@ -224,7 +224,7 @@ window.drawSubstitutions = function(data) {
         }
         );
     }
-    }
+}
     
 window.draw = function() {
 
