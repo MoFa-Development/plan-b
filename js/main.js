@@ -6,7 +6,7 @@ import './events.js';
 
 'use strict';
 
-window.currentDateOffset = 0;
+window.currentDateOffset = 300;
 window.selectedClass = "";
 window.selectedTeacher = "";
 window.is_teacher = false;

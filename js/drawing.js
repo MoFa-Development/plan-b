@@ -234,42 +234,48 @@ window.draw = function() {
     let dateTitleElement = document.getElementById("title-day");
     
     getData(currentDateOffset).then(data => {
+
+        try {
+            let next_day_btn = document.getElementById("btn-next-day");
+            let prev_day_btn = document.getElementById("btn-prev-day");
+
+            if(data.payload.nextDate == 0) {
+                next_day_btn.disabled = true;
+                next_day_btn.style.visibility = "hidden";
+                next_day_btn.classList.add("disabled");
+            } else {
+                next_day_btn.disabled = false;
+                next_day_btn.style.visibility = "visible";
+                next_day_btn.classList.remove("disabled");
+            }
+
+            let day = data.payload.date.toString().slice(6,8);
+            let month = data.payload.date.toString().slice(4,6);
+            let year = data.payload.date.toString().slice(0,4);
+            let date_string = day + "." + month + "." + year;
+
+            dateTitleElement.innerHTML = data.payload.weekDay + ", " + date_string;
+
+            drawMessages(data);
+
+            drawAffectedElements(data);
+
+            decideOverflow();
+
+            drawSubstitutions(data);
+
+        } catch (error) {
+
+            if(data.payload.rows.length == 0) {
+                console.debug(data);
+    
+                document.getElementById("affected-elements").innerHTML = "<p>Keine Vertretungen.</p>";
+                dateTitleElement.innerHTML = "";
+                
+                return;
+            }
+        }
         
-        if(data.payload.rows.length == 0) {
-            console.debug(data);
-
-            document.getElementById("affected-elements").innerHTML = "<p>Keine Vertretungen.</p>";
-
-            return;
-        }
-
-        let next_day_btn = document.getElementById("btn-next-day");
-        let prev_day_btn = document.getElementById("btn-prev-day");
-
-        if(data.payload.nextDate == 0) {
-            next_day_btn.disabled = true;
-            next_day_btn.style.visibility = "hidden";
-            next_day_btn.classList.add("disabled");
-        } else {
-            next_day_btn.disabled = false;
-            next_day_btn.style.visibility = "visible";
-            next_day_btn.classList.remove("disabled");
-        }
-
-        let day = data.payload.date.toString().slice(6,8);
-        let month = data.payload.date.toString().slice(4,6);
-        let year = data.payload.date.toString().slice(0,4);
-        let date_string = day + "." + month + "." + year;
-
-        dateTitleElement.innerHTML = data.payload.weekDay + ", " + date_string;
-
-        drawMessages(data);
-
-        drawAffectedElements(data);
-
-        decideOverflow();
-
-        drawSubstitutions(data);
     });
 
     loadingElement.style.visibility = "hidden";
