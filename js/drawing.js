@@ -81,6 +81,8 @@ window.drawAffectedElements = function(data) {
 
     } else {
         let affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
+        
+        affectedClasses = affectedClasses.filter((affectedClass) => affectedClass != "?")
 
         affectedClasses.forEach((affectedClass) => {
 
@@ -271,7 +273,7 @@ window.draw = function() {
     
                 document.getElementById("affected-elements").innerHTML = "<p>Keine Vertretungen.</p>";
                 dateTitleElement.innerHTML = "";
-                
+
                 return;
             }
         }

@@ -21,5 +21,7 @@ window.getAffectedTeachers = function(data) {
 
     affectedTeachers = affectedTeachers.sort();
 
+    affectedTeachers = affectedTeachers.filter((teacher) => teacher != "?")
+
     return affectedTeachers;
 }
