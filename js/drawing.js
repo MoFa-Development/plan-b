@@ -246,7 +246,7 @@ window.draw = function() {
     loadingElement.style.visibility = "visible";
 
     let dateTitleElement = document.getElementById("title-day");
-    
+
     getData(currentDateOffset).then(data => {
 
         try {
@@ -285,6 +285,10 @@ window.draw = function() {
         } catch (error) {
 
             console.debug(data);
+
+            document.getElementById("messages").innerHTML = "";
+            document.getElementById("affected-elements").innerHTML = "";
+            document.getElementById("affected-elements").classList = [];
 
             document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
             dateTitleElement.innerHTML = "";

@@ -5,12 +5,15 @@ const autoscrollPixelPerFrame = 2;
 const autoscrollInterval = 1000 / autoscrollFPS;
 const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS; //amount of frames to wait at top / bottom of scrollable view
 
+const refreshIntervalMinutes = 5;
+
 // list of events with corresponding handler functions
 const EVENTS = [
     ["load", window.loadSettings],
     ["load", window.draw],
     ["load", () => {
         setInterval(handleAutoscroll, autoscrollInterval);
+        setInterval(draw, 1000*60*refreshIntervalMinutes);
     }],
     ["keyup", (e) => {
         if(e.code == "Escape") {
