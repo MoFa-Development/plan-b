@@ -1,48 +1,56 @@
+// default available accent colors
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
 
+// show settings menu
 window.showSettings = function() {
     document.getElementById("settings-overlay-container").style.visibility = "visible";
     document.getElementById("settings-overlay-container").style.opacity = 1;
 }
 
+// hide settings menu
 window.hideSettings = function() {
     document.getElementById("settings-overlay-container").style.visibility = "hidden";
     document.getElementById("settings-overlay-container").style.opacity = 0;
 }
 
+// load and apply settings stored in cookies, get darkmode preference from browser if no darkmode cookie available 
 window.loadSettings = function loadSettings() {
     
     if(getCookie("darkmode")) {
-        darkmode = getCookie("darkmode") == "true";
+        darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
     } else {
-        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches;
+        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
     }
 
+    // apply darkmode setting
     if(darkmode) {
-        document.querySelector('body').classList.add("dark");
+        document.querySelector('body').classList.add("dark"); // darkmode on
     } else {
-        document.querySelector('body').classList.remove("dark");
+        document.querySelector('body').classList.remove("dark"); // darkmode off
     }
 
-    document.getElementById("dark-mode-switch").checked = darkmode;
+    document.getElementById("dark-mode-switch").checked = darkmode; // set dark mode switch in settings menu
 
 
+    // get autoscroll preference from cookie
     if(getCookie("autoscroll")) {
         autoscroll = getCookie("autoscroll") == "true";
     } else {
         autoscroll = false;
     }
 
+    // apply autoscroll setting
     if(autoscroll) {
-        document.getElementById("substitutions").classList.add("autoscroll");
+        document.getElementById("substitutions").classList.add("autoscroll"); // autoscroll on
     } else {
-        document.getElementById("substitutions").classList.remove("autoscroll");
+        document.getElementById("substitutions").classList.remove("autoscroll"); // autoscroll off
     }
 
     document.getElementById("autoscroll-switch").checked = autoscroll;
 
 
-    let c
+    // add accent color selects to settings menu
+    let c;
     for(c of COLORS){
         let colorSelector = document.createElement("div");
         colorSelector.setAttribute("style", "background: " + c);
@@ -52,6 +60,7 @@ window.loadSettings = function loadSettings() {
         document.getElementById("colors").appendChild(colorSelector);
     }
 
+    // get accent color from cookie, generate dynamic dark accent color, pass colors to CSS
     if(getCookie("accent_color")) {
         let accent_color = getCookie("accent_color");
         let accent_dark = shadeColor(accent_color, -20);
@@ -64,13 +73,17 @@ window.loadSettings = function loadSettings() {
     }
 
 
+    // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
         is_teacher = getCookie("is_teacher") == "true"    
     }
 
-    document.getElementById("is-teacher").checked = is_teacher;
+    document.getElementById("is-teacher").checked = is_teacher; // set teacher mode switch in settings menu
 }
 
+// handle onclick on teacher mode switch
+//
+// obj: object - clicked switch element corresponding to teacher setting
 window.setIsTeacher = function(obj) {
     is_teacher = obj.checked;
 
@@ -84,6 +97,9 @@ window.setIsTeacher = function(obj) {
     draw();
 }
 
+// handle onclick on darkmode switch
+//
+// obj: object - clicked switch element corresponding to darkmode setting
 window.setDarkmode = function(obj) {
     darkmode = obj.checked;
 
@@ -96,6 +112,9 @@ window.setDarkmode = function(obj) {
     }
 }
 
+// handle onclick on autoscroll switch
+//
+// obj: object - clicked switch element corresponding to autoscroll setting
 window.setAutoscroll = function(obj) {
     autoscroll = obj.checked;
 
@@ -108,6 +127,9 @@ window.setAutoscroll = function(obj) {
     }
 }
 
+// handle onclick on accent color select element
+//
+// obj: object - clicked accent color select element
 window.colorClick = function(obj) {
     Array.from(document.getElementsByClassName("colorSelector")).forEach((el) => {
         el.classList.remove("selected");
@@ -121,4 +143,31 @@ window.colorClick = function(obj) {
     document.querySelector('body').style.setProperty('--accent-dark', accent_dark);
     
     setCookie("accent_color", accent_color, 9999);
+}
+
+// set or unset selected teacher / class
+//
+// _selectedTeacher: String - teacher corresponding to clicked teacher element
+// data: API data to pass to drawSubstitutions again
+window.setSelectedElement = function(_selectedElement, data) {
+    if(is_teacher) {
+        selectedClass = "";
+        
+        if (selectedTeacher == _selectedElement) {
+            selectedTeacher = "";
+        } else {
+            selectedTeacher = _selectedElement;
+        }
+
+    } else {
+        selectedTeacher = "";
+
+        if (selectedClass == _selectedElement) {
+            selectedClass = "";
+        } else {
+            selectedClass = _selectedElement;
+        }
+    }
+
+    drawSubstitutions(data);
 }

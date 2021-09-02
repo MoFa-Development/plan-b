@@ -1,6 +1,9 @@
 import './data.js';
 
-window.decideOverflow = function() {
+// set css classes for overflowing affected elements bar
+//
+// showing shadows on the overflowed side(s) of the affected elements bar 
+window.handleAffectedElementsOverflow = function() {
     let element = document.getElementById("affected-elements");
 
     let scroll = element.scrollLeft;
@@ -25,6 +28,7 @@ window.decideOverflow = function() {
     }
 }
 
+// generate message elements for messages of the day and add them to the messages container
 window.drawMessages = function(data) {
     let messages = document.getElementById("messages");
 
@@ -52,59 +56,55 @@ window.drawMessages = function(data) {
     });
 }
 
+// generate affected element selects and add them to the selection bar
 window.drawAffectedElements = function(data) {
-    let affectedElementsElement = document.getElementById("affected-elements");
+    let affectedElementsBarObj = document.getElementById("affected-elements");
 
-    while (affectedElementsElement.firstChild) {
-        affectedElementsElement.removeChild(affectedElementsElement.firstChild);
+    while (affectedElementsBarObj.firstChild) {
+        affectedElementsBarObj.removeChild(affectedElementsBarObj.firstChild);
     }
-
+    
+    let affectedElements;
+    
+    // dynamically get affected teachers / classes based on is_teacher
     if (is_teacher) {
-        let affectedTeachers = getAffectedTeachers(data);
-
-        affectedTeachers.forEach((affectedTeacher) => {
-            
-            let affectedTeacherElement = document.createElement("div");
-            affectedTeacherElement.innerText = affectedTeacher;
-            affectedTeacherElement.classList.add("affected-element");
-            
-            if(affectedTeacher == selectedTeacher) {
-                affectedTeacherElement.classList.add("selected");
-            }
-
-            affectedTeacherElement.onclick = function() {
-                setSelectedTeacher(affectedTeacher, data);
-            }
-
-            affectedElementsElement.appendChild(affectedTeacherElement);
-        });
-
+        affectedElements = getAffectedTeachers(data);
     } else {
-        let affectedClasses = data.payload.affectedElements["1"].sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
-        
-        affectedClasses = affectedClasses.filter((affectedClass) => affectedClass != "?")
-
-        affectedClasses.forEach((affectedClass) => {
-
-            let affectedClassElement = document.createElement("div");
-            affectedClassElement.innerText = affectedClass;
-            affectedClassElement.classList.add("affected-element");
-            
-            if(affectedClass == selectedClass) {
-                affectedClassElement.classList.add("selected");
-            }
-
-            affectedClassElement.onclick = function() {
-                setSelectedClass(affectedClass, data);
-            }
-
-            affectedElementsElement.appendChild(affectedClassElement);
-        });
+        affectedElements = getAffectedClasses(data);
     }
 
-    affectedElementsElement.onscroll = decideOverflow;
+    affectedElements.forEach((affectedElement) => {
+
+        let affectedElementObj = document.createElement("div");
+        affectedElementObj.innerText = affectedElement;
+        affectedElementObj.classList.add("affected-element");
+        
+        if (affectedElement == selectedTeacher || affectedElement == selectedClass) {
+            affectedElementObj.classList.add("selected");
+        }
+
+        affectedElementObj.onclick = function() {
+            setSelectedElement(affectedElement, data);
+
+            //manage highlighting of selected element
+        
+            let element;
+            for(element of affectedElementsBarObj.children) {
+                if(element.innerText == selectedClass || element.innerText == selectedTeacher) {
+                    element.classList.add("selected");
+                } else {
+                    element.classList.remove("selected");
+                }
+            }
+        }
+
+        affectedElementsBarObj.appendChild(affectedElementObj);
+    });
+
+    affectedElementsBarObj.onscroll = handleAffectedElementsOverflow;
 }
 
+// generate substitution elements and add them to the substitutions container
 window.drawSubstitutions = function(data) {
 
     let substitutionsElement = document.getElementById("substitutions");
@@ -115,28 +115,35 @@ window.drawSubstitutions = function(data) {
 
     data.payload.rows.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
 
-    if(data.payload.rows.length == 0) {
+    if (data.payload.rows.length == 0) {
+        
+        //no substitutions in the first place
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
 
         substitutionsElement.appendChild(noSubstMessage);
-    } else if(is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
+    } else if (is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
+        
+        // selected class is not affected
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für die " + selectedClass;
 
         substitutionsElement.appendChild(noSubstMessage);
-    } else if(is_teacher && selectedTeacher != "" && !getAffectedTeachers(data).includes(selectedTeacher)) {
-        
-        console.debug("affectedTeachers", getAffectedTeachers(data));
 
+    } else if (is_teacher && selectedTeacher != "" && !getAffectedTeachers(data).includes(selectedTeacher)) {
+        
+        // selected teacher is not affected
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für Sie (" + selectedTeacher + ")";
 
         substitutionsElement.appendChild(noSubstMessage);
+
     } else {
+
+        //draw substitutions
         data.payload.rows.forEach(element => {
             
             let periods     = element.data[0];
@@ -151,11 +158,12 @@ window.drawSubstitutions = function(data) {
             let cssClasses  = element.cssClasses;
             let group       = element.group;
             
-            if(group == classes[0] && (selectedClass == "" || classes.includes(selectedClass)) && (selectedTeacher == "" || teacher.includes(selectedTeacher))) {
-                let substElement = document.createElement("div");
-                //p.appendChild(document.createTextNode(`[${classes.join(", ")}] Stunden: ${periods} (${course}) ${room} ${teacher} --- ${message}`));
+            
+            if(group == classes[0] && // do not draw duplicate substitution more than once
+                                (selectedClass == "" || classes.includes(selectedClass)) && // only draw affected substitutions
+                                (selectedTeacher == "" || teacher.includes(selectedTeacher))) {
                 
-                //substElement.innerHTML = `[${classes.join(", ")}] Stunden: ${periods} (${course}) ${room} ${teacher} <br> ${message} <hr>`;
+                let substElement = document.createElement("div");
                 
                 let periodsElement = document.createElement("p");
                 periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + periods + "</div>";
@@ -177,6 +185,7 @@ window.drawSubstitutions = function(data) {
                     substElement.appendChild(courseElement);    
                 }
                 
+                // only draw room label if not cancelled
                 if(room && subst_type != "Entfall") {
                     let roomElement = document.createElement("p");
                     roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
@@ -185,7 +194,8 @@ window.drawSubstitutions = function(data) {
                     substElement.appendChild(roomElement);
                 }
                 
-                if(subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+                // only draw teacher label if type is not cancelled or room change
+                if(teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
                     let teacherElement = document.createElement("p");
                     teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
                     teacherElement.id = "teacher"
@@ -193,6 +203,7 @@ window.drawSubstitutions = function(data) {
                     substElement.appendChild(teacherElement);
                 }
                 
+                // set subst type icon based on type, do not draw subst type label when type is "Text"
                 if(subst_type && subst_type != "Text") {
                     let typeElement = document.createElement("p");
                     
@@ -227,7 +238,8 @@ window.drawSubstitutions = function(data) {
         );
     }
 }
-    
+
+// master draw function, called on load or day change
 window.draw = function() {
 
     let loadingElement = document.getElementById("loading");
@@ -238,6 +250,7 @@ window.draw = function() {
     getData(currentDateOffset).then(data => {
 
         try {
+            // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
 
@@ -251,33 +264,31 @@ window.draw = function() {
                 next_day_btn.classList.remove("disabled");
             }
 
+            // draw date
             let day = data.payload.date.toString().slice(6,8);
             let month = data.payload.date.toString().slice(4,6);
             let year = data.payload.date.toString().slice(0,4);
+
             let date_string = day + "." + month + "." + year;
 
             dateTitleElement.innerHTML = data.payload.weekDay + ", " + date_string;
+
 
             drawMessages(data);
 
             drawAffectedElements(data);
 
-            decideOverflow();
+            handleAffectedElementsOverflow();
 
             drawSubstitutions(data);
 
         } catch (error) {
 
-            if(data.payload.rows.length == 0) {
-                console.debug(data);
-    
-                document.getElementById("affected-elements").innerHTML = "<p>Keine Vertretungen.</p>";
-                dateTitleElement.innerHTML = "";
+            console.debug(data);
 
-                return;
-            }
+            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
+            dateTitleElement.innerHTML = "";
         }
-        
     });
 
     loadingElement.style.visibility = "hidden";

@@ -1,29 +1,30 @@
 const autoscrollFPS = 30;
-const autoscrollWait = 3.0;
+const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 const autoscrollPixelPerFrame = 2; 
 
 const autoscrollInterval = 1000 / autoscrollFPS;
-const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS;
+const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS; //amount of frames to wait at top / bottom of scrollable view
 
-window.initEvents = function() {
-    
-    const EVENTS = [
-        ["load", window.loadSettings],
-        ["load", window.draw],
-        ["load", () => {
-            setInterval(handleAutoscroll, autoscrollInterval);
-        }],
-        ["keyup", (e) => {
-            if(e.code == "Escape") {
-                hideSettings();
-            } else if (e.code == "Space") {
-                // Die lange Taste wurde gedrückt :O
-            }
-        }],
-        ["resize", window.decideOverflow],
-        ["deviceorientation", window.decideOverflow]
-    ];
+// list of events with corresponding handler functions
+const EVENTS = [
+    ["load", window.loadSettings],
+    ["load", window.draw],
+    ["load", () => {
+        setInterval(handleAutoscroll, autoscrollInterval);
+    }],
+    ["keyup", (e) => {
+        if(e.code == "Escape") {
+            hideSettings();
+        } else if (e.code == "Space") {
+            // Die lange Taste wurde gedrückt :O
+        }
+    }],
+    ["resize", window.handleAffectedElementsOverflow],
+    ["deviceorientation", window.handleAffectedElementsOverflow]
+];
 
+// load and add events with corresponding handler functions
+window.initEvents = function() {  
     let addEvent
 
     if(window.addEventListener) {
@@ -41,52 +42,8 @@ window.initEvents = function() {
 
 }
 
-window.setSelectedClass = function(_selectedClass, data) {
-    selectedTeacher = "";
-
-    if (selectedClass == _selectedClass)
-        selectedClass = "";
-    else
-        selectedClass = _selectedClass;
-
-    let affectedElementsElement = document.getElementById("affected-elements");
-    
-    let element
-    for(element of affectedElementsElement.children) {
-        if(element.innerText == selectedClass) {
-            element.classList.add("selected")
-        } else {
-            element.classList.remove("selected");
-        }
-    }
-
-    drawSubstitutions(data);
-}
-
-window.setSelectedTeacher = function(_selectedTeacher, data) {
-    selectedClass = "";
-    
-    if (selectedTeacher == _selectedTeacher)
-        selectedTeacher = "";
-    else
-        selectedTeacher = _selectedTeacher;
-
-    let affectedElementsElement = document.getElementById("affected-elements");
-    
-    let element
-    
-    for(element of affectedElementsElement.children) {
-        if(element.innerText == selectedTeacher) {
-            element.classList.add("selected");
-        } else {
-            element.classList.remove("selected");
-        }
-    }
-
-    drawSubstitutions(data);
-}
-
-window.handleAutoscroll = function(obj) {
+// handle next autoscroll animation frame
+window.handleAutoscroll = function() {
     if(autoscroll) {
         document.querySelector("body").style.maxHeight = "100vh";
 
@@ -122,6 +79,7 @@ window.handleAutoscroll = function(obj) {
     }
 }
 
+// handle onclick on next day button
 window.nextDay = function() {
     currentDateOffset++;
     draw();
@@ -129,6 +87,7 @@ window.nextDay = function() {
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
 }
 
+// handle onclick on previous day button
 window.prevDay = function() {
     currentDateOffset--;
     draw();
