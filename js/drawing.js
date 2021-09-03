@@ -60,6 +60,12 @@ window.drawMessages = function(data) {
 window.drawAffectedElements = function(data) {
     let affectedElementsBarObj = document.getElementById("affected-elements");
 
+    if(data.payload.rows.length == 0) {
+        affectedElementsBarObj.style.visibility = "hidden";
+    } else {
+        affectedElementsBarObj.style.visibility = "visible";
+    }
+
     while (affectedElementsBarObj.firstChild) {
         affectedElementsBarObj.removeChild(affectedElementsBarObj.firstChild);
     }
@@ -290,6 +296,14 @@ window.draw = function() {
         } catch (error) {
 
             console.debug(data);
+
+            let affectedElementsBarObj = document.getElementById("affected-elements");
+
+            if(data.payload.rows.length == 0) {
+                affectedElementsBarObj.style.visibility = "hidden";
+            } else {
+                affectedElementsBarObj.style.visibility = "visible";
+            }
 
             document.getElementById("messages").innerHTML = "";
             document.getElementById("affected-elements").innerHTML = "";
