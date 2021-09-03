@@ -62,6 +62,18 @@ button {
     margin-left: .5em;
 }
 
+.filter-icon {
+    position: absolute;
+    
+    bottom: unset;
+    right: unset;
+    left: unset;
+    top: unset;
+    
+    left: calc(var(--side-margin) - 2.2em);
+    transition: left .5s;
+}
+
 #loading {
     text-align: center;
     width: 100%;
@@ -594,6 +606,10 @@ input:checked + .slider:before {
         /*background-color: red;*/
         --side-margin: 5%;
     }
+
+    .filter-icon {
+        visibility: hidden;
+    }
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -622,6 +638,10 @@ body.dark .subst-icon {
 
 body.dark .icon {
     filter: contrast(0) brightness(1.8);
+}
+
+body.dark .filter-icon {
+    filter: contrast(0) brightness(1.3);
 }
 
 body.dark .settings-btn-icon {

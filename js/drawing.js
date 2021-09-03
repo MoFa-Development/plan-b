@@ -63,6 +63,11 @@ window.drawAffectedElements = function(data) {
     while (affectedElementsBarObj.firstChild) {
         affectedElementsBarObj.removeChild(affectedElementsBarObj.firstChild);
     }
+
+    let filterIconObj = document.createElement("img");
+    filterIconObj.src = "icons/filter.svg"
+    filterIconObj.classList.add("icon", "filter-icon");
+    affectedElementsBarObj.appendChild(filterIconObj);
     
     let affectedElements;
     
