@@ -170,85 +170,96 @@ window.drawSubstitutions = function(data) {
             let cssClasses  = element.cssClasses;
             let group       = element.group;
             
-            if(group == classes[0] && // do not draw duplicate substitution more than once
-                                (selectedClass == "" || classes.includes(selectedClass)) && // only draw filtered for class
-                                (selectedTeacher == "" || teacher.includes(selectedTeacher)) && // only draw filtered for teacher 
-                                (!is_teacher || is_teacher && subst_type != "Entfall") // if teacher, do not draw cancelled classes
-                                ) {
-                
-                let substElement = document.createElement("div");
-                
-                let periodsElement = document.createElement("p");
-                periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + periods + "</div>";
-                periodsElement.id = "periods";
-                periodsElement.classList.add("subst-data")
-                substElement.appendChild(periodsElement);
-                
-                let classesElement = document.createElement("p");
-                classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + classes.join(", ") + "</div>";
-                classesElement.id = "classes";
-                classesElement.classList.add("subst-data")
-                substElement.appendChild(classesElement);
-                
-                if(course) {
-                    let courseElement = document.createElement("p");
-                    courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + "</div>";
-                    courseElement.id = "course"
-                    courseElement.classList.add("subst-data")
-                    substElement.appendChild(courseElement);    
-                }
-                
-                // only draw room label if not cancelled
-                if(room && subst_type != "Entfall") {
-                    let roomElement = document.createElement("p");
-                    roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
-                    roomElement.id = "room"
-                    roomElement.classList.add("subst-data")
-                    substElement.appendChild(roomElement);
-                }
-                
-                // only draw teacher label if type is not cancelled or room change
-                if(teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
-                    let teacherElement = document.createElement("p");
-                    teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
-                    teacherElement.id = "teacher"
-                    teacherElement.classList.add("subst-data")
-                    substElement.appendChild(teacherElement);
-                }
-                
-                // set subst type icon based on type, do not draw subst type label when type is "Text"
-                if(subst_type && subst_type != "Text") {
-                    let typeElement = document.createElement("p");
-                    
-                    let icon = "information";
-                    
-                    if(subst_type == "Entfall") {
-                        icon = "cancelled";
-                    } else if(subst_type == "Raum&auml;nderung") {
-                        icon = "swap";
-                    }
-                    
-                    typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + subst_type + "</div>";
-                    typeElement.id = "type"
-                    typeElement.classList.add("subst-data")
-                    substElement.appendChild(typeElement);
-                }
-                
-                if(message) {
-                    let messageElement = document.createElement("p");
-                    messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + message + "</div>";
-                    messageElement.id = "message";
-                    messageElement.classList.add("subst-data")
-                    substElement.appendChild(messageElement);
-                }
-                
-                substElement.classList.add("subst-element");
-                cssClasses.forEach(cssClass => substElement.classList.add(cssClass));
-                
-                substitutions.appendChild(substElement);
+            //#region EXIT STATEMENTS
+
+            if(group != classes[0]) // do not draw duplicate substitution more than once
+                return;
+
+            if(selectedClass && !classes.includes(selectedClass)) // only draw filtered for class
+                return;
+
+            if(selectedTeacher && !teacher.includes(selectedTeacher)) // only draw filtered for teacher 
+                return;
+
+            if(is_teacher && subst_type == "Entfall") // if teacher, do not draw cancelled classes
+                return;
+
+            if(is_teacher && selectedTeacher && teacher.includes("<span class=\"cancelStyle\">"+selectedTeacher+"</span>")) // do not inform the teacher who is being substituted
+                return;
+
+            //#endregion EXIT STATEMENTS
+
+            let substElement = document.createElement("div");
+            
+            let periodsElement = document.createElement("p");
+            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + periods + "</div>";
+            periodsElement.id = "periods";
+            periodsElement.classList.add("subst-data")
+            substElement.appendChild(periodsElement);
+            
+            let classesElement = document.createElement("p");
+            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + classes.join(", ") + "</div>";
+            classesElement.id = "classes";
+            classesElement.classList.add("subst-data")
+            substElement.appendChild(classesElement);
+            
+            if(course) {
+                let courseElement = document.createElement("p");
+                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + "</div>";
+                courseElement.id = "course"
+                courseElement.classList.add("subst-data")
+                substElement.appendChild(courseElement);    
             }
-        }
-        );
+            
+            // only draw room label if not cancelled
+            if(room && subst_type != "Entfall") {
+                let roomElement = document.createElement("p");
+                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
+                roomElement.id = "room"
+                roomElement.classList.add("subst-data")
+                substElement.appendChild(roomElement);
+            }
+            
+            // only draw teacher label if type is not cancelled or room change
+            if(teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+                let teacherElement = document.createElement("p");
+                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
+                teacherElement.id = "teacher"
+                teacherElement.classList.add("subst-data")
+                substElement.appendChild(teacherElement);
+            }
+            
+            // set subst type icon based on type, do not draw subst type label when type is "Text"
+            if(subst_type && subst_type != "Text") {
+                let typeElement = document.createElement("p");
+                
+                let icon = "information";
+                
+                if(subst_type == "Entfall") {
+                    icon = "cancelled";
+                } else if(subst_type == "Raum&auml;nderung") {
+                    icon = "swap";
+                }
+                
+                typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + subst_type + "</div>";
+                typeElement.id = "type"
+                typeElement.classList.add("subst-data")
+                substElement.appendChild(typeElement);
+            }
+            
+            if(message) {
+                let messageElement = document.createElement("p");
+                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + message + "</div>";
+                messageElement.id = "message";
+                messageElement.classList.add("subst-data")
+                substElement.appendChild(messageElement);
+            }
+            
+            substElement.classList.add("subst-element");
+            cssClasses.forEach(cssClass => substElement.classList.add(cssClass));
+            
+            substitutions.appendChild(substElement);
+        });
     }
 }
 

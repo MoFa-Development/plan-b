@@ -15,8 +15,7 @@ window.getData = async function(dateOffset = currentDateOffset) {
 
 // sort data dynamically based on window.is_teacher
 window.sortData = function(data) {
-    console.debug("sorting data");
-    
+
     let _data = data;
     
     if(is_teacher) {
@@ -68,14 +67,21 @@ window.getAffectedTeachers = function(data) {
     let affectedTeachers = [];
 
     data.payload.rows.forEach((element) => {
+        let subst_type = element.data[6];
         let teacher_data_raw = element.data[5];
+        
         let teacher_data_text = teacher_data_raw.replace(/(<([^>]+)>)/ig, '');
         teacher_data_text = teacher_data_text.replace(/(\(|\)|\,)/ig, '');
+
+        console.debug(teacher_data_raw)
 
         let teachers = teacher_data_text.split(" ")
 
         teachers.forEach((teacher) => {
-            if(!affectedTeachers.includes(teacher) && teacher != "---") {
+            if(!affectedTeachers.includes(teacher) &&
+                        teacher != "---" &&
+                        !teacher_data_raw.includes("<span class=\"cancelStyle\">"+teacher+"</span>") &&
+                        subst_type != "Entfall") {
                 affectedTeachers.push(teacher);
             }
         })
