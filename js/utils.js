@@ -32,7 +32,6 @@ window.getCookie = function(cname) {
     return "";
 }
 
-
 // shade color (brighten or darken)
 //
 // color: String - hex encoded color

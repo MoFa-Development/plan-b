@@ -7,6 +7,8 @@ const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS; //amount of fra
 
 const refreshIntervalMinutes = 5;
 
+window.RESET_AUTOSCROLL = false;
+
 // list of events with corresponding handler functions
 const EVENTS = [
     ["load", window.loadSettings],
@@ -75,6 +77,12 @@ window.handleAutoscroll = function() {
                 } else {
                     e.waitCount++;
                 }
+            }
+
+            if(RESET_AUTOSCROLL) {
+                e.scrollTop = 0;
+                e.waitCount = autoscrollWaitCount;
+                RESET_AUTOSCROLL = false;
             }
         });
     } else {

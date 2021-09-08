@@ -95,6 +95,7 @@ window.drawAffectedElements = function(data) {
         }
 
         affectedElementObj.onclick = function() {
+            RESET_AUTOSCROLL = true;
             setSelectedElement(affectedElement, data);
 
             //manage highlighting of selected element
@@ -158,7 +159,7 @@ window.drawSubstitutions = function(data) {
         data.payload.rows.forEach(element => {
             
             let periods     = element.data[0];
-            let classes     = element.data[1].split(", ").sort().sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
+            let classes     = getAffectedClassesOfRow(element);
             let course_long = element.data[2];
             let course      = element.data[3];
             let room        = element.data[4];
@@ -169,10 +170,11 @@ window.drawSubstitutions = function(data) {
             let cssClasses  = element.cssClasses;
             let group       = element.group;
             
-            
             if(group == classes[0] && // do not draw duplicate substitution more than once
-                                (selectedClass == "" || classes.includes(selectedClass)) && // only draw affected substitutions
-                                (selectedTeacher == "" || teacher.includes(selectedTeacher))) {
+                                (selectedClass == "" || classes.includes(selectedClass)) && // only draw filtered for class
+                                (selectedTeacher == "" || teacher.includes(selectedTeacher)) && // only draw filtered for teacher 
+                                (!is_teacher || is_teacher && subst_type != "Entfall") // if teacher, do not draw cancelled classes
+                                ) {
                 
                 let substElement = document.createElement("div");
                 
@@ -206,7 +208,7 @@ window.drawSubstitutions = function(data) {
                 }
                 
                 // only draw teacher label if type is not cancelled or room change
-                if(teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+                if(teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
                     let teacherElement = document.createElement("p");
                     teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
                     teacherElement.id = "teacher"
@@ -259,6 +261,8 @@ window.draw = function() {
     let dateTitleElement = document.getElementById("title-day");
 
     getData(currentDateOffset).then(data => {
+
+        data = sortData(data);
 
         try {
             // hide next day button if last day with data
