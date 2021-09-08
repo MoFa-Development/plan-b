@@ -9,7 +9,7 @@ const PLACEHOLDERS = [
 // get API data through proxy, parse json, return parsed object
 window.getData = async function(dateOffset = currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
-    console.debug(data);
+    console.debug("got data: ", data);
     return data;
 }
 
@@ -72,8 +72,6 @@ window.getAffectedTeachers = function(data) {
         
         let teacher_data_text = teacher_data_raw.replace(/(<([^>]+)>)/ig, '');
         teacher_data_text = teacher_data_text.replace(/(\(|\)|\,)/ig, '');
-
-        console.debug(teacher_data_raw)
 
         let teachers = teacher_data_text.split(" ")
 
