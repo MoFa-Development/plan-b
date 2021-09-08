@@ -78,10 +78,11 @@ window.getAffectedTeachers = function(data) {
         let teachers = teacher_data_text.split(" ")
 
         teachers.forEach((teacher) => {
-            if(!affectedTeachers.includes(teacher) &&
-                        teacher != "---" &&
-                        !teacher_data_raw.includes("<span class=\"cancelStyle\">"+teacher+"</span>") &&
-                        subst_type != "Entfall") {
+            if(!affectedTeachers.includes(teacher) && // do not add teacher multiple times
+                        !PLACEHOLDERS.includes(teacher) && // do not add placeholders
+                        !teacher_data_raw.includes("<span class=\"cancelStyle\">"+teacher+"</span>") && // do not add substituted only teachers
+                        subst_type != "Entfall" // do not add cancelled teachers
+                        ) {
                 affectedTeachers.push(teacher);
             }
         })
