@@ -2,7 +2,7 @@ body {
     --background: #ecf0f1;
     --background-secondary: #d4d8db;
     --background-lighter-secondary: #dee0e2;
-    --background-tertiary: #c9ced1;
+    --background-tertiary: #b6bbbe;
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
     --accent: #00897b;
@@ -630,7 +630,7 @@ body.dark {
     --background: #1c2024;
     --background-secondary: #3a3c3f;
     --background-lighter-secondary: #28292b;
-    --background-tertiary: #4a4d4c;
+    --background-tertiary: #5e6061;
     --text-color-primary: #ecf0f1;
     --text-color-canceled: #8f8970;
 
