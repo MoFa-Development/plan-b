@@ -1,7 +1,8 @@
 body {
     --background: #ecf0f1;
     --background-secondary: #d4d8db;
-    --background-tertiary: #b6bbbe;
+    --background-lighter-secondary: #dee0e2;
+    --background-tertiary: #c9ced1;
     --text-color-primary: #1c2024;
     --text-color-canceled: #788286;
     --accent: #00897b;
@@ -522,12 +523,17 @@ input:checked + .slider:before {
 }
 
 #substitutions {
+    /*background: var(--background-lighter-secondary);*/
+
     margin-top: 2em;
 
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);
 
     transition: margin .5s;
+
+    border-color: var(--background-secondary);
+    border-radius: var(--round-radius);
 }
 
 .subst-icon {
@@ -560,6 +566,12 @@ input:checked + .slider:before {
 .subst-element > #classes {
     grid-row: 1;
     grid-column: 1;
+}
+
+.subst-element:nth-child(even) {
+    background-color: var(--background-lighter-secondary);
+    border-color: var(--background-secondary);
+    border-radius: var(--round-radius);
 }
 
 .subst-element:nth-child(odd) {
@@ -621,7 +633,8 @@ input:checked + .slider:before {
 body.dark {
     --background: #1c2024;
     --background-secondary: #3a3c3f;
-    --background-tertiary: #9ea2a5;
+    --background-lighter-secondary: #28292b;
+    --background-tertiary: #4a4d4c;
     --text-color-primary: #ecf0f1;
     --text-color-canceled: #8f8970;
 
