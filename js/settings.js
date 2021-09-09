@@ -1,19 +1,27 @@
-// default available accent colors
+/**
+ * default available accent colors
+ */
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
 
-// show settings menu
+/**
+ * show settings menu
+ */
 window.showSettings = function() {
     document.getElementById("settings-overlay-container").style.visibility = "visible";
     document.getElementById("settings-overlay-container").style.opacity = 1;
 }
 
-// hide settings menu
+/**
+ * hide settings menu
+ */
 window.hideSettings = function() {
     document.getElementById("settings-overlay-container").style.visibility = "hidden";
     document.getElementById("settings-overlay-container").style.opacity = 0;
 }
 
-// applies url parameters to cookies
+/**
+ * applies url parameters to cookies
+ */
 window.applyUrlParamterts = function() {
     var urlParams = new URLSearchParams(window.location.search);
     
@@ -22,7 +30,10 @@ window.applyUrlParamterts = function() {
     }
 }
 
-// load and apply settings stored in cookies, get darkmode preference from browser if no darkmode cookie available 
+/**
+ * load and apply settings stored in cookies,
+ * get darkmode preference from browser if no darkmode cookie available
+ */
 window.loadSettings = function loadSettings() {
     
     applyUrlParamterts();
@@ -92,9 +103,11 @@ window.loadSettings = function loadSettings() {
     document.getElementById("is-teacher").checked = is_teacher; // set teacher mode switch in settings menu
 }
 
-// handle onclick on teacher mode switch
-//
-// obj: object - clicked switch element corresponding to teacher setting
+/**
+ * handle onclick on teacher mode switch
+ * 
+ * @param {HTMLElement} obj clicked checkbox element
+ */
 window.setIsTeacher = function(obj) {
     is_teacher = obj.checked;
 
@@ -108,9 +121,12 @@ window.setIsTeacher = function(obj) {
     draw();
 }
 
-// handle onclick on darkmode switch
-//
-// obj: object - clicked switch element corresponding to darkmode setting
+
+/**
+ * handle onclick on darkmode switch
+ * 
+ * @param {HTMLElement} obj clicked checkbox element
+ */
 window.setDarkmode = function(obj) {
     darkmode = obj.checked;
 
@@ -123,9 +139,11 @@ window.setDarkmode = function(obj) {
     }
 }
 
-// handle onclick on autoscroll switch
-//
-// obj: object - clicked switch element corresponding to autoscroll setting
+/**
+ * handle onclick on autoscroll switch
+ * 
+ * @param {HTMLElement} obj clicked checkbox element
+ */
 window.setAutoscroll = function(obj) {
     autoscroll = obj.checked;
 
@@ -138,9 +156,11 @@ window.setAutoscroll = function(obj) {
     }
 }
 
-// handle onclick on accent color select element
-//
-// obj: object - clicked accent color select element
+/**
+ * handle onclick on accent color select element
+ * 
+ * @param {HTMLElement} obj clicked checkbox element
+ */
 window.colorClick = function(obj) {
     Array.from(document.getElementsByClassName("colorSelector")).forEach((el) => {
         el.classList.remove("selected");
@@ -156,10 +176,12 @@ window.colorClick = function(obj) {
     setCookie("accent_color", accent_color, 9999);
 }
 
-// set or unset selected teacher / class
-//
-// _selectedTeacher: String - teacher corresponding to clicked teacher element
-// data: API data to pass to drawSubstitutions again
+/**
+ * set or unset selected teacher / class
+ * 
+ * @param {HTMLElement} _selectedElement selectedElement HTMLElement
+ * @param {*} data API data of the current day
+ */
 window.setSelectedElement = function(_selectedElement, data) {
     if(is_teacher) {
         selectedClass = "";

@@ -1,3 +1,6 @@
+/**
+ * A list of placeholders that should not be interpreted as teachers or classes
+ */
 const PLACEHOLDERS = [
     "?",
     "---",
@@ -6,14 +9,18 @@ const PLACEHOLDERS = [
     "."
 ]
 
-// get API data through proxy, parse json, return parsed object
+/**
+ * get API data through proxy, parse json, return parsed object
+ */
 window.getData = async function(dateOffset = currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
     console.debug("got data: ", data);
     return data;
 }
 
-// sort data dynamically based on window.is_teacher
+/**
+ * sort data dynamically based on `window.is_teacher`
+ */
 window.sortData = function(data) {
 
     let _data = data;
@@ -37,6 +44,12 @@ window.sortData = function(data) {
     return _data;
 };
 
+/**
+ * Get first lesson affected by given substitution
+ * 
+ * @param {*} row from `data.payload.rows[n]`
+ * @returns {number} first lesson affected by given substitution
+ */
 window.getSubstitutionBegin = function(row) {
     let timeInfo = row.data[0];
     
@@ -44,6 +57,12 @@ window.getSubstitutionBegin = function(row) {
     return beginInt;
 };
 
+/**
+ * Get a list of all teachers affected by the given substitution
+ * 
+ * @param {*} row from `data.payload.rows[n]`
+ * @returns {*[]} list of all teachers affected by the given substitution
+ */
 window.getAffectedTeachersOfRow = function(row) {
     let affectedTeachers = [];
 
@@ -62,7 +81,12 @@ window.getAffectedTeachersOfRow = function(row) {
     return affectedTeachers;
 };
 
-// based on API data, return all affected teachers
+/**
+ * based on API data, return all affected teachers
+ *
+ * @param {*} data API data of the current day
+ * @returns {*[]} list of all affected teachers of the current day
+ */
 window.getAffectedTeachers = function(data) {
     let affectedTeachers = [];
 
@@ -96,6 +120,12 @@ window.getAffectedTeachers = function(data) {
     return affectedTeachers;
 };
 
+/**
+ * Get a list of all classes affected by the given substitution
+ * 
+ * @param {*} row from `data.payload.rows[n]`
+ * @returns {*[]} list of all classes affected by the given substitution
+ */
 window.getAffectedClassesOfRow = function(row) {
     let classes_raw = row.data[1].split(", ");
 
@@ -106,7 +136,12 @@ window.getAffectedClassesOfRow = function(row) {
     return classes;
 }
 
-// based on API data, return all affected classes
+/**
+ * based on API data, return all affected classes
+ * 
+ * @param {*} data API data of the current day
+ * @returns {*[]} list of all affected classes of the current day
+ */
 window.getAffectedClasses = function(data) {
     let affectedClasses = data.payload.affectedElements["1"];
         

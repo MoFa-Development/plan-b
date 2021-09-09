@@ -9,7 +9,9 @@ const refreshIntervalMinutes = 5;
 
 window.RESET_AUTOSCROLL = false;
 
-// list of events with corresponding handler functions
+/**
+ * list of events with corresponding handler functions
+ */
 const EVENTS = [
     ["load", window.loadSettings],
     ["load", window.draw],
@@ -28,7 +30,9 @@ const EVENTS = [
     ["deviceorientation", window.handleAffectedElementsOverflow]
 ];
 
-// load and add events with corresponding handler functions
+/**
+ * load and add events with corresponding handler functions
+ */
 window.initEvents = function() {  
     let addEvent
 
@@ -47,7 +51,9 @@ window.initEvents = function() {
 
 }
 
-// handle next autoscroll animation frame
+/**
+ * handle next autoscroll animation frame
+ */
 window.handleAutoscroll = function() {
     if(autoscroll) {
         document.querySelector("body").style.maxHeight = "100vh";
@@ -90,7 +96,9 @@ window.handleAutoscroll = function() {
     }
 }
 
-// handle onclick on next day button
+/**
+ * handle onclick on next day button
+ */ 
 window.nextDay = function() {
     currentDateOffset++;
     draw();
@@ -98,7 +106,9 @@ window.nextDay = function() {
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
 }
 
-// handle onclick on previous day button
+/**
+ * handle onclick on previous day button
+ */
 window.prevDay = function() {
     currentDateOffset--;
     draw();

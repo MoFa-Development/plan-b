@@ -1,8 +1,9 @@
 import './data.js';
 
-// set css classes for overflowing affected elements bar
-//
-// showing shadows on the overflowed side(s) of the affected elements bar 
+/**
+ * **set css classes for overflowing affected elements bar**
+ * - showing shadows on the overflowed side(s) of the affected elements bar
+ */
 window.handleAffectedElementsOverflow = function() {
     let element = document.getElementById("affected-elements");
 
@@ -28,7 +29,9 @@ window.handleAffectedElementsOverflow = function() {
     }
 }
 
-// generate message elements for messages of the day and add them to the messages container
+/**
+ * generate message elements for messages of the day and add them to the messages container
+ */
 window.drawMessages = function(data) {
     let messages = document.getElementById("messages");
 
@@ -56,7 +59,9 @@ window.drawMessages = function(data) {
     });
 }
 
-// generate affected element selects and add them to the selection bar
+/**
+ * generate affected element selects and add them to the selection bar
+ */
 window.drawAffectedElements = function(data) {
     let affectedElementsBarObj = document.getElementById("affected-elements");
 
@@ -116,7 +121,9 @@ window.drawAffectedElements = function(data) {
     affectedElementsBarObj.onscroll = handleAffectedElementsOverflow;
 }
 
-// generate substitution elements and add them to the substitutions container
+/**
+ * generate substitution elements and add them to the substitutions container
+ */
 window.drawSubstitutions = function(data) {
 
     let substitutionsElement = document.getElementById("substitutions");
@@ -263,7 +270,9 @@ window.drawSubstitutions = function(data) {
     }
 }
 
-// master draw function, called on load or day change
+/**
+ * master draw function, called on load or day change
+ */
 window.draw = function() {
 
     let loadingElement = document.getElementById("loading");

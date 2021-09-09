@@ -1,11 +1,15 @@
-// convert rgb to hex string
+/**
+ * Convert CSS rgba(r,g,b) to hex string
+ */
 window.rgb2hex = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
 
-// set cookie
-//
-// cname: String - name of cookie
-// cvalue: String - value of cookie
-// exdays: int/float/double - days before cookie expires 
+/**
+ * Set cookie
+ * 
+ * @param {String} cname Cookie name 
+ * @param {String} cvalue Cookie value
+ * @param {number} exdays Days until expiration
+ */
 window.setCookie = function(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -13,9 +17,12 @@ window.setCookie = function(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax;";
 }
 
-// get cookie value
-//
-// cname: String - name of cookie
+/**
+ * Get cookie value
+ * 
+ * @param {String} cname 
+ * @returns {String} Cookie value
+ */
 window.getCookie = function(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -32,10 +39,13 @@ window.getCookie = function(cname) {
     return "";
 }
 
-// shade color (brighten or darken)
-//
-// color: String - hex encoded color
-// percent: int/float/double - percentage to shade
+/**
+ * shade color (brighten or darken)
+ * 
+ * @param {String} color hex encoded color
+ * @param {number} percent absolute percentage to shade to (100% changes nothing)
+ * @returns 
+ */
 window.shadeColor = function(color, percent) {
 
     let R = parseInt(color.substring(1,3),16);
@@ -57,9 +67,11 @@ window.shadeColor = function(color, percent) {
     return "#"+RR+GG+BB;
 }
 
-// reset animation of given element
-//
-// id: String - element id
+/**
+ * Reset animation of given element found by id
+ * 
+ * @param {String} id Element id
+ */
 window.reset_animation = function(id) {
   var el = document.getElementById(id);
   el.style.animation = 'none';
