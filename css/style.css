@@ -523,8 +523,6 @@ input:checked + .slider:before {
 }
 
 #substitutions {
-    /*background: var(--background-lighter-secondary);*/
-
     margin-top: 2em;
 
     margin-left: var(--side-margin);
@@ -608,14 +606,12 @@ input:checked + .slider:before {
 
 @media screen and (max-width: 1200px) {
     body {
-        /*background-color: red;*/
         --side-margin: 10%;
     }
 }
 
 @media screen and (max-width: 700px) {
     body {
-        /*background-color: red;*/
         --side-margin: 5%;
     }
 
