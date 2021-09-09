@@ -13,9 +13,20 @@ window.hideSettings = function() {
     document.getElementById("settings-overlay-container").style.opacity = 0;
 }
 
+// applies url parameters to cookies
+window.applyUrlParamterts = function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    
+    for(var pair of urlParams.entries()) {
+        setCookie(pair[0].toLowerCase(), pair[1].toLowerCase(), 9999);
+    }
+}
+
 // load and apply settings stored in cookies, get darkmode preference from browser if no darkmode cookie available 
 window.loadSettings = function loadSettings() {
     
+    applyUrlParamterts();
+
     if(getCookie("darkmode")) {
         darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
     } else {
