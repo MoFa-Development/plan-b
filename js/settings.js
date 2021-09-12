@@ -22,11 +22,11 @@ window.hideSettings = function() {
 /**
  * applies url parameters to cookies
  */
-window.applyUrlParamterts = function() {
+window.applyUrlParameters = function() {
     var urlParams = new URLSearchParams(window.location.search);
     
     for(var pair of urlParams.entries()) {
-        setCookie(pair[0].toLowerCase(), pair[1].toLowerCase(), 9999);
+        setCookie(pair[0].toLowerCase(), pair[1].toLowerCase().split(";")[0], 9999);
     }
 }
 
@@ -36,7 +36,7 @@ window.applyUrlParamterts = function() {
  */
 window.loadSettings = function loadSettings() {
     
-    applyUrlParamterts();
+    applyUrlParameters();
 
     if(getCookie("darkmode")) {
         darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
