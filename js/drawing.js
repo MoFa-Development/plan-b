@@ -3,7 +3,7 @@ import './data.js';
 /**
  * Classes where teachers should always be shown for clarity
  */
-FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
+const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
 
 /**
  * **set css classes for overflowing affected elements bar**

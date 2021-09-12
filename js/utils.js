@@ -82,16 +82,16 @@ window.reset_animation = function(id) {
 /**
  * Check if lists have at least one common element
  * 
- * @param {List} a 
- * @param {List} b 
+ * @param {Array} a 
+ * @param {Array} b 
  * @returns {boolean}
  */
 window.listsIntersect = function(a, b) {
-  a.forEach(a_elem => {
-    if(b.includes(a_elem)) {
+  for (var i = 0; i < a.length; i++) {
+    if(b.includes(a[i])) {
       return true;
     }
-  });
+  }
 
   return false;
 }
