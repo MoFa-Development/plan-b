@@ -1,6 +1,11 @@
 import './data.js';
 
 /**
+ * Classes where teachers should always be shown for clarity
+ */
+FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
+
+/**
  * **set css classes for overflowing affected elements bar**
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
@@ -228,7 +233,7 @@ window.drawSubstitutions = function(data) {
             }
             
             // only draw teacher label if type is not cancelled or room change
-            if(teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+            if(teacher && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, classes) || teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
                 let teacherElement = document.createElement("p");
                 teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
                 teacherElement.id = "teacher"
