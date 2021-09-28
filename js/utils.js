@@ -1,3 +1,13 @@
+window.errorMessage = function(error) {
+    console.debug(error);
+
+    document.getElementById("messages").innerHTML = "";
+    document.getElementById("affected-elements").innerHTML = "";
+    document.getElementById("affected-elements").classList = [];
+
+    document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten. <br><sub>("+error+")</sub></p>";
+}
+
 /**
  * Convert CSS rgba(r,g,b) to hex string
  */
@@ -27,6 +37,7 @@ window.getCookie = function(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
+    
     for(let i = 0; i <ca.length; i++) {
       let c = ca[i];
       while (c.charAt(0) == ' ') {

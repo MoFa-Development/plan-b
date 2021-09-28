@@ -319,7 +319,7 @@ window.draw = function() {
 
         data = sortData(data);
 
-        try {
+        try {            
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
@@ -353,10 +353,7 @@ window.draw = function() {
             drawSubstitutions(data);
 
         } catch (error) {
-
             console.debug(data);
-
-            console.debug(error);
             
             let affectedElementsBarObj = document.getElementById("affected-elements");
 
@@ -366,14 +363,11 @@ window.draw = function() {
                 affectedElementsBarObj.style.visibility = "visible";
             }
 
-            document.getElementById("messages").innerHTML = "";
-            document.getElementById("affected-elements").innerHTML = "";
-            document.getElementById("affected-elements").classList = [];
-
-            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten.</p>";
             dateTitleElement.innerHTML = "";
+
+            errorMessage(error);
         }
-    });
+    }).catch(error => errorMessage(error));
     
     loadingElement.style.visibility = "hidden";
 }
