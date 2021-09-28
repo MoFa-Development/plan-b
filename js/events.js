@@ -21,11 +21,6 @@ const EVENTS = [
         setInterval(handleAutoscroll, autoscrollInterval);
         setInterval(draw, 1000*60*refreshIntervalMinutes);
     }],
-    ["load",  () => {
-        getCachedData(-1);
-        getCachedData(1);
-        getCachedData(2);
-    }],
     ["keyup", (e) => {
         if(e.code == "Escape") {
             hideSettings();
@@ -92,7 +87,7 @@ window.handleAutoscroll = function() {
             if(RESET_AUTOSCROLL) {
                 e.scrollTop = 0;
                 e.waitCount = autoscrollWaitCount;
-                RESET_AUTOSCROLL = false;
+                window.RESET_AUTOSCROLL = false;
             }
         });
     } else {
@@ -104,7 +99,7 @@ window.handleAutoscroll = function() {
  * handle onclick on next day button
  */ 
 window.nextDay = function() {
-    currentDateOffset++;
+    window.currentDateOffset++;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
@@ -114,7 +109,7 @@ window.nextDay = function() {
  * handle onclick on previous day button
  */
 window.prevDay = function() {
-    currentDateOffset--;
+    window.currentDateOffset--;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";

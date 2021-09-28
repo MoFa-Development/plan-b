@@ -141,7 +141,7 @@ window.getAffectedTeachers = function(data) {
 
     // filter out placeholders that shouldn't appear in affected elements
     affectedTeachers = affectedTeachers.filter(
-        (affectedTeacher) => PLACEHOLDERS.includes(affectedTeacher) == false
+        (affectedTeacher) => !PLACEHOLDERS.includes(affectedTeacher)
     )
 
     return affectedTeachers;
@@ -177,7 +177,7 @@ window.getAffectedClasses = function(data) {
 
     // filter out placeholders that shouldn't appear in affected elements
     affectedClasses = affectedClasses.filter(
-        (affectedClass) => PLACEHOLDERS.includes(affectedClass) == false
+        (affectedClass) => !PLACEHOLDERS.includes(affectedClass)
     )
 
     return affectedClasses;

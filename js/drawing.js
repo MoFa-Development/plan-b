@@ -105,7 +105,7 @@ window.drawAffectedElements = function(data) {
         }
 
         affectedElementObj.onclick = function() {
-            RESET_AUTOSCROLL = true;
+            window.RESET_AUTOSCROLL = true;
             setSelectedElement(affectedElement, data);
 
             //manage highlighting of selected element
@@ -369,4 +369,7 @@ window.draw = function() {
     }).catch(error => errorMessage(error));
     
     loadingElement.style.visibility = "hidden";
+
+    getCachedData(currentDateOffset+1);
+    getCachedData(currentDateOffset-1);
 }
