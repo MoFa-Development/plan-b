@@ -316,10 +316,9 @@ window.draw = function() {
     let dateTitleElement = document.getElementById("title-day");
 
     getCachedData(currentDateOffset).then(data => {
+        try {
+            data = sortData(data);
 
-        data = sortData(data);
-
-        try {            
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");

@@ -14,9 +14,9 @@ const REFRESH_CACHE_MILL = 2*60*1000;
 window.dataCache = {};
 
 class CacheEntry {
-    constructor(dateOffset) {
+    constructor(data) {
         this.timestamp = new Date().getTime();
-        this.data = getData(dateOffset);
+        this.data = data;
     }
 }
 
@@ -25,10 +25,14 @@ class CacheEntry {
  * @param {int} dateOffset 
  * @returns data of specified day
  */
-window.getCachedData = function(dateOffset = currentDateOffset) {
+window.getCachedData = async function(dateOffset = currentDateOffset) {
     if(!dataCache[dateOffset] || dataCache[dateOffset].timestamp < new Date().getTime()-REFRESH_CACHE_MILL) {
-        dataCache[dateOffset] = new CacheEntry(dateOffset);
-    } 
+        
+        await getData(dateOffset).then(data => {
+            dataCache[dateOffset] = new CacheEntry(data);
+            console.debug("dataCache["+dateOffset.toString()+"] = ", dataCache[dateOffset]);
+        }).catch(error => errorMessage(error));
+    }
 
     return dataCache[dateOffset].data;
 }
@@ -76,7 +80,7 @@ window.sortData = function(data) {
  */
 window.getSubstitutionBegin = function(row) {
     let timeInfo = row.data[0];
-    
+
     return parseInt(timeInfo);
 };
 
