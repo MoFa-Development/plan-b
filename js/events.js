@@ -1,3 +1,5 @@
+import "./data.js"
+
 const autoscrollFPS = 20;
 const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 const autoscrollPixelPerFrame = 2; 
@@ -18,6 +20,11 @@ const EVENTS = [
     ["load", () => {
         setInterval(handleAutoscroll, autoscrollInterval);
         setInterval(draw, 1000*60*refreshIntervalMinutes);
+    }],
+    ["load",  () => {
+        getCachedData(-1);
+        getCachedData(1);
+        getCachedData(2);
     }],
     ["keyup", (e) => {
         if(e.code == "Escape") {

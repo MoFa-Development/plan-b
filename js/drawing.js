@@ -147,7 +147,7 @@ window.drawSubstitutions = function(data) {
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
 
         substitutionsElement.appendChild(noSubstMessage);
-    } else if (is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
+    } else if (!is_teacher && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
         
         // selected class is not affected
         let noSubstMessage = document.createElement("p");
@@ -308,11 +308,11 @@ window.draw = function() {
 
     let dateTitleElement = document.getElementById("title-day");
 
-    getData(currentDateOffset).then(data => {
+    getCachedData(currentDateOffset).then(data => {
 
         data = sortData(data);
 
-        // try {
+        try {
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
@@ -345,26 +345,26 @@ window.draw = function() {
 
             drawSubstitutions(data);
 
-        // } catch (error) {
+        } catch (error) {
 
-        //     console.debug(data);
+            console.debug(data);
 
-        //     let affectedElementsBarObj = document.getElementById("affected-elements");
+            let affectedElementsBarObj = document.getElementById("affected-elements");
 
-        //     if(data.payload.rows.length == 0) {
-        //         affectedElementsBarObj.style.visibility = "hidden";
-        //     } else {
-        //         affectedElementsBarObj.style.visibility = "visible";
-        //     }
+            if(data.payload.rows.length == 0) {
+                affectedElementsBarObj.style.visibility = "hidden";
+            } else {
+                affectedElementsBarObj.style.visibility = "visible";
+            }
 
-        //     document.getElementById("messages").innerHTML = "";
-        //     document.getElementById("affected-elements").innerHTML = "";
-        //     document.getElementById("affected-elements").classList = [];
+            document.getElementById("messages").innerHTML = "";
+            document.getElementById("affected-elements").innerHTML = "";
+            document.getElementById("affected-elements").classList = [];
 
-        //     document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
-        //     dateTitleElement.innerHTML = "";
-        // }
+            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
+            dateTitleElement.innerHTML = "";
+        }
     });
-
+    
     loadingElement.style.visibility = "hidden";
 }

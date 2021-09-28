@@ -9,6 +9,30 @@ const PLACEHOLDERS = [
     "."
 ]
 
+const REFRESH_CACHE_MILL = 2*60*1000;
+
+window.dataCache = {};
+
+class CacheEntry {
+    constructor(dateOffset) {
+        this.timestamp = new Date().getTime();
+        this.data = getData(dateOffset);
+    }
+}
+
+/**
+ * Returns data from cache if data new enough, otherwise fetches new data and returns
+ * @param {int} dateOffset 
+ * @returns data of specified day
+ */
+window.getCachedData = function(dateOffset = currentDateOffset) {
+    if(!dataCache[dateOffset] || dataCache[dateOffset].timestamp < new Date().getTime()-REFRESH_CACHE_MILL) {
+        dataCache[dateOffset] = new CacheEntry(dateOffset);
+    } 
+
+    return dataCache[dateOffset].data;
+}
+
 /**
  * get API data through proxy, parse json, return parsed object
  */
@@ -53,8 +77,7 @@ window.sortData = function(data) {
 window.getSubstitutionBegin = function(row) {
     let timeInfo = row.data[0];
     
-    let beginInt = parseInt(timeInfo);
-    return beginInt;
+    return parseInt(timeInfo);
 };
 
 /**
