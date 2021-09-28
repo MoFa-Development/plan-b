@@ -6,7 +6,7 @@ import './data.js';
 const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
 
 /**
- * **set css classes for overflowing affected elements bar**
+ * set css classes for overflowing affected elements bar
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
 window.handleAffectedElementsOverflow = function() {
@@ -182,6 +182,11 @@ window.drawSubstitutions = function(data) {
                     var course_check = course_long_split[0];
                     var class_check = course_long_split[1];
                     var teacher_check = course_long_split[2];
+                    
+                    // TODO **DIRTY** workaround for SPL1_12_1 <- Why the 1 though? Schötti / GTW was soll das?!
+                    if(parseInt(teacher_check).toString() == teacher_check) {
+                        teacher_check = ""; 
+                    }
                 }
             }
 
@@ -351,6 +356,8 @@ window.draw = function() {
 
             console.debug(data);
 
+            console.debug(error);
+            
             let affectedElementsBarObj = document.getElementById("affected-elements");
 
             if(data.payload.rows.length == 0) {
@@ -363,7 +370,7 @@ window.draw = function() {
             document.getElementById("affected-elements").innerHTML = "";
             document.getElementById("affected-elements").classList = [];
 
-            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
+            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten.</p>";
             dateTitleElement.innerHTML = "";
         }
     });
