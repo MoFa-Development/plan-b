@@ -172,7 +172,18 @@ window.drawSubstitutions = function(data) {
             
             let periods     = element.data[0];
             let classes     = getAffectedClassesOfRow(element);
-            let course_long = element.data[2];
+            let course_long = element.data[2]; // FACH_KLASSE_LEHRER
+            
+            if(course_long) {
+                var course_long_split = course_long.split("_");
+                
+                if(course_long_split.length == 3) {
+                    var course_check = course_long_split[0];
+                    var class_check = course_long_split[1];
+                    var teacher_check = course_long_split[2];
+                }
+            }
+
             let course      = element.data[3];
             let room        = element.data[4];
             let teacher     = element.data[5];
@@ -181,8 +192,6 @@ window.drawSubstitutions = function(data) {
             
             let cssClasses  = element.cssClasses;
             let group       = element.group;
-            
-            //#region EXIT STATEMENTS
 
             if(group != classes[0]) // do not draw duplicate substitution more than once
                 return;
@@ -216,8 +225,15 @@ window.drawSubstitutions = function(data) {
             substElement.appendChild(classesElement);
             
             if(course) {
+                
+                var course_change_html = "";
+
+                if(course != course_check && course_check) {
+                    course_change_html = " (<span class=\"cancelStyle\">" + course_check + "</span>)";
+                }
+                    
                 let courseElement = document.createElement("p");
-                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + "</div>";
+                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + course_change_html + "</div>";
                 courseElement.id = "course"
                 courseElement.classList.add("subst-data")
                 substElement.appendChild(courseElement);    
@@ -234,8 +250,15 @@ window.drawSubstitutions = function(data) {
             
             // only draw teacher label if type is not cancelled or room change
             if(teacher && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, classes) || teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+                
+                var teacher_change_html = "";
+
+                if (teacher != teacher_check && !teacher.includes("cancelStyle") && teacher_check) {
+                    teacher_change_html = " (<span class=\"cancelStyle\">"+ teacher_check +"</span>)";
+                }
+
                 let teacherElement = document.createElement("p");
-                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + "</div>";
+                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + teacher_change_html + "</div>";
                 teacherElement.id = "teacher"
                 teacherElement.classList.add("subst-data")
                 substElement.appendChild(teacherElement);
@@ -289,7 +312,7 @@ window.draw = function() {
 
         data = sortData(data);
 
-        try {
+        // try {
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
@@ -322,25 +345,25 @@ window.draw = function() {
 
             drawSubstitutions(data);
 
-        } catch (error) {
+        // } catch (error) {
 
-            console.debug(data);
+        //     console.debug(data);
 
-            let affectedElementsBarObj = document.getElementById("affected-elements");
+        //     let affectedElementsBarObj = document.getElementById("affected-elements");
 
-            if(data.payload.rows.length == 0) {
-                affectedElementsBarObj.style.visibility = "hidden";
-            } else {
-                affectedElementsBarObj.style.visibility = "visible";
-            }
+        //     if(data.payload.rows.length == 0) {
+        //         affectedElementsBarObj.style.visibility = "hidden";
+        //     } else {
+        //         affectedElementsBarObj.style.visibility = "visible";
+        //     }
 
-            document.getElementById("messages").innerHTML = "";
-            document.getElementById("affected-elements").innerHTML = "";
-            document.getElementById("affected-elements").classList = [];
+        //     document.getElementById("messages").innerHTML = "";
+        //     document.getElementById("affected-elements").innerHTML = "";
+        //     document.getElementById("affected-elements").classList = [];
 
-            document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
-            dateTitleElement.innerHTML = "";
-        }
+        //     document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
+        //     dateTitleElement.innerHTML = "";
+        // }
     });
 
     loadingElement.style.visibility = "hidden";
