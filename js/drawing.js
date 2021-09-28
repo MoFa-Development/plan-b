@@ -147,6 +147,7 @@ window.drawSubstitutions = function(data) {
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
 
         substitutionsElement.appendChild(noSubstMessage);
+
     } else if (!is_teacher && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
         
         // selected class is not affected
@@ -225,10 +226,10 @@ window.drawSubstitutions = function(data) {
             substElement.appendChild(classesElement);
             
             if(course) {
-                
+
                 var course_change_html = "";
 
-                if(course != course_check && course_check) {
+                if(course_check && course.replace(" ", "") != course_check.replace(" ", "")) {
                     course_change_html = " (<span class=\"cancelStyle\">" + course_check + "</span>)";
                 }
                     
@@ -241,6 +242,7 @@ window.drawSubstitutions = function(data) {
             
             // only draw room label if not cancelled
             if(room && subst_type != "Entfall") {
+                
                 let roomElement = document.createElement("p");
                 roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
                 roomElement.id = "room"
@@ -253,7 +255,7 @@ window.drawSubstitutions = function(data) {
                 
                 var teacher_change_html = "";
 
-                if (teacher != teacher_check && !teacher.includes("cancelStyle") && teacher_check) {
+                if(teacher_check && teacher != teacher_check && !teacher.includes("cancelStyle")) {
                     teacher_change_html = " (<span class=\"cancelStyle\">"+ teacher_check +"</span>)";
                 }
 

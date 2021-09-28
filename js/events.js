@@ -29,8 +29,6 @@ const EVENTS = [
     ["keyup", (e) => {
         if(e.code == "Escape") {
             hideSettings();
-        } else if (e.code == "Space") {
-            // Die lange Taste wurde gedrückt :O
         }
     }],
     ["resize", window.handleAffectedElementsOverflow],
@@ -55,7 +53,6 @@ window.initEvents = function() {
     for([event_name, func] of EVENTS) {
         addEvent(event_name, func);
     }
-
 }
 
 /**
