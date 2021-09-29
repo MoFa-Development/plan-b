@@ -547,7 +547,7 @@ input:checked + .slider:before {
 .subst-element {
     display: grid;
     column-gap: 1em;
-    row-gap: 0;
+    row-gap: 0em;
     margin-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;

@@ -1,8 +1,8 @@
 import "./data.js"
 
-const autoscrollFPS = 20;
+const autoscrollFPS = 25;
 const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
-const autoscrollPixelPerFrame = 2; 
+window.autoscrollPixelPerFrame = 2;
 
 const autoscrollInterval = 1000 / autoscrollFPS;
 const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS; //amount of frames to wait at top / bottom of scrollable view
