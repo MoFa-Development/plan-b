@@ -16,6 +16,7 @@ window.RESET_AUTOSCROLL = false;
  */
 const EVENTS = [
     ["load", window.loadSettings],
+    ["load", window.initGimmicks],
     ["load", window.draw],
     ["load", () => {
         setInterval(handleAutoscroll, autoscrollInterval);
