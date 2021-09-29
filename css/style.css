@@ -83,8 +83,6 @@ button {
 .no-subst-msg {
     text-align: center;
 
-    height: 2.5em;
-
     margin-top: 2em;
     margin-left: var(--side-margin);
     margin-right: var(--side-margin);

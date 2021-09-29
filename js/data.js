@@ -9,6 +9,34 @@ const PLACEHOLDERS = [
     "."
 ]
 
+const REFRESH_CACHE_MILL = 2*60*1000;
+
+window.dataCache = {};
+
+class CacheEntry {
+    constructor(data) {
+        this.timestamp = new Date().getTime();
+        this.data = data;
+    }
+}
+
+/**
+ * Returns data from cache if data new enough, otherwise fetches new data and returns
+ * @param {int} dateOffset 
+ * @returns data of specified day
+ */
+window.getCachedData = async function(dateOffset = currentDateOffset) {
+    if(!dataCache[dateOffset] || dataCache[dateOffset].timestamp < new Date().getTime()-REFRESH_CACHE_MILL) {
+        
+        await getData(dateOffset).then(data => {
+            dataCache[dateOffset] = new CacheEntry(data);
+            console.debug("dataCache["+dateOffset.toString()+"] = ", dataCache[dateOffset]);
+        }).catch(error => errorMessage(error));
+    }
+
+    return dataCache[dateOffset].data;
+}
+
 /**
  * get API data through proxy, parse json, return parsed object
  */
@@ -52,9 +80,8 @@ window.sortData = function(data) {
  */
 window.getSubstitutionBegin = function(row) {
     let timeInfo = row.data[0];
-    
-    let beginInt = parseInt(timeInfo);
-    return beginInt;
+
+    return parseInt(timeInfo);
 };
 
 /**
@@ -114,7 +141,7 @@ window.getAffectedTeachers = function(data) {
 
     // filter out placeholders that shouldn't appear in affected elements
     affectedTeachers = affectedTeachers.filter(
-        (affectedTeacher) => PLACEHOLDERS.includes(affectedTeacher) == false
+        (affectedTeacher) => !PLACEHOLDERS.includes(affectedTeacher)
     )
 
     return affectedTeachers;
@@ -150,7 +177,7 @@ window.getAffectedClasses = function(data) {
 
     // filter out placeholders that shouldn't appear in affected elements
     affectedClasses = affectedClasses.filter(
-        (affectedClass) => PLACEHOLDERS.includes(affectedClass) == false
+        (affectedClass) => !PLACEHOLDERS.includes(affectedClass)
     )
 
     return affectedClasses;

@@ -1,3 +1,5 @@
+import "./data.js"
+
 const autoscrollFPS = 20;
 const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 const autoscrollPixelPerFrame = 2; 
@@ -23,8 +25,6 @@ const EVENTS = [
     ["keyup", (e) => {
         if(e.code == "Escape") {
             hideSettings();
-        } else if (e.code == "Space") {
-            // Die lange Taste wurde gedrückt :O
         }
     }],
     ["resize", window.handleAffectedElementsOverflow],
@@ -49,7 +49,6 @@ window.initEvents = function() {
     for([event_name, func] of EVENTS) {
         addEvent(event_name, func);
     }
-
 }
 
 /**
@@ -89,7 +88,7 @@ window.handleAutoscroll = function() {
             if(RESET_AUTOSCROLL) {
                 e.scrollTop = 0;
                 e.waitCount = autoscrollWaitCount;
-                RESET_AUTOSCROLL = false;
+                window.RESET_AUTOSCROLL = false;
             }
         });
     } else {
@@ -101,7 +100,7 @@ window.handleAutoscroll = function() {
  * handle onclick on next day button
  */ 
 window.nextDay = function() {
-    currentDateOffset++;
+    window.currentDateOffset++;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
@@ -111,7 +110,7 @@ window.nextDay = function() {
  * handle onclick on previous day button
  */
 window.prevDay = function() {
-    currentDateOffset--;
+    window.currentDateOffset--;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";

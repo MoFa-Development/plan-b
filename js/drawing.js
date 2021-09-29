@@ -6,7 +6,7 @@ import './data.js';
 const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
 
 /**
- * **set css classes for overflowing affected elements bar**
+ * set css classes for overflowing affected elements bar
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
 window.handleAffectedElementsOverflow = function() {
@@ -105,7 +105,7 @@ window.drawAffectedElements = function(data) {
         }
 
         affectedElementObj.onclick = function() {
-            RESET_AUTOSCROLL = true;
+            window.RESET_AUTOSCROLL = true;
             setSelectedElement(affectedElement, data);
 
             //manage highlighting of selected element
@@ -147,7 +147,8 @@ window.drawSubstitutions = function(data) {
         noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen";
 
         substitutionsElement.appendChild(noSubstMessage);
-    } else if (is_teacher == false && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
+
+    } else if (!is_teacher && selectedClass != "" && !data.payload.affectedElements["1"].includes(selectedClass)) {
         
         // selected class is not affected
         let noSubstMessage = document.createElement("p");
@@ -181,6 +182,11 @@ window.drawSubstitutions = function(data) {
                     var course_check = course_long_split[0];
                     var class_check = course_long_split[1];
                     var teacher_check = course_long_split[2];
+                    
+                    // TODO **DIRTY** workaround for SPL1_12_1 <- Why the 1 though? Schötti / GTW was soll das?!
+                    if(parseInt(teacher_check).toString() == teacher_check) {
+                        teacher_check = ""; 
+                    }
                 }
             }
 
@@ -225,10 +231,10 @@ window.drawSubstitutions = function(data) {
             substElement.appendChild(classesElement);
             
             if(course) {
-                
+
                 var course_change_html = "";
 
-                if(course != course_check && course_check) {
+                if(course_check && course.replace(" ", "") != course_check.replace(" ", "")) {
                     course_change_html = " (<span class=\"cancelStyle\">" + course_check + "</span>)";
                 }
                     
@@ -241,6 +247,7 @@ window.drawSubstitutions = function(data) {
             
             // only draw room label if not cancelled
             if(room && subst_type != "Entfall") {
+                
                 let roomElement = document.createElement("p");
                 roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
                 roomElement.id = "room"
@@ -253,7 +260,7 @@ window.drawSubstitutions = function(data) {
                 
                 var teacher_change_html = "";
 
-                if (teacher != teacher_check && !teacher.includes("cancelStyle") && teacher_check) {
+                if(teacher_check && teacher != teacher_check && !teacher.includes("cancelStyle")) {
                     teacher_change_html = " (<span class=\"cancelStyle\">"+ teacher_check +"</span>)";
                 }
 
@@ -308,11 +315,10 @@ window.draw = function() {
 
     let dateTitleElement = document.getElementById("title-day");
 
-    getData(currentDateOffset).then(data => {
+    getCachedData(currentDateOffset).then(data => {
+        try {
+            data = sortData(data);
 
-        data = sortData(data);
-
-        // try {
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
@@ -345,26 +351,25 @@ window.draw = function() {
 
             drawSubstitutions(data);
 
-        // } catch (error) {
+        } catch (error) {
+            console.debug(data);
+            
+            let affectedElementsBarObj = document.getElementById("affected-elements");
 
-        //     console.debug(data);
+            if(data.payload.rows.length == 0) {
+                affectedElementsBarObj.style.visibility = "hidden";
+            } else {
+                affectedElementsBarObj.style.visibility = "visible";
+            }
 
-        //     let affectedElementsBarObj = document.getElementById("affected-elements");
+            dateTitleElement.innerHTML = "";
 
-        //     if(data.payload.rows.length == 0) {
-        //         affectedElementsBarObj.style.visibility = "hidden";
-        //     } else {
-        //         affectedElementsBarObj.style.visibility = "visible";
-        //     }
-
-        //     document.getElementById("messages").innerHTML = "";
-        //     document.getElementById("affected-elements").innerHTML = "";
-        //     document.getElementById("affected-elements").classList = [];
-
-        //     document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen.</p>";
-        //     dateTitleElement.innerHTML = "";
-        // }
-    });
-
+            errorMessage(error);
+        }
+    }).catch(error => errorMessage(error));
+    
     loadingElement.style.visibility = "hidden";
+
+    getCachedData(currentDateOffset+1);
+    getCachedData(currentDateOffset-1);
 }
