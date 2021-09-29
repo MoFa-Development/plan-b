@@ -137,8 +137,6 @@ window.drawSubstitutions = function(data) {
         substitutionsElement.removeChild(substitutionsElement.firstChild);
     }
 
-    data.payload.rows.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
-
     if (data.payload.rows.length == 0) {
         
         //no substitutions in the first place

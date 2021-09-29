@@ -51,22 +51,23 @@ window.getData = async function(dateOffset = currentDateOffset) {
  */
 window.sortData = function(data) {
 
-    let _data = data;
+    let _data = Object.assign({}, data);
     
     if(is_teacher) {
         // sort by substitution begin 
-        _data.payload.rows = _data.payload.rows.sort((a, b) => getSubstitutionBegin(a) - getSubstitutionBegin(b));
+        _data.payload.rows.sort((a, b) => getSubstitutionBegin(a) - getSubstitutionBegin(b));
 
         // sort by first teacher in teacher info
         // this means the substituting teacher is relevant for sorting, not the substituted
         // if there's only one teacher, we don't have a problem in the first place
-        _data.payload.rows = _data.payload.rows.sort((a, b) => getAffectedTeachersOfRow(a)[0].toUpperCase() > getAffectedTeachersOfRow(b)[0].toUpperCase());
+        _data.payload.rows.sort((a, b) => getAffectedTeachersOfRow(a)[0].toUpperCase() > getAffectedTeachersOfRow(b)[0].toUpperCase());
     } else {
         // sort by substitution begin
-        _data.payload.rows = _data.payload.rows.sort((a, b) => getSubstitutionBegin(a) - getSubstitutionBegin(b));
+        _data.payload.rows.sort((a, b) => getSubstitutionBegin(a) - getSubstitutionBegin(b));
     
         // sort by first affected class
-        _data.payload.rows = _data.payload.rows.sort((a, b) => getAffectedClassesOfRow(a)[0].toUpperCase() > getAffectedClassesOfRow(b)[0].toUpperCase());
+        _data.payload.rows.sort((a, b) => getAffectedClassesOfRow(a)[0].toUpperCase() > getAffectedClassesOfRow(b)[0].toUpperCase());
+        _data.payload.rows.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
     }
 
     return _data;
