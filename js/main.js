@@ -3,6 +3,7 @@ import './drawing.js';
 import './settings.js';
 import './data.js';
 import './events.js';
+import './gimmicks.js';
 
 'use strict';
 
