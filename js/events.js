@@ -12,6 +12,9 @@ const refreshIntervalMinutes = 5;
 
 window.RESET_AUTOSCROLL = false;
 
+window.lastMouseMovedTimestamp = 0;
+const TIMEOUT_HIDE_SETTINGS_BTN = 5000;
+
 /**
  * list of events with corresponding handler functions
  */
@@ -20,7 +23,13 @@ const EVENTS = [
     ["load", window.initGimmicks],
     ["load", window.draw],
     ["load", () => {
+        // hiding the settings button
+        setInterval(handleSettingsBtnHide, 1000);
+
+        // autoscroll
         setInterval(handleAutoscroll, autoscrollInterval);
+        
+        // data refreshing
         setInterval(draw, 1000*60*refreshIntervalMinutes);
     }],
     ["keyup", (e) => {
@@ -28,9 +37,29 @@ const EVENTS = [
             hideSettings();
         }
     }],
+    ["mousemove", (e) => {
+        window.lastMouseMovedTimestamp = Date.now();
+        document.getElementById("settings-btn").classList.remove("hidden");
+    }],
     ["resize", window.handleAffectedElementsOverflow],
     ["deviceorientation", window.handleAffectedElementsOverflow]
 ];
+
+
+/**
+ * Hide settings
+ */
+window.handleSettingsBtnHide = function() {
+    var settingsBtn = document.getElementById("settings-btn");
+    
+    if(Date.now() - lastMouseMovedTimestamp > TIMEOUT_HIDE_SETTINGS_BTN) {
+        if(!settingsBtn.classList.contains("hidden")) {
+            settingsBtn.classList.add("hidden");
+        }
+    } else {
+        settingsBtn.classList.remove("hidden");
+    }
+}
 
 /**
  * load and add events with corresponding handler functions

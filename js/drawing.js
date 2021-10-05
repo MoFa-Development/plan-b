@@ -231,13 +231,18 @@ window.drawSubstitutions = function(data) {
             if(course) {
 
                 var course_change_html = "";
+                var teacher_note_html = "";
 
                 if(course_check && course.replace(" ", "") != course_check.replace(" ", "")) {
                     course_change_html = " (<span class=\"cancelStyle\">" + course_check + "</span>)";
                 }
-                    
+ 
+                if(teacher_check && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, classes)) {
+                    teacher_note_html = " ("+teacher_check+")"
+                }
+
                 let courseElement = document.createElement("p");
-                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + course_change_html + "</div>";
+                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + course_change_html + teacher_note_html + "</div>";
                 courseElement.id = "course"
                 courseElement.classList.add("subst-data")
                 substElement.appendChild(courseElement);    
@@ -254,7 +259,7 @@ window.drawSubstitutions = function(data) {
             }
             
             // only draw teacher label if type is not cancelled or room change
-            if(teacher && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, classes) || teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
+            if(teacher && is_teacher || teacher && subst_type != "Entfall" && subst_type != "Raum&auml;nderung") {
                 
                 var teacher_change_html = "";
 
@@ -315,8 +320,6 @@ window.draw = function() {
 
     getCachedData(currentDateOffset).then(data => {
         try {
-            data = sortData(data);
-
             // hide next day button if last day with data
             let next_day_btn = document.getElementById("btn-next-day");
             let prev_day_btn = document.getElementById("btn-prev-day");
@@ -339,7 +342,6 @@ window.draw = function() {
             let date_string = day + "." + month + "." + year;
 
             dateTitleElement.innerHTML = data.payload.weekDay + ", " + date_string;
-
 
             drawMessages(data);
 

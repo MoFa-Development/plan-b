@@ -43,11 +43,26 @@ window.getCachedData = async function(dateOffset = currentDateOffset) {
 window.getData = async function(dateOffset = currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
     console.debug("got data: ", data);
+    data = sortData(data);
+    data = combineSplitSubsts(data);
     return data;
 }
 
 /**
+ * @param data
+ * @return new version of data with combined substitutions
+ */
+window.combineSplitSubsts = function(data) {
+    let _data = Object.assign({}, data);
+
+    // TODO -> issue #9
+
+    return _data;
+}
+
+/**
  * sort data dynamically based on `window.is_teacher`
+ * @param data
  */
 window.sortData = function(data) {
 
@@ -62,6 +77,9 @@ window.sortData = function(data) {
         // if there's only one teacher, we don't have a problem in the first place
         _data.payload.rows.sort((a, b) => getAffectedTeachersOfRow(a)[0].toUpperCase() > getAffectedTeachersOfRow(b)[0].toUpperCase());
     } else {
+        // sort by subject
+        _data.payload.rows.sort((a, b) => a.data[3].toUpperCase() > b.data[3].toUpperCase());
+    
         // sort by substitution begin
         _data.payload.rows.sort((a, b) => getSubstitutionBegin(a) - getSubstitutionBegin(b));
     

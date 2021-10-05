@@ -290,8 +290,12 @@ input:checked + .slider:before {
     height: 3.5em;
     border-radius: 50%;
 
-    transition: transform .2s;
+    transition: opacity 1s, transform .2s;
     cursor: pointer;
+}
+
+#settings-btn.hidden {
+    opacity: 0;
 }
 
 #settings-btn:hover {
