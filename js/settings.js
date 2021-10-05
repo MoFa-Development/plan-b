@@ -1,3 +1,5 @@
+window.autoscroll = false;
+
 /**
  * default available accent colors
  */
@@ -56,9 +58,9 @@ window.loadSettings = function loadSettings() {
 
     // get autoscroll preference from cookie
     if(getCookie("autoscroll")) {
-        autoscroll = getCookie("autoscroll") == "true";
+        window.autoscroll = getCookie("autoscroll") == "true";
     } else {
-        autoscroll = false;
+        window.autoscroll = false;
     }
 
     // apply autoscroll setting

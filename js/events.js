@@ -52,7 +52,7 @@ const EVENTS = [
 window.handleSettingsBtnHide = function() {
     var settingsBtn = document.getElementById("settings-btn");
     
-    if(Date.now() - lastMouseMovedTimestamp > TIMEOUT_HIDE_SETTINGS_BTN) {
+    if(autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_HIDE_SETTINGS_BTN) {
         if(!settingsBtn.classList.contains("hidden")) {
             settingsBtn.classList.add("hidden");
         }
