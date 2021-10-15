@@ -420,7 +420,7 @@ input:checked + .slider:before {
 #settings-footer {
     position: absolute;
     bottom: 1em;
-    right: 1em);
+    right: 1em;
 }
 
 .avatar-link {
