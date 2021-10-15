@@ -309,6 +309,7 @@ input:checked + .slider:before {
 .settings-btn-icon {
     height: 60%;
     width: auto;
+    filter: contrast(0) brightness(1.7);
 }
 
 #settings-overlay-container {
@@ -653,10 +654,6 @@ body.dark .icon {
 
 body.dark .filter-icon {
     filter: contrast(0) brightness(1.3);
-}
-
-body.dark .settings-btn-icon {
-    filter: contrast(0) brightness(1.7);
 }
 
 body.dark a {
