@@ -418,9 +418,9 @@ input:checked + .slider:before {
 }
 
 #settings-footer {
-    position: fixed;
-    bottom: 10%;
-    right: var(--side-margin);
+    position: absolute;
+    bottom: 1em;
+    right: 1em);
 }
 
 .avatar-link {
