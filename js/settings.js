@@ -102,7 +102,7 @@ window.loadSettings = function loadSettings() {
         window.is_teacher = getCookie("is_teacher") == "true"    
     }
 
-    if(autoscroll) {
+    if(is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");
@@ -125,7 +125,7 @@ window.setIsTeacher = function(obj) {
         window.selectedTeacher = "";
     }
 
-    if(autoscroll) {
+    if(is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");

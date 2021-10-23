@@ -613,11 +613,11 @@ input:checked + .slider:before {
     grid-row: 1;
 }
 
-.teacher > .subst-element > #teacher {
+.autoscroll.teacher > .subst-element > #teacher {
     grid-column: 1;
 }
 
-.teacher > .subst-element > #classes {
+.autoscroll.teacher > .subst-element > #classes {
     grid-column: 6;
     grid-row: 1;
 }
