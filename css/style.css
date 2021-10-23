@@ -294,8 +294,12 @@ input:checked + .slider:before {
     cursor: pointer;
 }
 
-#settings-btn.hidden {
+.inactive #settings-btn {
     opacity: 0;
+}
+
+.inactive {
+    cursor: none;
 }
 
 #settings-btn:hover {
