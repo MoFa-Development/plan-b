@@ -217,13 +217,13 @@ window.drawSubstitutions = function(data) {
             let substElement = document.createElement("div");
             
             let periodsElement = document.createElement("p");
-            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + periods + "</div>";
+            periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + periods + "</div>";
             periodsElement.id = "periods";
             periodsElement.classList.add("subst-data")
             substElement.appendChild(periodsElement);
             
             let classesElement = document.createElement("p");
-            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + classes.join(", ") + "</div>";
+            classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + classes.join(", ") + "</div>";
             classesElement.id = "classes";
             classesElement.classList.add("subst-data")
             substElement.appendChild(classesElement);
@@ -242,7 +242,7 @@ window.drawSubstitutions = function(data) {
                 }
 
                 let courseElement = document.createElement("p");
-                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + course + course_change_html + teacher_note_html + "</div>";
+                courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + course + course_change_html + teacher_note_html + "</div>";
                 courseElement.id = "course"
                 courseElement.classList.add("subst-data")
                 substElement.appendChild(courseElement);    
@@ -252,7 +252,7 @@ window.drawSubstitutions = function(data) {
             if(room && subst_type != "Entfall") {
                 
                 let roomElement = document.createElement("p");
-                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + room + "</div>";
+                roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + room + "</div>";
                 roomElement.id = "room"
                 roomElement.classList.add("subst-data")
                 substElement.appendChild(roomElement);
@@ -268,7 +268,7 @@ window.drawSubstitutions = function(data) {
                 }
 
                 let teacherElement = document.createElement("p");
-                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + teacher + teacher_change_html + "</div>";
+                teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + teacher + teacher_change_html + "</div>";
                 teacherElement.id = "teacher"
                 teacherElement.classList.add("subst-data")
                 substElement.appendChild(teacherElement);
@@ -286,7 +286,7 @@ window.drawSubstitutions = function(data) {
                     icon = "swap";
                 }
                 
-                typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + subst_type + "</div>";
+                typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + subst_type + "</div>";
                 typeElement.id = "type"
                 typeElement.classList.add("subst-data")
                 substElement.appendChild(typeElement);
@@ -294,7 +294,7 @@ window.drawSubstitutions = function(data) {
             
             if(message) {
                 let messageElement = document.createElement("p");
-                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + message + "</div>";
+                messageElement.innerHTML = "<img src=\"icons/information.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + message + "</div>";
                 messageElement.id = "message";
                 messageElement.classList.add("subst-data")
                 substElement.appendChild(messageElement);

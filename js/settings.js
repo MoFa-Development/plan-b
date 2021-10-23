@@ -41,9 +41,9 @@ window.loadSettings = function loadSettings() {
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
-        darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
+        window.darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
     } else {
-        darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
+        window.darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
     }
 
     // apply darkmode setting
@@ -99,7 +99,13 @@ window.loadSettings = function loadSettings() {
 
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
-        is_teacher = getCookie("is_teacher") == "true"    
+        window.is_teacher = getCookie("is_teacher") == "true"    
+    }
+
+    if(autoscroll) {
+        document.getElementById("substitutions").classList.add("teacher");
+    } else {
+        document.getElementById("substitutions").classList.remove("teacher");
     }
 
     document.getElementById("is-teacher").checked = is_teacher; // set teacher mode switch in settings menu
@@ -111,12 +117,18 @@ window.loadSettings = function loadSettings() {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setIsTeacher = function(obj) {
-    is_teacher = obj.checked;
+    window.is_teacher = obj.checked;
 
     if(is_teacher) {
-        selectedClass = "";
+        window.selectedClass = "";
     } else {
-        selectedTeacher = "";
+        window.selectedTeacher = "";
+    }
+
+    if(autoscroll) {
+        document.getElementById("substitutions").classList.add("teacher");
+    } else {
+        document.getElementById("substitutions").classList.remove("teacher");
     }
 
     setCookie("is_teacher", is_teacher, 9999);
@@ -130,7 +142,7 @@ window.setIsTeacher = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setDarkmode = function(obj) {
-    darkmode = obj.checked;
+    window.darkmode = obj.checked;
 
     setCookie("darkmode", darkmode, 9999);
 
@@ -147,7 +159,7 @@ window.setDarkmode = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setAutoscroll = function(obj) {
-    autoscroll = obj.checked;
+    window.autoscroll = obj.checked;
 
     setCookie("autoscroll", autoscroll, 9999);
 
@@ -186,21 +198,21 @@ window.colorClick = function(obj) {
  */
 window.setSelectedElement = function(_selectedElement, data) {
     if(is_teacher) {
-        selectedClass = "";
+        window.selectedClass = "";
         
         if (selectedTeacher == _selectedElement) {
-            selectedTeacher = "";
+            window.selectedTeacher = "";
         } else {
-            selectedTeacher = _selectedElement;
+            window.selectedTeacher = _selectedElement;
         }
 
     } else {
-        selectedTeacher = "";
+        window.selectedTeacher = "";
 
         if (selectedClass == _selectedElement) {
-            selectedClass = "";
+            window.selectedClass = "";
         } else {
-            selectedClass = _selectedElement;
+            window.selectedClass = _selectedElement;
         }
     }
 
