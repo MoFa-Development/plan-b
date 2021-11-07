@@ -1,6 +1,3 @@
-import "./data.js"
-import './gimmicks.js'
-
 const autoscrollFPS = 25;
 const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 window.autoscrollPixelPerFrame = 1;

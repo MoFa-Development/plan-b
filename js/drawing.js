@@ -1,5 +1,3 @@
-import './data.js';
-
 /**
  * Classes where teachers should always be shown for clarity
  */
@@ -34,43 +32,51 @@ window.handleAffectedElementsOverflow = function() {
     }
 }
 
+window.Message.prototype.toElem = function() {
+    let messageElement = document.createElement("div");
+    messageElement.classList.add("message")
+
+    if(this.subject) {
+        let subjectElement = document.createElement("div");
+        subjectElement.innerHTML = this.subject;
+        subjectElement.id = "subject";
+        messageElement.appendChild(subjectElement);
+    }
+
+    let messageBodyElement = document.createElement("div");
+    messageBodyElement.innerHTML = this.body;
+    messageBodyElement.id = "message-body";
+    messageElement.appendChild(messageBodyElement);
+
+    return messageElement;
+}
+
 /**
  * generate message elements for messages of the day and add them to the messages container
  */
-window.drawMessages = function(data) {
+window.Day.prototype.drawMessages = function() {
     let messages = document.getElementById("messages");
 
     while (messages.firstChild) {
         messages.removeChild(messages.firstChild);
     }
 
-    data.payload.messageData.messages.forEach(messageData => {
-        let messageElement = document.createElement("div");
-        messageElement.classList.add("message")
-
-        if(messageData.subject) {
-            let subjectElement = document.createElement("div");
-            subjectElement.innerHTML = messageData.subject;
-            subjectElement.id = "subject";
-            messageElement.appendChild(subjectElement);
+    this.messages.forEach(msg => {
+        let messageElement = msg.toElem();
+        
+        if(messageElement) {
+            messages.appendChild(messageElement);
         }
-
-        let messageBodyElement = document.createElement("div");
-        messageBodyElement.innerHTML = messageData.body;
-        messageBodyElement.id = "message-body";
-        messageElement.appendChild(messageBodyElement);
-
-        messages.appendChild(messageElement);
     });
 }
 
 /**
  * generate affected element selects and add them to the selection bar
  */
-window.drawAffectedElements = function(data) {
+window.Day.prototype.drawAffectedElements = function() {
     let affectedElementsBarObj = document.getElementById("affected-elements");
 
-    if(data.payload.rows.length == 0) {
+    if(this.substitutions.length == 0) {
         affectedElementsBarObj.style.visibility = "hidden";
     } else {
         affectedElementsBarObj.style.visibility = "visible";
@@ -89,10 +95,12 @@ window.drawAffectedElements = function(data) {
     
     // dynamically get affected teachers / classes based on is_teacher
     if (is_teacher) {
-        affectedElements = getAffectedTeachers(data);
+        affectedElements = this.affectedTeachers;
     } else {
-        affectedElements = getAffectedClasses(data);
+        affectedElements = this.affectedClasses;
     }
+
+    var day = this;
 
     affectedElements.forEach((affectedElement) => {
 
@@ -106,7 +114,8 @@ window.drawAffectedElements = function(data) {
 
         affectedElementObj.onclick = function() {
             window.RESET_AUTOSCROLL = true;
-            setSelectedElement(affectedElement, data);
+            
+            day.setSelectedElement(affectedElement);
 
             //manage highlighting of selected element
         
@@ -318,13 +327,13 @@ window.Day.prototype.draw = function() {
 
         dateTitleElement.innerHTML = this.weekDay + ", " + date_string;
 
-        //this.drawMessages();
-        //this.drawAffectedElements();
-        //this.handleAffectedElementsOverflow();
+        this.drawMessages();
+        this.drawAffectedElements();
+        handleAffectedElementsOverflow();
         this.drawSubstitutions();
 
     } catch (error) {
-        console.debug(this.data);
+        console.debug(this);
         
         let affectedElementsBarObj = document.getElementById("affected-elements");
 

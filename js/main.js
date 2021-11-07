@@ -1,9 +1,9 @@
 import './utils.js';
-import './drawing.js';
-import './settings.js';
 import './data.js';
-import './events.js';
+import './settings.js';
+import './drawing.js';
 import './gimmicks.js';
+import './events.js';
 
 'use strict';
 

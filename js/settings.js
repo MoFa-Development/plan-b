@@ -66,8 +66,10 @@ window.loadSettings = function loadSettings() {
     // apply autoscroll setting
     if(autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll"); // autoscroll on
+        document.body.style.fontSize = "smaller";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll"); // autoscroll off
+        document.body.style.fontSize = "medium";
     }
 
     document.getElementById("autoscroll-switch").checked = autoscroll;
@@ -165,8 +167,10 @@ window.setAutoscroll = function(obj) {
 
     if(autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
+        document.body.style.fontSize = "smaller";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll");
+        document.body.style.fontSize = "medium";
     }
 }
 
@@ -196,7 +200,7 @@ window.colorClick = function(obj) {
  * @param {HTMLElement} _selectedElement selectedElement HTMLElement
  * @param {*} data API data of the current day
  */
-window.setSelectedElement = function(_selectedElement, data) {
+window.Day.prototype.setSelectedElement = function(_selectedElement) {
     if(is_teacher) {
         window.selectedClass = "";
         
@@ -216,5 +220,5 @@ window.setSelectedElement = function(_selectedElement, data) {
         }
     }
 
-    drawSubstitutions(data);
+    this.drawSubstitutions();
 }
