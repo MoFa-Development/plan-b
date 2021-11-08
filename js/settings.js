@@ -65,10 +65,12 @@ window.loadSettings = function loadSettings() {
 
     // apply autoscroll setting
     if(autoscroll) {
-        document.getElementById("substitutions").classList.add("autoscroll"); // autoscroll on
+        document.getElementById("substitutions").classList.add("autoscroll");
+        document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "smaller";
     } else {
-        document.getElementById("substitutions").classList.remove("autoscroll"); // autoscroll off
+        document.getElementById("substitutions").classList.remove("autoscroll");
+        document.body.style.setProperty("--side-margin", "20%");
         document.body.style.fontSize = "medium";
     }
 
@@ -167,9 +169,11 @@ window.setAutoscroll = function(obj) {
 
     if(autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
+        document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "smaller";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll");
+        document.body.style.setProperty("--side-margin", "20%");
         document.body.style.fontSize = "medium";
     }
 }
@@ -188,8 +192,8 @@ window.colorClick = function(obj) {
     let accent_color = rgb2hex(obj.style.backgroundColor);
     let accent_dark = shadeColor(accent_color, -20); 
 
-    document.querySelector('body').style.setProperty('--accent', accent_color);
-    document.querySelector('body').style.setProperty('--accent-dark', accent_dark);
+    document.body.style.setProperty('--accent', accent_color);
+    document.body.style.setProperty('--accent-dark', accent_dark);
     
     setCookie("accent_color", accent_color, 9999);
 }
