@@ -222,18 +222,18 @@ window.Day.prototype.setSelectedElement = function(elem) {
         settings.selectedClass = "";
         
         if (selectedTeacher == elem) {
-            window.selectedTeacher = "";
+            settings.selectedTeacher = "";
         } else {
-            window.selectedTeacher = elem;
+            settings.selectedTeacher = elem;
         }
 
     } else {
         settings.selectedTeacher = "";
 
         if (selectedClass == elem) {
-            window.selectedClass = "";
+            settings.selectedClass = "";
         } else {
-            window.selectedClass = elem;
+            settings.selectedClass = elem;
         }
     }
 
