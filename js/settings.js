@@ -170,11 +170,11 @@ window.setAutoscroll = function(obj) {
     if(autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
-        document.body.style.fontSize = "smaller";
+        document.body.style.fontSize = "90%";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll");
         document.body.style.setProperty("--side-margin", "20%");
-        document.body.style.fontSize = "medium";
+        document.body.style.fontSize = "100%";
     }
 }
 
@@ -201,26 +201,26 @@ window.colorClick = function(obj) {
 /**
  * set or unset selected teacher / class
  * 
- * @param {HTMLElement} _selectedElement selectedElement HTMLElement
+ * @param {HTMLElement} elem selectedElement HTMLElement
  * @param {*} data API data of the current day
  */
-window.Day.prototype.setSelectedElement = function(_selectedElement) {
+window.Day.prototype.setSelectedElement = function(elem) {
     if(is_teacher) {
         window.selectedClass = "";
         
-        if (selectedTeacher == _selectedElement) {
+        if (selectedTeacher == elem) {
             window.selectedTeacher = "";
         } else {
-            window.selectedTeacher = _selectedElement;
+            window.selectedTeacher = elem;
         }
 
     } else {
         window.selectedTeacher = "";
 
-        if (selectedClass == _selectedElement) {
+        if (selectedClass == elem) {
             window.selectedClass = "";
         } else {
-            window.selectedClass = _selectedElement;
+            window.selectedClass = elem;
         }
     }
 

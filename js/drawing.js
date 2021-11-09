@@ -160,13 +160,13 @@ window.Substitution.prototype.toElem = function() {
     let substElement = document.createElement("div");
 
     let periodsElement = document.createElement("p");
-    periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.periods + "</div>";
+    periodsElement.innerHTML = "<img src=\"icons/book-clock.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.periods + "</div>";
     periodsElement.id = "periods";
     periodsElement.classList.add("subst-data")
     substElement.appendChild(periodsElement);
 
     let classesElement = document.createElement("p");
-    classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.classes.join(", ") + "</div>";
+    classesElement.innerHTML = "<img src=\"icons/account-multiple.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.classes.join(", ") + "</div>";
     classesElement.id = "classes";
     classesElement.classList.add("subst-data")
     substElement.appendChild(classesElement);
@@ -184,7 +184,7 @@ window.Substitution.prototype.toElem = function() {
         }
 
         let courseElement = document.createElement("p");
-        courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.course + course_change_html + teacher_note_html + "</div>";
+        courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.course + course_change_html + teacher_note_html + "</div>";
         courseElement.id = "course"
         courseElement.classList.add("subst-data")
         substElement.appendChild(courseElement);
@@ -193,7 +193,7 @@ window.Substitution.prototype.toElem = function() {
     // only draw room label if not cancelled
     if(this.room && this.type != "Entfall") {
         let roomElement = document.createElement("p");
-        roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.room + "</div>";
+        roomElement.innerHTML = "<img src=\"icons/map-marker.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.room + "</div>";
         roomElement.id = "room"
         roomElement.classList.add("subst-data")
         substElement.appendChild(roomElement);
@@ -209,7 +209,7 @@ window.Substitution.prototype.toElem = function() {
         }
 
         let teacherElement = document.createElement("p");
-        teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.teachers_raw + teacher_change_html + "</div>";
+        teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.teachers_raw + teacher_change_html + "</div>";
         teacherElement.id = "teacher"
         teacherElement.classList.add("subst-data")
         substElement.appendChild(teacherElement);
@@ -227,7 +227,7 @@ window.Substitution.prototype.toElem = function() {
             icon = "swap";
         }
         
-        typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"><div class=\"subst-data-val\">" + this.type + "</div>";
+        typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.type + "</div>";
         typeElement.id = "type"
         typeElement.classList.add("subst-data")
         substElement.appendChild(typeElement);

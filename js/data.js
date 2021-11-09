@@ -1,4 +1,4 @@
-window.Substitution = class  {
+window.Substitution = class {
     constructor(data_row) {
         this.periods     = data_row.data[0];
         this.begin       = parseInt(this.periods);
