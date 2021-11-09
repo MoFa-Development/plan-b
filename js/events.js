@@ -48,7 +48,7 @@ const EVENTS = [
  */
 window.handleInactivity = function() {
     
-    if(autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_INACTIVE) {
+    if(settings.autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_INACTIVE) {
         if(!document.body.classList.contains("inactive")) {
             document.body.classList.add("inactive");
         }
@@ -81,7 +81,7 @@ window.initEvents = function() {
  * handle next autoscroll animation frame
  */
 window.handleAutoscroll = function() {
-    if(autoscroll) {
+    if(settings.autoscroll) {
         document.querySelector("body").style.maxHeight = "100vh";
 
         let autoscrollElements = Array.from(document.getElementsByClassName("autoscroll"));

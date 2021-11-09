@@ -1,9 +1,22 @@
-window.autoscroll = false;
+/**
+ * globally reachable settings object  
+ */
+window.settings = {
+    currentDateOffset: 0,
+    selectedClass: "",
+    selectedTeacher: "",
+    is_teacher: false,
+    darkmode: false,
+    autoscroll: false
+};
+
 
 /**
  * default available accent colors
  */
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
+
+settings.autoscroll = false;
 
 /**
  * show settings menu
@@ -25,7 +38,7 @@ window.hideSettings = function() {
  * applies url parameters to cookies
  */
 window.applyUrlParameters = function() {
-    var urlParams = new URLSearchParams(window.location.search);
+    var urlParams = new URLSearchParams(location.search);
     
     for(var pair of urlParams.entries()) {
         setCookie(pair[0].toLowerCase(), pair[1].toLowerCase().split(";")[0], 9999);
@@ -41,9 +54,9 @@ window.loadSettings = function loadSettings() {
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
-        window.darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
+        settings.darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
     } else {
-        window.darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
+        settings.darkmode = matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
     }
 
     // apply darkmode setting
@@ -58,9 +71,9 @@ window.loadSettings = function loadSettings() {
 
     // get autoscroll preference from cookie
     if(getCookie("autoscroll")) {
-        window.autoscroll = getCookie("autoscroll") == "true";
+        settings.autoscroll = getCookie("autoscroll") == "true";
     } else {
-        window.autoscroll = false;
+        settings.autoscroll = false;
     }
 
     // apply autoscroll setting
@@ -103,7 +116,7 @@ window.loadSettings = function loadSettings() {
 
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
-        window.is_teacher = getCookie("is_teacher") == "true"    
+        settings.is_teacher = getCookie("is_teacher") == "true"    
     }
 
     if(is_teacher) {
@@ -121,12 +134,12 @@ window.loadSettings = function loadSettings() {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setIsTeacher = function(obj) {
-    window.is_teacher = obj.checked;
+    settings.is_teacher = obj.checked;
 
     if(is_teacher) {
-        window.selectedClass = "";
+        settings.selectedClass = "";
     } else {
-        window.selectedTeacher = "";
+        settings.selectedTeacher = "";
     }
 
     if(is_teacher) {
@@ -146,7 +159,7 @@ window.setIsTeacher = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setDarkmode = function(obj) {
-    window.darkmode = obj.checked;
+    settings.darkmode = obj.checked;
 
     setCookie("darkmode", darkmode, 9999);
 
@@ -163,11 +176,11 @@ window.setDarkmode = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setAutoscroll = function(obj) {
-    window.autoscroll = obj.checked;
+    settings.autoscroll = obj.checked;
 
     setCookie("autoscroll", autoscroll, 9999);
 
-    if(autoscroll) {
+    if(settings.autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "smaller";
@@ -204,23 +217,23 @@ window.colorClick = function(obj) {
  * @param {HTMLElement} _selectedElement selectedElement HTMLElement
  * @param {*} data API data of the current day
  */
-window.Day.prototype.setSelectedElement = function(_selectedElement) {
+window.Day.setSelectedElement = function(_selectedElement) {
     if(is_teacher) {
-        window.selectedClass = "";
+        settings.selectedClass = "";
         
         if (selectedTeacher == _selectedElement) {
-            window.selectedTeacher = "";
+            settings.selectedTeacher = "";
         } else {
-            window.selectedTeacher = _selectedElement;
+            settings.selectedTeacher = _selectedElement;
         }
 
     } else {
-        window.selectedTeacher = "";
+        settings.selectedTeacher = "";
 
         if (selectedClass == _selectedElement) {
-            window.selectedClass = "";
+            settings.selectedClass = "";
         } else {
-            window.selectedClass = _selectedElement;
+            settings.selectedClass = _selectedElement;
         }
     }
 
