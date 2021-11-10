@@ -2,7 +2,7 @@ window.Substitution = class {
     constructor(data_row) {
         this.periods     = data_row.data[0];
         this.begin       = parseInt(this.periods);
-        this.course_long = data_row.data[2]; // FACH_KLASSE_LEHRER
+        this.course_long = data_row.data[2];
         
         if(this.course_long) {
             let course_long_split = this.course_long.split("_");
@@ -12,8 +12,9 @@ window.Substitution = class {
                 this.class_check = course_long_split[1];
                 this.teacher_check = course_long_split[2];
                 
-                //TODO **DIRTY** workaround for SPL1_12_1 <- Why the 1 though? Schötti / GTW was soll das?!
-                if(parseInt(this.teacher_check).toString() == this.teacher_check) {
+                // Only set teacher_check if a teacher is specified in course_long
+                // example: SPL1_12_1
+                if(!/^([A-Z]*)$/.test(this.teacher_check)) {
                     this.teacher_check = ""; 
                 }
             }
@@ -190,23 +191,6 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
 }
 
 /**
- * sort data dynamically based on is_teacher
- * @param data
- */
- window.sortData = function(data) {
-
-    let _data = Object.assign({}, data);
-    
-    if(settings.is_teacher) {
-        
-    } else {
-        
-    }
-
-    return _data;
-};
-
-/**
  * @param data
  * @return new version of data with combined substitutions
  */
@@ -224,7 +208,6 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
 window.getData = async function(dateOffset = settings.currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
     console.debug("got data: ", data);
-    data = sortData(data);
     data = combineSplitSubsts(data);
     return data;
 }

@@ -308,6 +308,9 @@ window.Day.prototype.draw = function() {
         let next_day_btn = document.getElementById("btn-next-day");
         let prev_day_btn = document.getElementById("btn-prev-day");
 
+        next_day_btn.onclick = window.nextDay;
+        prev_day_btn.onclick = window.prevDay;
+
         if(this.nextDate == 0) {
             next_day_btn.disabled = true;
             next_day_btn.style.visibility = "hidden";

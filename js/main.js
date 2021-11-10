@@ -7,5 +7,4 @@ import './events.js';
 
 'use strict';
 
-
 initEvents();
