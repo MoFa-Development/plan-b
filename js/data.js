@@ -142,7 +142,7 @@ window.Day = class {
     }
 
     get substitutions() {
-        if(is_teacher) {
+        if(settings.is_teacher) {
             return this.teacher_substitutions;
         } else {
             return this.student_substitutions;
@@ -177,7 +177,7 @@ class CacheEntry {
  * @param {int} dateOffset 
  * @returns day object of specified date offset
  */
-window.getCachedDay = async function(dateOffset = currentDateOffset) {
+window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
     if(!dataCache[dateOffset] || dataCache[dateOffset].timestamp < new Date().getTime()-REFRESH_CACHE_MILL) {
         
         await getData(dateOffset).then(data => {
@@ -197,7 +197,7 @@ window.getCachedDay = async function(dateOffset = currentDateOffset) {
 
     let _data = Object.assign({}, data);
     
-    if(is_teacher) {
+    if(settings.is_teacher) {
         
     } else {
         
@@ -221,7 +221,7 @@ window.getCachedDay = async function(dateOffset = currentDateOffset) {
 /**
  * get API data through proxy, parse json, return parsed object
  */
-window.getData = async function(dateOffset = currentDateOffset) {
+window.getData = async function(dateOffset = settings.currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
     console.debug("got data: ", data);
     data = sortData(data);

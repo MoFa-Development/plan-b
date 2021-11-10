@@ -94,7 +94,7 @@ window.Day.prototype.drawAffectedElements = function() {
     let affectedElements;
     
     // dynamically get affected teachers / classes based on is_teacher
-    if (is_teacher) {
+    if (settings.is_teacher) {
         affectedElements = this.affectedTeachers;
     } else {
         affectedElements = this.affectedClasses;
@@ -108,7 +108,7 @@ window.Day.prototype.drawAffectedElements = function() {
         affectedElementObj.innerText = affectedElement;
         affectedElementObj.classList.add("affected-element");
         
-        if (affectedElement == selectedTeacher || affectedElement == selectedClass) {
+        if (affectedElement == settings.selectedTeacher || affectedElement == settings.selectedClass) {
             affectedElementObj.classList.add("selected");
         }
 
@@ -121,7 +121,7 @@ window.Day.prototype.drawAffectedElements = function() {
         
             let element;
             for(element of affectedElementsBarObj.children) {
-                if(element.innerText == selectedClass || element.innerText == selectedTeacher) {
+                if(element.innerText == settings.selectedClass || element.innerText == settings.selectedTeacher) {
                     element.classList.add("selected");
                 } else {
                     element.classList.remove("selected");
@@ -143,16 +143,16 @@ window.Substitution.prototype.toElem = function() {
     if(this.group != this.classes[0]) // do not draw duplicate substitution more than once
         return null;
 
-    if(selectedClass && !this.classes.includes(selectedClass)) // only draw filtered for class
+    if(settings.selectedClass && !this.classes.includes(settings.selectedClass)) // only draw filtered for class
         return null;
 
-    if(selectedTeacher && !this.teachers_raw.includes(selectedTeacher)) // only draw filtered for teacher 
+    if(settings.selectedTeacher && !this.teachers_raw.includes(settings.selectedTeacher)) // only draw filtered for teacher 
         return null;
 
-    if(is_teacher && this.type == "Entfall") // if teacher, do not draw cancelled classes
+    if(settings.is_teacher && this.type == "Entfall") // if teacher, do not draw cancelled classes
         return null;
 
-    if(is_teacher && selectedTeacher && this.teachers_raw.includes("<span class=\"cancelStyle\">"+selectedTeacher+"</span>")) // do not inform the teacher who is being substituted
+    if(settings.is_teacher && settings.selectedTeacher && this.teachers_raw.includes("<span class=\"cancelStyle\">"+settings.selectedTeacher+"</span>")) // do not inform the teacher who is being substituted
         return null;
 
     //#endregion EXIT STATEMENTS
@@ -200,7 +200,7 @@ window.Substitution.prototype.toElem = function() {
     }
 
     // only draw teacher label if type is not cancelled or room change
-    if(this.teachers_raw && is_teacher || this.teachers_raw && this.type != "Entfall" && this.type != "Raum&auml;nderung") {
+    if(this.teachers_raw && settings.is_teacher || this.teachers_raw && this.type != "Entfall" && this.type != "Raum&auml;nderung") {
         
         var teacher_change_html = "";
 
@@ -267,21 +267,21 @@ window.Day.prototype.drawSubstitutions = function() {
 
         substitutionsElement.appendChild(noSubstMessage);
 
-    } else if (!is_teacher && selectedClass != "" && !this.affectedClasses.includes(selectedClass)) {
+    } else if (!settings.is_teacher && settings.selectedClass != "" && !this.affectedClasses.includes(settings.selectedClass)) {
 
         // selected class is not affected
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
-        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für die " + selectedClass;
+        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für die " + settings.selectedClass;
 
         substitutionsElement.appendChild(noSubstMessage);
 
-    } else if (is_teacher && selectedTeacher != "" && !this.affectedTeachers.includes(selectedTeacher)) {
+    } else if (settings.is_teacher && settings.selectedTeacher != "" && !this.affectedTeachers.includes(settings.selectedTeacher)) {
         
         // selected teacher is not affected
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
-        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für Sie (" + selectedTeacher + ")";
+        noSubstMessage.innerHTML = "<img src=\"icons/cancelled.svg\" class=\"icon\">Keine Vertretungen für Sie (" + settings.selectedTeacher + ")";
 
         substitutionsElement.appendChild(noSubstMessage);
 
@@ -357,12 +357,12 @@ window.draw = function() {
     let loadingElement = document.getElementById("loading");
     loadingElement.style.visibility = "visible";
     
-    getCachedDay(currentDateOffset).then((day) => {
+    getCachedDay(settings.currentDateOffset).then((day) => {
         day.draw();
     })
 
     loadingElement.style.visibility = "hidden";
 
-    getCachedDay(currentDateOffset+1);
-    getCachedDay(currentDateOffset-1);
+    getCachedDay(settings.currentDateOffset+1);
+    getCachedDay(settings.currentDateOffset-1);
 }

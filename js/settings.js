@@ -10,7 +10,6 @@ window.settings = {
     autoscroll: false
 };
 
-
 /**
  * default available accent colors
  */
@@ -60,13 +59,13 @@ window.loadSettings = function loadSettings() {
     }
 
     // apply darkmode setting
-    if(darkmode) {
+    if(settings.darkmode) {
         document.querySelector('body').classList.add("dark"); // darkmode on
     } else {
         document.querySelector('body').classList.remove("dark"); // darkmode off
     }
 
-    document.getElementById("dark-mode-switch").checked = darkmode; // set dark mode switch in settings menu
+    document.getElementById("dark-mode-switch").checked = settings.darkmode; // set dark mode switch in settings menu
 
 
     // get autoscroll preference from cookie
@@ -77,17 +76,17 @@ window.loadSettings = function loadSettings() {
     }
 
     // apply autoscroll setting
-    if(autoscroll) {
+    if(settings.autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
-        document.body.style.fontSize = "smaller";
+        document.body.style.fontSize = "90%";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll");
         document.body.style.setProperty("--side-margin", "20%");
-        document.body.style.fontSize = "medium";
+        document.body.style.fontSize = "100%";
     }
 
-    document.getElementById("autoscroll-switch").checked = autoscroll;
+    document.getElementById("autoscroll-switch").checked = settings.autoscroll;
 
 
     // add accent color selects to settings menu
@@ -119,13 +118,13 @@ window.loadSettings = function loadSettings() {
         settings.is_teacher = getCookie("is_teacher") == "true"    
     }
 
-    if(is_teacher) {
+    if(settings.is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");
     }
 
-    document.getElementById("is-teacher").checked = is_teacher; // set teacher mode switch in settings menu
+    document.getElementById("is-teacher").checked = settings.is_teacher; // set teacher mode switch in settings menu
 }
 
 /**
@@ -136,19 +135,19 @@ window.loadSettings = function loadSettings() {
 window.setIsTeacher = function(obj) {
     settings.is_teacher = obj.checked;
 
-    if(is_teacher) {
+    if(settings.is_teacher) {
         settings.selectedClass = "";
     } else {
         settings.selectedTeacher = "";
     }
 
-    if(is_teacher) {
+    if(settings.is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");
     }
 
-    setCookie("is_teacher", is_teacher, 9999);
+    setCookie("is_teacher", settings.is_teacher, 9999);
     draw();
 }
 
@@ -161,9 +160,9 @@ window.setIsTeacher = function(obj) {
 window.setDarkmode = function(obj) {
     settings.darkmode = obj.checked;
 
-    setCookie("darkmode", darkmode, 9999);
+    setCookie("darkmode", settings.darkmode, 9999);
 
-    if(darkmode) {
+    if(settings.darkmode) {
         document.querySelector('body').classList.add("dark");
     } else {
         document.querySelector('body').classList.remove("dark");
@@ -178,7 +177,7 @@ window.setDarkmode = function(obj) {
 window.setAutoscroll = function(obj) {
     settings.autoscroll = obj.checked;
 
-    setCookie("autoscroll", autoscroll, 9999);
+    setCookie("autoscroll", settings.autoscroll, 9999);
 
     if(settings.autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
@@ -218,10 +217,10 @@ window.colorClick = function(obj) {
  * @param {*} data API data of the current day
  */
 window.Day.prototype.setSelectedElement = function(elem) {
-    if(is_teacher) {
+    if(settings.is_teacher) {
         settings.selectedClass = "";
         
-        if (selectedTeacher == elem) {
+        if (settings.selectedTeacher == elem) {
             settings.selectedTeacher = "";
         } else {
             settings.selectedTeacher = elem;
@@ -230,7 +229,7 @@ window.Day.prototype.setSelectedElement = function(elem) {
     } else {
         settings.selectedTeacher = "";
 
-        if (selectedClass == elem) {
+        if (settings.selectedClass == elem) {
             settings.selectedClass = "";
         } else {
             settings.selectedClass = elem;
