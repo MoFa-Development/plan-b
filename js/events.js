@@ -126,7 +126,7 @@ window.handleAutoscroll = function() {
  * handle onclick on next day button
  */ 
 window.nextDay = function() {
-    window.currentDateOffset++;
+    settings.currentDateOffset++;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
@@ -136,7 +136,7 @@ window.nextDay = function() {
  * handle onclick on previous day button
  */
 window.prevDay = function() {
-    window.currentDateOffset--;
+    settings.currentDateOffset--;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";

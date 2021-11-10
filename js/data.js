@@ -190,7 +190,7 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
 }
 
 /**
- * sort data dynamically based on `window.is_teacher`
+ * sort data dynamically based on is_teacher
  * @param data
  */
  window.sortData = function(data) {
