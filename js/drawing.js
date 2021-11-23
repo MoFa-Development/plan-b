@@ -10,9 +10,9 @@ const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
 window.handleAffectedElementsOverflow = function() {
     let element = document.getElementById("affected-elements");
 
-    let scroll = element.scrollLeft;
-    let scroll_max = element.scrollWidth - element.clientWidth;
     let element_width = element.clientWidth;
+    let scroll = element.scrollLeft;
+    let scroll_max = element.scrollWidth - element_width;
 
     if(scroll_max == 0) {
         element.style.justifyContent = "center";
