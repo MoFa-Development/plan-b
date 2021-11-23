@@ -286,12 +286,34 @@ window.Day.prototype.drawSubstitutions = function() {
         substitutionsElement.appendChild(noSubstMessage);
 
     } else {
+        let collectionElement = document.createElement("div");
+        let lastAffected = "";
+        let variation = false;
+
         //draw substitutions
         this.substitutions.forEach(subst => {
             let substElement = subst.toElem();
             
             if(substElement) {
-                substitutions.appendChild(substElement);
+                if(variation) {
+                    substElement.classList.add("variation");
+                }
+
+                if((!settings.is_teacher && lastAffected != subst.classes_raw) || (settings.is_teacher && lastAffected != subst.teachers[0])) {
+                    substitutions.appendChild(collectionElement);
+                    collectionElement = document.createElement("div");
+                    collectionElement.classList.add("subst-collection");
+                }
+                
+                collectionElement.appendChild(substElement);
+
+                variation = !variation;
+            }
+
+            if(settings.is_teacher) {
+                lastAffected = subst.teachers[0];
+            } else {
+                lastAffected = subst.classes_raw;
             }
         });
     }

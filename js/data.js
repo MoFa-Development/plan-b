@@ -40,6 +40,8 @@ window.Substitution = class {
             }
         });
 
+        this.classes_raw = data_row.data[1];
+
         this.classes = data_row.data[1].split(", ");
         this.classes = this.classes.sort(); // standard javascript sort -> should pre-sort letters
         this.classes = this.classes.sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''))); // sort by actual year
