@@ -122,6 +122,7 @@ window.Day = class {
         });
 
         //#region sort substitutions for teachers
+        
         // sort by substitution begin 
         this.teacher_substitutions.sort((a, b) => a.begin - b.begin);
 
@@ -129,9 +130,11 @@ window.Day = class {
         // this means the substituting teacher is relevant for sorting, not the substituted
         // if there's only one teacher, we don't have a problem in the first place
         this.teacher_substitutions.sort((a, b) => a.teachers[0].toUpperCase() > b.teachers[0].toUpperCase());
+        
         //#endregion
 
         //#region sort substitutions for students
+        
         // sort by subject
         this.student_substitutions.sort((a, b) => a.course.toUpperCase() > b.course.toUpperCase());
         
@@ -141,7 +144,10 @@ window.Day = class {
         // sort by first affected class
         this.student_substitutions.sort((a, b) => a.classes[0].toUpperCase() > b.classes[0].toUpperCase());
         this.student_substitutions.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
+        
         //#endregion
+    
+        this.substitutions = combineSplitSubsts(this.substitutions);
     }
 
     get substitutions() {
@@ -196,12 +202,12 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
  * @param data
  * @return new version of data with combined substitutions
  */
- window.combineSplitSubsts = function(data) {
-    let _data = Object.assign({}, data);
+ window.combineSplitSubsts = function(substitutions) {
+    let _substitutions = Object.assign({}, data);
 
     // TODO -> issue #9
 
-    return _data;
+    return _substitutions;
 }
 
 /**
@@ -210,6 +216,5 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
 window.getData = async function(dateOffset = settings.currentDateOffset) {
     let data = await fetch("php/getData.php?dateOffset="+dateOffset).then(response => response.json());
     console.debug("got data: ", data);
-    data = combineSplitSubsts(data);
     return data;
 }
