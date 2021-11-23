@@ -147,7 +147,8 @@ window.Day = class {
         
         //#endregion
     
-        this.substitutions = combineSplitSubsts(this.substitutions);
+        combineSplitSubsts(this.teacher_substitutions);
+        combineSplitSubsts(this.student_substitutions);
     }
 
     get substitutions() {
@@ -203,10 +204,8 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
  * @return new version of data with combined substitutions
  */
  window.combineSplitSubsts = function(substitutions) {
-    let _substitutions = Object.assign({}, data);
-
-    _substitutions.forEach(subst => {
-        let alike_substs = _substitutions.filter(s => (
+    substitutions.forEach(subst => {
+        let alike_substs = substitutions.filter(s => (
             s.course_long == subst.course_long &&
             s.classes_raw == subst.classes_raw &&
             s.teachers_raw == subst.teachers_raw &&
@@ -219,8 +218,6 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
             // TODO -> issue #9
         }
     });
-
-    return _substitutions;
 }
 
 /**
