@@ -205,7 +205,20 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
  window.combineSplitSubsts = function(substitutions) {
     let _substitutions = Object.assign({}, data);
 
-    // TODO -> issue #9
+    _substitutions.forEach(subst => {
+        let alike_substs = _substitutions.filter(s => (
+            s.course_long == subst.course_long &&
+            s.classes_raw == subst.classes_raw &&
+            s.teachers_raw == subst.teachers_raw &&
+            s.room == subst.room &&
+            s.type == subst.type &&
+            s.message == subst.message
+        ));
+
+        if(alike_substs.length > 1) {
+            // TODO -> issue #9
+        }
+    });
 
     return _substitutions;
 }
