@@ -135,7 +135,6 @@ window.Day.prototype.drawAffectedElements = function() {
     affectedElementsBarObj.onscroll = handleAffectedElementsOverflow;
 }
 
-
 window.Substitution.prototype.toElem = function() {
     
     //#region EXIT STATEMENTS
@@ -299,12 +298,13 @@ window.Day.prototype.drawSubstitutions = function() {
                     substElement.classList.add("variation");
                 }
 
+                console.debug("lastAffected: ", lastAffected);
                 if((!settings.is_teacher && lastAffected != subst.classes_raw) || (settings.is_teacher && lastAffected != subst.teachers[0])) {
                     substitutions.appendChild(collectionElement);
                     collectionElement = document.createElement("div");
                     collectionElement.classList.add("subst-collection");
                 }
-                
+
                 collectionElement.appendChild(substElement);
 
                 variation = !variation;
@@ -316,6 +316,9 @@ window.Day.prototype.drawSubstitutions = function() {
                 lastAffected = subst.classes_raw;
             }
         });
+
+        // workaround for #21
+        substitutions.appendChild(collectionElement);
     }
 }
 

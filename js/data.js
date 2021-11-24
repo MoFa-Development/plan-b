@@ -23,7 +23,7 @@ window.Substitution = class {
         this.course       = data_row.data[3];
         this.room         = data_row.data[4];
         this.teachers_raw = data_row.data[5];
-        this.type   = data_row.data[6];
+        this.type         = data_row.data[6];
         this.message      = data_row.data[7];
         
         this.cssClasses   = data_row.cssClasses;
