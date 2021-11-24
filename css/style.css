@@ -646,6 +646,16 @@ input:checked + .slider:before {
     grid-row: 1;
 }
 
+#substitutions.teacher .subst-element > #teacher {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#substitutions.teacher .subst-element > #classes {
+    grid-column: 2;
+    grid-row: 2;
+}
+
 .substmonitorSubstElem {
     text-decoration: underline;
 }
