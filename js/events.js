@@ -1,6 +1,3 @@
-import "./data.js"
-import './gimmicks.js'
-
 const autoscrollFPS = 25;
 const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 window.autoscrollPixelPerFrame = 1;
@@ -51,7 +48,7 @@ const EVENTS = [
  */
 window.handleInactivity = function() {
     
-    if(autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_INACTIVE) {
+    if(settings.autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_INACTIVE) {
         if(!document.body.classList.contains("inactive")) {
             document.body.classList.add("inactive");
         }
@@ -84,7 +81,7 @@ window.initEvents = function() {
  * handle next autoscroll animation frame
  */
 window.handleAutoscroll = function() {
-    if(autoscroll) {
+    if(settings.autoscroll) {
         document.querySelector("body").style.maxHeight = "100vh";
 
         let autoscrollElements = Array.from(document.getElementsByClassName("autoscroll"));
@@ -129,7 +126,7 @@ window.handleAutoscroll = function() {
  * handle onclick on next day button
  */ 
 window.nextDay = function() {
-    window.currentDateOffset++;
+    settings.currentDateOffset++;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
@@ -139,7 +136,7 @@ window.nextDay = function() {
  * handle onclick on previous day button
  */
 window.prevDay = function() {
-    window.currentDateOffset--;
+    settings.currentDateOffset--;
     draw();
     reset_animation("title-day");
     document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";

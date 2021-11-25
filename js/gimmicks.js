@@ -3,7 +3,7 @@
  * load and add gimmicks with corresponding handler functions
  */
 window.initGimmicks = async function() {
-    if(!autoscroll)
+    if(!settings.autoscroll)
         return;
 
     var gimmicks = await getGimmicksData();

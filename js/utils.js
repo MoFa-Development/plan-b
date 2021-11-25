@@ -80,13 +80,12 @@ window.shadeColor = function(color, percent) {
 
 /**
  * Reset animation of given element found by id
- * 
  * @param {String} id Element id
  */
 window.reset_animation = function(id) {
   var el = document.getElementById(id);
   el.style.animation = 'none';
-  el.offsetHeight;
+  el.offsetHeight; //trigger reflow
   el.style.animation = null; 
 }
 

@@ -1,9 +1,21 @@
-window.autoscroll = false;
+/**
+ * globally reachable settings object  
+ */
+window.settings = {
+    currentDateOffset: 0,
+    selectedClass: "",
+    selectedTeacher: "",
+    is_teacher: false,
+    darkmode: false,
+    autoscroll: false
+};
 
 /**
  * default available accent colors
  */
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
+
+settings.autoscroll = false;
 
 /**
  * show settings menu
@@ -25,7 +37,7 @@ window.hideSettings = function() {
  * applies url parameters to cookies
  */
 window.applyUrlParameters = function() {
-    var urlParams = new URLSearchParams(window.location.search);
+    var urlParams = new URLSearchParams(location.search);
     
     for(var pair of urlParams.entries()) {
         setCookie(pair[0].toLowerCase(), pair[1].toLowerCase().split(";")[0], 9999);
@@ -41,36 +53,40 @@ window.loadSettings = function loadSettings() {
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
-        window.darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
+        settings.darkmode = getCookie("darkmode") == "true"; // get darkmode preference from cookie
     } else {
-        window.darkmode = window.matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
+        settings.darkmode = matchMedia("screen and (prefers-color-scheme: dark)").matches; // get darkmode preference from browser
     }
 
     // apply darkmode setting
-    if(darkmode) {
+    if(settings.darkmode) {
         document.querySelector('body').classList.add("dark"); // darkmode on
     } else {
         document.querySelector('body').classList.remove("dark"); // darkmode off
     }
 
-    document.getElementById("dark-mode-switch").checked = darkmode; // set dark mode switch in settings menu
+    document.getElementById("dark-mode-switch").checked = settings.darkmode; // set dark mode switch in settings menu
 
 
     // get autoscroll preference from cookie
     if(getCookie("autoscroll")) {
-        window.autoscroll = getCookie("autoscroll") == "true";
+        settings.autoscroll = getCookie("autoscroll") == "true";
     } else {
-        window.autoscroll = false;
+        settings.autoscroll = false;
     }
 
     // apply autoscroll setting
-    if(autoscroll) {
-        document.getElementById("substitutions").classList.add("autoscroll"); // autoscroll on
+    if(settings.autoscroll) {
+        document.getElementById("substitutions").classList.add("autoscroll");
+        document.body.style.setProperty("--side-margin", "10%");
+        document.body.style.fontSize = "90%";
     } else {
-        document.getElementById("substitutions").classList.remove("autoscroll"); // autoscroll off
+        document.getElementById("substitutions").classList.remove("autoscroll");
+        document.body.style.setProperty("--side-margin", "20%");
+        document.body.style.fontSize = "100%";
     }
 
-    document.getElementById("autoscroll-switch").checked = autoscroll;
+    document.getElementById("autoscroll-switch").checked = settings.autoscroll;
 
 
     // add accent color selects to settings menu
@@ -99,16 +115,16 @@ window.loadSettings = function loadSettings() {
 
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
-        window.is_teacher = getCookie("is_teacher") == "true"    
+        settings.is_teacher = getCookie("is_teacher") == "true"    
     }
 
-    if(is_teacher) {
+    if(settings.is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");
     }
 
-    document.getElementById("is-teacher").checked = is_teacher; // set teacher mode switch in settings menu
+    document.getElementById("is-teacher").checked = settings.is_teacher; // set teacher mode switch in settings menu
 }
 
 /**
@@ -117,21 +133,21 @@ window.loadSettings = function loadSettings() {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setIsTeacher = function(obj) {
-    window.is_teacher = obj.checked;
+    settings.is_teacher = obj.checked;
 
-    if(is_teacher) {
-        window.selectedClass = "";
+    if(settings.is_teacher) {
+        settings.selectedClass = "";
     } else {
-        window.selectedTeacher = "";
+        settings.selectedTeacher = "";
     }
 
-    if(is_teacher) {
+    if(settings.is_teacher) {
         document.getElementById("substitutions").classList.add("teacher");
     } else {
         document.getElementById("substitutions").classList.remove("teacher");
     }
 
-    setCookie("is_teacher", is_teacher, 9999);
+    setCookie("is_teacher", settings.is_teacher, 9999);
     draw();
 }
 
@@ -142,11 +158,11 @@ window.setIsTeacher = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setDarkmode = function(obj) {
-    window.darkmode = obj.checked;
+    settings.darkmode = obj.checked;
 
-    setCookie("darkmode", darkmode, 9999);
+    setCookie("darkmode", settings.darkmode, 9999);
 
-    if(darkmode) {
+    if(settings.darkmode) {
         document.querySelector('body').classList.add("dark");
     } else {
         document.querySelector('body').classList.remove("dark");
@@ -159,14 +175,18 @@ window.setDarkmode = function(obj) {
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.setAutoscroll = function(obj) {
-    window.autoscroll = obj.checked;
+    settings.autoscroll = obj.checked;
 
-    setCookie("autoscroll", autoscroll, 9999);
+    setCookie("autoscroll", settings.autoscroll, 9999);
 
-    if(autoscroll) {
+    if(settings.autoscroll) {
         document.getElementById("substitutions").classList.add("autoscroll");
+        document.body.style.setProperty("--side-margin", "10%");
+        document.body.style.fontSize = "90%";
     } else {
         document.getElementById("substitutions").classList.remove("autoscroll");
+        document.body.style.setProperty("--side-margin", "20%");
+        document.body.style.fontSize = "100%";
     }
 }
 
@@ -184,8 +204,8 @@ window.colorClick = function(obj) {
     let accent_color = rgb2hex(obj.style.backgroundColor);
     let accent_dark = shadeColor(accent_color, -20); 
 
-    document.querySelector('body').style.setProperty('--accent', accent_color);
-    document.querySelector('body').style.setProperty('--accent-dark', accent_dark);
+    document.body.style.setProperty('--accent', accent_color);
+    document.body.style.setProperty('--accent-dark', accent_dark);
     
     setCookie("accent_color", accent_color, 9999);
 }
@@ -193,28 +213,28 @@ window.colorClick = function(obj) {
 /**
  * set or unset selected teacher / class
  * 
- * @param {HTMLElement} _selectedElement selectedElement HTMLElement
+ * @param {HTMLElement} elem selectedElement HTMLElement
  * @param {*} data API data of the current day
  */
-window.setSelectedElement = function(_selectedElement, data) {
-    if(is_teacher) {
-        window.selectedClass = "";
+window.Day.prototype.setSelectedElement = function(elem) {
+    if(settings.is_teacher) {
+        settings.selectedClass = "";
         
-        if (selectedTeacher == _selectedElement) {
-            window.selectedTeacher = "";
+        if (settings.selectedTeacher == elem) {
+            settings.selectedTeacher = "";
         } else {
-            window.selectedTeacher = _selectedElement;
+            settings.selectedTeacher = elem;
         }
 
     } else {
-        window.selectedTeacher = "";
+        settings.selectedTeacher = "";
 
-        if (selectedClass == _selectedElement) {
-            window.selectedClass = "";
+        if (settings.selectedClass == elem) {
+            settings.selectedClass = "";
         } else {
-            window.selectedClass = _selectedElement;
+            settings.selectedClass = elem;
         }
     }
 
-    drawSubstitutions(data);
+    this.drawSubstitutions();
 }
