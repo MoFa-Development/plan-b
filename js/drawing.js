@@ -382,7 +382,7 @@ window.Day.prototype.draw = function() {
  */
 window.draw = function() {
 
-    let loadingElement = document.getElementById("loading");
+    let loadingElement = $("#loading")[0];
     loadingElement.style.visibility = "visible";
     
     getCachedDay(settings.currentDateOffset).then((day) => {

@@ -75,11 +75,6 @@ button {
     transition: left .5s;
 }
 
-#loading {
-    text-align: center;
-    width: 100%;
-}
-
 .no-subst-msg {
     text-align: center;
 
