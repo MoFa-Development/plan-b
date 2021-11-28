@@ -1,4 +1,4 @@
-# Substitution Table
+# Plan B
 
 A minimalist substitution table for WebUntis
 
