@@ -528,7 +528,7 @@ input:checked + .slider:before {
     border-radius: var(--round-radius);
     margin-bottom: 1em;
 
-    box-shadow: .1em .2em .3em #111;
+    box-shadow: .1em .2em .3em var(--shadow);
 }
 
 .subst-collection .subst-element:last-child {
