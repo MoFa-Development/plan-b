@@ -8,7 +8,8 @@ body {
     --accent: #00897b;
     --accent-dark: #006d62;
 
-    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow: rgba(0, 0, 0, 0.2);
+    --standard-box-shadow: .1em .2em .2em var(--shadow);
 
     --round-radius: .7em;
     
@@ -113,6 +114,8 @@ button {
     overflow-x: auto;
     overflow-y: hidden;
     /*white-space: nowrap;*/  
+
+    box-shadow: var(--standard-box-shadow);
 
     transition: margin .5s, box-shadow .5s;
 }
@@ -528,7 +531,7 @@ input:checked + .slider:before {
     border-radius: var(--round-radius);
     margin-bottom: 1em;
 
-    box-shadow: .1em .2em .3em var(--shadow);
+    box-shadow: var(--standard-box-shadow);
 }
 
 .subst-collection .subst-element:last-child {
