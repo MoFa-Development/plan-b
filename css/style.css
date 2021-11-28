@@ -559,6 +559,8 @@ input:checked + .slider:before {
 
 #substitutions.autoscroll {
     padding-right: .3em;
+    overflow-y: hidden;
+    flex: 1;
 }
 
 .subst-icon {
@@ -786,12 +788,6 @@ body.dark a:hover {
         height: 7em;
     }
 }
-
-#substitutions.autoscroll {
-    overflow-y: hidden;
-    flex: 1;
-}
-
 
 /* Works on Firefox */
 * {
