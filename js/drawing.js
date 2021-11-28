@@ -298,7 +298,6 @@ window.Day.prototype.drawSubstitutions = function() {
                     substElement.classList.add("variation");
                 }
 
-                console.debug("lastAffected: ", lastAffected);
                 if((!settings.is_teacher && lastAffected != subst.classes_raw) || (settings.is_teacher && lastAffected != subst.teachers[0])) {
                     substitutions.appendChild(collectionElement);
                     collectionElement = document.createElement("div");
