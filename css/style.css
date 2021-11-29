@@ -1,15 +1,15 @@
 body {
-    --background: #ecf0f1;
-    --background-secondary: #d4d8db;
-    --background-lighter-secondary: #dee0e2;
-    --background-tertiary: #b6bbbe;
+    --background: #e0e0e0;
+    --background-secondary: #cecece;
+    --background-lighter-secondary: #d4d4d4;
+    --background-tertiary: #b6b6b6;
     --text-color-primary: #1c2024;
-    --text-color-canceled: #788286;
+    --text-color-canceled: #6b807b;
     --accent: #00897b;
     --accent-dark: #006d62;
 
     --shadow: rgba(0, 0, 0, 0.2);
-    --standard-box-shadow: .1em .2em .2em var(--shadow);
+    --standard-box-shadow: .1em .2em .5em var(--shadow);
 
     --round-radius: .7em;
     
@@ -462,6 +462,8 @@ input:checked + .slider:before {
     margin: 0;
     height: 2.5em;
 
+    box-shadow: var(--standard-box-shadow);
+
     z-index: 1;
 }
 
@@ -561,7 +563,8 @@ input:checked + .slider:before {
 }
 
 #substitutions.autoscroll {
-    padding-right: .3em;
+    padding-right: .5em;
+    margin-right: calc(var(--side-margin) - .5em);
     overflow-y: hidden;
     flex: 1;
 }
@@ -609,11 +612,11 @@ input:checked + .slider:before {
     column-gap: 1em;
     padding-left: 1em;
     padding-right: 1em;
-    grid-template-columns: 10fr 8fr 12fr 12fr 12fr 10fr 14fr;
+    grid-template-columns: 10fr 6fr 8fr 12fr 8fr 10fr 14fr;
 }
 
 #substitutions.autoscroll.teacher .subst-element {
-    grid-template-columns: 10fr 8fr 12fr 12fr 12fr 8fr 14fr;
+    grid-template-columns: 10fr 8fr 10fr 12fr 12fr 8fr 14fr;
 }
 
 #substitutions.autoscroll .subst-element > #classes {
