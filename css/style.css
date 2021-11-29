@@ -283,6 +283,7 @@ input:checked + .slider:before {
     bottom: 1em;
 
     background-color: var(--accent);
+    box-shadow: var(--standard-box-shadow);
 
     width: 3.5em;
     height: 3.5em;
@@ -302,6 +303,10 @@ input:checked + .slider:before {
 
 #settings-btn:hover {
     transform: scale(1.1);
+}
+
+#settings-btn:hover:active {
+    transform: scale(1.05);
 }
 
 #settings-btn:active {
@@ -470,7 +475,7 @@ input:checked + .slider:before {
     width: auto;
 }
 
-#btn-prev-day {
+.navbar-btn {
     height: 100%;
     cursor: pointer;
     outline-width: 3px;
@@ -480,24 +485,17 @@ input:checked + .slider:before {
     transition: all 0.2s;
 }
 
-#btn-prev-day:active {
-    outline-color: var(--background-tertiary);
-    background-color: var(--background);
+.navbar-btn:active {
+    background-color: var(--background-tertiary);
 }
 
-#btn-next-day {
-    height: 100%;
-    cursor: pointer;
-    outline-width: 3px;
-    outline-offset: -3px;
-    outline-style: solid;
-    outline-color: transparent;
-    transition: all 0.2s;
+.navbar-btn:not(:active) {
+    animation: navbar-btn-out 0.4s;
 }
 
-#btn-next-day:active {
-    outline-color: var(--background-tertiary);
-    background-color: var(--background);
+@keyframes navbar-btn-out {
+    from {outline-color: var(--background-tertiary);}
+    to {outline-color: transparent;}
 }
 
 #title-box {
