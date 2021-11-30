@@ -1,14 +1,15 @@
 body {
-    --background: #ecf0f1;
-    --background-secondary: #d4d8db;
-    --background-lighter-secondary: #dee0e2;
-    --background-tertiary: #b6bbbe;
+    --background: #e0e0e0;
+    --background-secondary: #cecece;
+    --background-lighter-secondary: #d4d4d4;
+    --background-tertiary: #b6b6b6;
     --text-color-primary: #1c2024;
-    --text-color-canceled: #788286;
+    --text-color-canceled: #6b807b;
     --accent: #00897b;
     --accent-dark: #006d62;
 
-    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow: rgba(0, 0, 0, 0.2);
+    --standard-box-shadow: .1em .2em .5em var(--shadow);
 
     --round-radius: .7em;
     
@@ -75,11 +76,6 @@ button {
     transition: left .5s;
 }
 
-#loading {
-    text-align: center;
-    width: 100%;
-}
-
 .no-subst-msg {
     text-align: center;
 
@@ -118,6 +114,8 @@ button {
     overflow-x: auto;
     overflow-y: hidden;
     /*white-space: nowrap;*/  
+
+    box-shadow: var(--standard-box-shadow);
 
     transition: margin .5s, box-shadow .5s;
 }
@@ -285,6 +283,7 @@ input:checked + .slider:before {
     bottom: 1em;
 
     background-color: var(--accent);
+    box-shadow: var(--standard-box-shadow);
 
     width: 3.5em;
     height: 3.5em;
@@ -304,6 +303,10 @@ input:checked + .slider:before {
 
 #settings-btn:hover {
     transform: scale(1.1);
+}
+
+#settings-btn:hover:active {
+    transform: scale(1.05);
 }
 
 #settings-btn:active {
@@ -464,6 +467,8 @@ input:checked + .slider:before {
     margin: 0;
     height: 2.5em;
 
+    box-shadow: var(--standard-box-shadow);
+
     z-index: 1;
 }
 
@@ -472,7 +477,7 @@ input:checked + .slider:before {
     width: auto;
 }
 
-#btn-prev-day {
+.navbar-btn {
     height: 100%;
     cursor: pointer;
     outline-width: 3px;
@@ -482,24 +487,17 @@ input:checked + .slider:before {
     transition: all 0.2s;
 }
 
-#btn-prev-day:active {
-    outline-color: var(--background-tertiary);
-    background-color: var(--background);
+.navbar-btn:active {
+    background-color: var(--background-tertiary);
 }
 
-#btn-next-day {
-    height: 100%;
-    cursor: pointer;
-    outline-width: 3px;
-    outline-offset: -3px;
-    outline-style: solid;
-    outline-color: transparent;
-    transition: all 0.2s;
+.navbar-btn:not(:active) {
+    animation: navbar-btn-out 0.4s;
 }
 
-#btn-next-day:active {
-    outline-color: var(--background-tertiary);
-    background-color: var(--background);
+@keyframes navbar-btn-out {
+    from {outline-color: var(--background-tertiary);}
+    to {outline-color: transparent;}
 }
 
 #title-box {
@@ -530,9 +528,24 @@ input:checked + .slider:before {
 }
 
 .subst-collection {
-    background-color: var(--background-lighter-secondary);
-    border-color: var(--background-secondary);
     border-radius: var(--round-radius);
+    margin-bottom: 1em;
+
+    box-shadow: var(--standard-box-shadow);
+}
+
+.subst-collection .subst-element:last-child {
+    border-radius: 0 0 var(--round-radius) var(--round-radius);
+    border-bottom: .2em;
+}
+
+.subst-collection .subst-element:first-child {
+    border-radius: var(--round-radius) var(--round-radius) 0 0;
+    border-top: .2em;
+}
+
+.subst-collection .subst-element:first-child:last-child {
+    border-radius: var(--round-radius) var(--round-radius) var(--round-radius) var(--round-radius);
 }
 
 #substitutions {
@@ -545,6 +558,13 @@ input:checked + .slider:before {
 
     border-color: var(--background-secondary);
     border-radius: var(--round-radius);
+}
+
+#substitutions.autoscroll {
+    padding-right: .5em;
+    margin-right: calc(var(--side-margin) - .5em);
+    overflow-y: hidden;
+    flex: 1;
 }
 
 .subst-icon {
@@ -563,21 +583,17 @@ input:checked + .slider:before {
     display: grid;
     column-gap: 1em;
     row-gap: 0em;
-    margin-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
 
-    border-radius: var(--round-radius);
     background-color: var(--background-secondary);
-    border-color: var(--background-secondary);
 }
 
 
 .subst-element.variation {
     background-color: var(--background-lighter-secondary);
-    border-color: var(--background-secondary);
 }
 
 .subst-element > #periods {
@@ -592,14 +608,13 @@ input:checked + .slider:before {
 #substitutions.autoscroll .subst-element {
     display: grid;
     column-gap: 1em;
-    margin-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;
-    grid-template-columns: 10fr 8fr 12fr 12fr 12fr 10fr 14fr;
+    grid-template-columns: 10fr 6fr 8fr 12fr 8fr 10fr 14fr;
 }
 
 #substitutions.autoscroll.teacher .subst-element {
-    grid-template-columns: 10fr 8fr 12fr 12fr 12fr 8fr 14fr;
+    grid-template-columns: 10fr 8fr 10fr 12fr 12fr 8fr 14fr;
 }
 
 #substitutions.autoscroll .subst-element > #classes {
@@ -777,12 +792,6 @@ body.dark a:hover {
         height: 7em;
     }
 }
-
-#substitutions.autoscroll {
-    overflow-y: hidden;
-    flex: 1;
-}
-
 
 /* Works on Firefox */
 * {

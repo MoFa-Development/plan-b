@@ -24,6 +24,7 @@
     
 	<meta name="twitter:dnt" content="on">
 
+	<!-- Icons -->
 	<link rel="apple-touch-icon" href="icons/oeg-logo-blue.png" sizes="any" type="image/png" media="(prefers-color-scheme: light)">
 	<link rel="apple-touch-icon" href="icons/oeg-logo-white.png" sizes="any" type="image/png" media="(prefers-color-scheme: dark)">
 
@@ -37,16 +38,20 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&display=swap" rel="stylesheet"> 
 
+	<!-- Libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://spyrexde.github.io/Bay.js/src/Bay.js"></script>
+
 </head>
 <body>
 	<script src="js/main.js" type="module"></script>
 	
 	<div id="navbar">
-		<button id="btn-prev-day"><img src="icons/arrow-left.svg" class="navbar-arrow" alt="Vorheriger Tag"></button>
+		<button id="btn-prev-day" class="navbar-btn"><img src="icons/arrow-left.svg" class="navbar-arrow" alt="Vorheriger Tag"></button>
 		<div id="title-box">
 			<span id="title-day"></span>
 		</div>
-		<button id="btn-next-day"><img src="icons/arrow-right.svg" class="navbar-arrow" alt="Nächster Tag"></button>
+		<button id="btn-next-day" class="navbar-btn"><img src="icons/arrow-right.svg" class="navbar-arrow" alt="Nächster Tag"></button>
 	</div>
 	<button id="settings-btn" onclick="showSettings()"><img src="icons/settings.svg" class="settings-btn-icon" alt="Einstellungen"></button>
 	<div id="settings-overlay-container">
@@ -66,7 +71,7 @@
 				</label>
 			</p>
 
-			<p class="settings-label" hidden="1">Monitor
+			<p class="settings-label">Monitor
 				<label class="switch">
 					<input id="autoscroll-switch" type="checkbox" onchange="setAutoscroll(this);">
 					<span class="slider round"></span>
@@ -97,7 +102,7 @@
 	<div id="messages"></div>
 	<div id="affected-elements"></div>
 	<div id="substitutions"></div>
-	<div id="loading">Vertretungen laden...</div>
+	<loading-hint id="loading">Vertretungen laden...</loading-hint>
 	<div id="gimmick"></div>
 </body>
 </html>
