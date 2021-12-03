@@ -285,12 +285,29 @@ window.Day.prototype.drawSubstitutions = function() {
         substitutionsElement.appendChild(noSubstMessage);
 
     } else {
-        let collectionElement = document.createElement("div");
-        let lastAffected = "";
+        let collectionElement;
+        let lastAffected;
         let variation = false;
 
         //draw substitutions
         this.substitutions.forEach(subst => {
+            let currentAffected;
+            
+            if(settings.is_teacher) {
+                currentAffected = subst.teachers_raw;
+            } else {
+                currentAffected = subst.classes_raw;
+            }
+            
+            if(currentAffected != lastAffected) {
+                collectionElement = document.createElement("div");
+                collectionElement.classList.add("subst-collection");
+                substitutions.appendChild(collectionElement);
+
+                lastAffected = currentAffected;
+            }
+
+            
             let substElement = subst.toElem();
             
             if(substElement) {
@@ -298,26 +315,11 @@ window.Day.prototype.drawSubstitutions = function() {
                     substElement.classList.add("variation");
                 }
 
-                if((!settings.is_teacher && lastAffected != subst.classes_raw) || (settings.is_teacher && lastAffected != subst.teachers[0])) {
-                    substitutions.appendChild(collectionElement);
-                    collectionElement = document.createElement("div");
-                    collectionElement.classList.add("subst-collection");
-                }
-
                 collectionElement.appendChild(substElement);
 
                 variation = !variation;
             }
-
-            if(settings.is_teacher) {
-                lastAffected = subst.teachers[0];
-            } else {
-                lastAffected = subst.classes_raw;
-            }
         });
-
-        // workaround for #21
-        substitutions.appendChild(collectionElement);
     }
 }
 
