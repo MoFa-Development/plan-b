@@ -93,9 +93,9 @@ window.loadSettings = function loadSettings() {
     let c;
     for(c of COLORS){
         let colorSelector = document.createElement("div");
-        colorSelector.setAttribute("style", "background: " + c);
-        colorSelector.setAttribute("id", "color" + c);
-        colorSelector.setAttribute("class", "colorSelector");
+        colorSelector.style.background = c;
+        colorSelector.id = "color" + c;
+        colorSelector.classList.add("colorSelector");
         colorSelector.setAttribute("onclick","colorClick(this);");
         $("#colors")[0].appendChild(colorSelector);
     }
@@ -109,7 +109,7 @@ window.loadSettings = function loadSettings() {
         document.querySelector('body').style.setProperty('--accent-dark', accent_dark);
 
         if(COLORS.includes(accent_color.toUpperCase()))
-            $("#color" + accent_color.toUpperCase())[0].classList.add("selected");
+            document.getElementById("color" + accent_color.toUpperCase()).classList.add("selected");
     }
 
 
