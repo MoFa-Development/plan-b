@@ -382,7 +382,7 @@ window.Day.prototype.draw = function() {
  * master draw function, called on load or day change
  */
 window.draw = function() {
-
+    
     let loadingElement = $("#loading")[0];
     loadingElement.style.visibility = "visible";
     

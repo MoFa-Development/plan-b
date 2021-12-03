@@ -14,6 +14,7 @@ window.settings = {
  * default available accent colors
  */
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
+const TIME_SHOW_NEXT_DAY = 16 //:00 o' clock in 24-hour format
 
 settings.autoscroll = false;
 
@@ -50,6 +51,11 @@ window.applyUrlParameters = function() {
  */
 window.loadSettings = function loadSettings() {
     
+    // If it's later than TIME_SHOW_NEXT_DAY o' clock, show the next day
+    if(new Date().getHours() > TIME_SHOW_NEXT_DAY) {
+        settings.currentDateOffset = 1;
+    }
+
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
@@ -111,7 +117,6 @@ window.loadSettings = function loadSettings() {
         if(COLORS.includes(accent_color.toUpperCase()))
             document.getElementById("color" + accent_color.toUpperCase()).classList.add("selected");
     }
-
 
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
