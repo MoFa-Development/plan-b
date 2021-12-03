@@ -8,7 +8,7 @@ const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
 window.handleAffectedElementsOverflow = function() {
-    let element = document.getElementById("affected-elements");
+    let element = $("#affected-elements")[0];
 
     let element_width = element.clientWidth;
     let scroll = element.scrollLeft;
@@ -55,7 +55,7 @@ window.Message.prototype.toElem = function() {
  * generate message elements for messages of the day and add them to the messages container
  */
 window.Day.prototype.drawMessages = function() {
-    let messages = document.getElementById("messages");
+    let messages = $("#messages")[0];
 
     while (messages.firstChild) {
         messages.removeChild(messages.firstChild);
@@ -74,7 +74,7 @@ window.Day.prototype.drawMessages = function() {
  * generate affected element selects and add them to the selection bar
  */
 window.Day.prototype.drawAffectedElements = function() {
-    let affectedElementsBarObj = document.getElementById("affected-elements");
+    let affectedElementsBarObj = $("#affected-elements")[0];
 
     if(this.substitutions.length == 0) {
         affectedElementsBarObj.style.visibility = "hidden";
@@ -251,7 +251,7 @@ window.Substitution.prototype.toElem = function() {
  */
 window.Day.prototype.drawSubstitutions = function() {
 
-    let substitutionsElement = document.getElementById("substitutions");
+    let substitutionsElement = $("#substitutions")[0];
 
     while (substitutionsElement.firstChild) {
         substitutionsElement.removeChild(substitutionsElement.firstChild);
@@ -307,7 +307,7 @@ window.Day.prototype.drawSubstitutions = function() {
                 lastAffected = currentAffected;
             }
 
-            
+
             let substElement = subst.toElem();
             
             if(substElement) {
@@ -327,12 +327,12 @@ window.Day.prototype.drawSubstitutions = function() {
  * draw general surrounding and invoke drawMessages, drawSubstitutions & drawAffectedElements
  */
 window.Day.prototype.draw = function() {
-    let dateTitleElement = document.getElementById("title-day");
+    let dateTitleElement = $("#title-day")[0];
     
     try {
         // hide next day button if last day with data
-        let next_day_btn = document.getElementById("btn-next-day");
-        let prev_day_btn = document.getElementById("btn-prev-day");
+        let next_day_btn = $("#btn-next-day")[0];
+        let prev_day_btn = $("#btn-prev-day")[0];
 
         next_day_btn.onclick = window.nextDay;
         prev_day_btn.onclick = window.prevDay;
@@ -364,7 +364,7 @@ window.Day.prototype.draw = function() {
     } catch (error) {
         console.debug(this);
         
-        let affectedElementsBarObj = document.getElementById("affected-elements");
+        let affectedElementsBarObj = $("#affected-elements")[0];
 
         if(this.substitutions.length == 0) {
             affectedElementsBarObj.style.visibility = "hidden";

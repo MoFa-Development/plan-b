@@ -30,7 +30,7 @@ window.initGimmicks = async function() {
  * initialize gimmick object
  */
  window.initGimmick = function(gimmick) {
-    let el = document.getElementById("gimmick");
+    let el = $("#gimmick");
     el.innerHTML = gimmick.content;
     el.style = gimmick.styles;
  }

@@ -82,9 +82,9 @@ window.initEvents = function() {
  */
 window.handleAutoscroll = function() {
     if(settings.autoscroll) {
-        document.querySelector("body").style.maxHeight = "100vh";
+        document.body.style.maxHeight = "100vh";
 
-        let autoscrollElements = Array.from(document.getElementsByClassName("autoscroll"));
+        let autoscrollElements = Array.from($(".autoscroll"));
         
         autoscrollElements.forEach((e) => {
             let scroll = e.scrollTop;
@@ -118,7 +118,7 @@ window.handleAutoscroll = function() {
             }
         });
     } else {
-        document.querySelector("body").style.maxHeight = "100%";
+        document.body.style.maxHeight = "100%";
     }
 }
 
@@ -129,7 +129,7 @@ window.nextDay = function() {
     settings.currentDateOffset++;
     draw();
     reset_animation("title-day");
-    document.getElementById("title-day").style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
+    $("#title-day")[0].style.animation="slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
 }
 
 /**
@@ -139,5 +139,5 @@ window.prevDay = function() {
     settings.currentDateOffset--;
     draw();
     reset_animation("title-day");
-    document.getElementById("title-day").style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
+    $("#title-day")[0].style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
 }
