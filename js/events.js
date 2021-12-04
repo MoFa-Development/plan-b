@@ -131,9 +131,13 @@ window.handleAutoscroll = function() {
         for(let e of autoscrollElements) {
             if(e.clientHeight < e.scrollHeight) { // is the autoscroll element overflowing
                 if(e.scrollTop < e.originalScrollHeight) { // is it NOT scrolled to the bottom
-                    e.scrollTop += autoscrollPixelPerFrame;
+                    e.scrollBy({
+                        top: autoscrollPixelPerFrame
+                    });
                 } else { // scrolled to the bottom
-                    e.scrollTop = 0;
+                    e.scroll({
+                        top: 0
+                    });
                 }
             }
         }
