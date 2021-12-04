@@ -388,6 +388,7 @@ window.draw = function() {
     
     getCachedDay(settings.currentDateOffset).then((day) => {
         day.draw();
+        initAutoscroll()
     })
 
     loadingElement.style.visibility = "hidden";

@@ -1,9 +1,6 @@
 const autoscrollFPS = 25;
-const autoscrollWait = 3.0; // time to wait at top / bottom of scrollable view
 window.autoscrollPixelPerFrame = 1;
-
 const autoscrollInterval = 1000 / autoscrollFPS;
-const autoscrollWaitCount = autoscrollWait*1000 / autoscrollFPS; //amount of frames to wait at top / bottom of scrollable view
 
 const refreshIntervalMinutes = 5;
 
@@ -39,6 +36,7 @@ const EVENTS = [
         document.body.classList.remove("inactive");
     }],
     ["resize", window.handleAffectedElementsOverflow],
+    ["resize", window.initAutoscroll],
     ["deviceorientation", window.handleAffectedElementsOverflow]
 ];
 
@@ -78,47 +76,69 @@ window.initEvents = function() {
 }
 
 /**
+ * initialize autoscroll (must be called at every redraw)
+ */
+window.initAutoscroll = function() {
+    console.debug("[initAutoscroll]")
+    
+    if(settings.autoscroll) {
+        let autoscrollElements = $(".autoscroll");
+
+        for(let clone of $(".clone")) {
+            clone.remove()
+        }
+
+        for(let e of autoscrollElements) {
+            if(e.clientHeight < e.scrollHeight) {
+                console.debug("init autoscroll for: ", e);
+
+                e.appendChild(document.createElement("spacer"))
+
+                e.originalScrollHeight = e.scrollHeight;
+                e.originalScrollTopMax = e.scrollTopMax;
+            
+                for(let child of e.children) {
+                    let clone = child.cloneNode(true)
+                    clone.classList.add("clone")
+                    e.appendChild(clone)
+
+                    if(e.scrollHeight > e.originalScrollHeight + e.clientHeight) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
  * handle next autoscroll animation frame
  */
 window.handleAutoscroll = function() {
+    if(RESET_AUTOSCROLL) {
+        for(let e of $(".autoscroll")) {
+            e.scrollTop = 0;
+        }
+
+        window.RESET_AUTOSCROLL = false;
+    }
+    
     if(settings.autoscroll) {
-        document.body.style.maxHeight = "100vh";
+        document.body.style.height = "100vh";
 
-        let autoscrollElements = Array.from($(".autoscroll"));
-        
-        autoscrollElements.forEach((e) => {
-            let scroll = e.scrollTop;
-            let scrollMax = e.scrollHeight - e.clientHeight;
+        let autoscrollElements = $(".autoscroll");
 
-            if(!e.waitCount) {
-                e.waitCount = 0;
-            }
-
-            if(scrollMax != 0 && scroll < scrollMax) {
-            
-                if(e.waitCount == 0) {
+        for(let e of autoscrollElements) {
+            if(e.clientHeight < e.scrollHeight) { // is the autoscroll element overflowing
+                if(e.scrollTop < e.originalScrollHeight) { // is it NOT scrolled to the bottom
                     e.scrollTop += autoscrollPixelPerFrame;
-                } else {
-                    e.waitCount--;
-                }
-            
-            } else if(scrollMax != 0) {
-                                   
-                if(e.waitCount == autoscrollWaitCount) {
+                } else { // scrolled to the bottom
                     e.scrollTop = 0;
-                } else {
-                    e.waitCount++;
                 }
             }
-
-            if(RESET_AUTOSCROLL) {
-                e.scrollTop = 0;
-                e.waitCount = autoscrollWaitCount;
-                window.RESET_AUTOSCROLL = false;
-            }
-        });
+        }
     } else {
-        document.body.style.maxHeight = "100%";
+        document.body.style.height = "100%";
     }
 }
 
