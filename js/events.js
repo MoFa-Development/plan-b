@@ -75,31 +75,42 @@ window.initEvents = function() {
     }
 }
 
+window.clearAutoscroll = function() {
+    for(let clone of $(".autoscroll-dummy")) {
+        clone.remove()
+    }
+}
+
 /**
  * initialize autoscroll (must be called at every redraw)
  */
 window.initAutoscroll = function() {
-    console.debug("[initAutoscroll]")
-    
+    console.debug("[initAutoscroll]", settings.autoscroll, $(".autoscroll"))
+
+    window.clearAutoscroll();
+
     if(settings.autoscroll) {
+        document.body.style.height = "100vh";
+
         let autoscrollElements = $(".autoscroll");
 
-        for(let clone of $(".clone")) {
-            clone.remove()
-        }
-
         for(let e of autoscrollElements) {
+
+            console.debug("trying: ", e.clientHeight, " < ", e.scrollHeight)
+
             if(e.clientHeight < e.scrollHeight) {
                 console.debug("init autoscroll for: ", e);
 
-                e.appendChild(document.createElement("spacer"))
+                let spacer = document.createElement("spacer");
+                spacer.classList.add("autoscroll-dummy");
+                e.appendChild(spacer)
 
                 e.originalScrollHeight = e.scrollHeight;
                 e.originalScrollTopMax = e.scrollTopMax;
             
                 for(let child of e.children) {
                     let clone = child.cloneNode(true)
-                    clone.classList.add("clone")
+                    clone.classList.add("autoscroll-dummy")
                     e.appendChild(clone)
 
                     if(e.scrollHeight > e.originalScrollHeight + e.clientHeight) {
@@ -108,6 +119,8 @@ window.initAutoscroll = function() {
                 }
             }
         }
+    } else {
+        document.body.style.height = "100%";
     }
 }
 
@@ -124,8 +137,6 @@ window.handleAutoscroll = function() {
     }
     
     if(settings.autoscroll) {
-        document.body.style.height = "100vh";
-
         let autoscrollElements = $(".autoscroll");
 
         for(let e of autoscrollElements) {
@@ -141,8 +152,6 @@ window.handleAutoscroll = function() {
                 }
             }
         }
-    } else {
-        document.body.style.height = "100%";
     }
 }
 

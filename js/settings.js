@@ -188,11 +188,17 @@ window.setAutoscroll = function(obj) {
         $("#substitutions")[0].classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "90%";
+
+        window.initAutoscroll();
     } else {
         $("#substitutions")[0].classList.remove("autoscroll");
         document.body.style.setProperty("--side-margin", "20%");
         document.body.style.fontSize = "100%";
+        
+        window.clearAutoscroll();
     }
+
+    window.RESET_AUTOSCROLL = true;
 }
 
 /**
