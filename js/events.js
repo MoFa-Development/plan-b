@@ -76,7 +76,7 @@ window.initEvents = function() {
 }
 
 window.clearAutoscroll = function() {
-    for(let clone of $(".autoscroll-dummy")) {
+    for(let clone of $(".autoscroll-visual")) {
         clone.remove()
     }
 }
@@ -102,7 +102,7 @@ window.initAutoscroll = function() {
                 console.debug("init autoscroll for: ", e);
 
                 let spacer = document.createElement("spacer");
-                spacer.classList.add("autoscroll-dummy");
+                spacer.classList.add("autoscroll-visual");
                 e.appendChild(spacer)
 
                 e.originalScrollHeight = e.scrollHeight;
@@ -110,7 +110,7 @@ window.initAutoscroll = function() {
             
                 for(let child of e.children) {
                     let clone = child.cloneNode(true)
-                    clone.classList.add("autoscroll-dummy")
+                    clone.classList.add("autoscroll-visual")
                     e.appendChild(clone)
 
                     if(e.scrollHeight > e.originalScrollHeight + e.clientHeight) {
