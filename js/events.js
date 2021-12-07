@@ -1,4 +1,4 @@
-const autoscrollFPS = 25;
+const autoscrollFPS = 30;
 window.autoscrollPixelPerFrame = 1;
 const autoscrollInterval = 1000 / autoscrollFPS;
 
