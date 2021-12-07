@@ -35,9 +35,14 @@ const EVENTS = [
         window.lastMouseMovedTimestamp = Date.now();
         document.body.classList.remove("inactive");
     }],
-    ["resize", window.handleAffectedElementsOverflow],
-    ["resize", window.initAutoscroll],
-    ["deviceorientation", window.handleAffectedElementsOverflow]
+    ["resize", (e) => {
+        window.handleAffectedElementsOverflow();
+        window.initAutoscroll();
+    }],
+    ["deviceorientation", (e) => {
+        window.handleAffectedElementsOverflow();
+        window.initAutoscroll();
+    }]
 ];
 
 
@@ -85,8 +90,7 @@ window.clearAutoscroll = function() {
  * initialize autoscroll (must be called at every redraw)
  */
 window.initAutoscroll = function() {
-    console.debug("[initAutoscroll]", settings.autoscroll, $(".autoscroll"))
-
+    
     window.clearAutoscroll();
 
     if(settings.autoscroll) {
@@ -94,26 +98,21 @@ window.initAutoscroll = function() {
 
         let autoscrollElements = $(".autoscroll");
 
-        for(let e of autoscrollElements) {
-
-            console.debug("trying: ", e.clientHeight, " < ", e.scrollHeight)
-
-            if(e.clientHeight < e.scrollHeight) {
-                console.debug("init autoscroll for: ", e);
-
+        for(let elem of autoscrollElements) {
+            if(elem.clientHeight < elem.scrollHeight) {
                 let spacer = document.createElement("spacer");
                 spacer.classList.add("autoscroll-visual");
-                e.appendChild(spacer)
+                elem.appendChild(spacer)
 
-                e.originalScrollHeight = e.scrollHeight;
-                e.originalScrollTopMax = e.scrollTopMax;
+                elem.originalScrollHeight = elem.scrollHeight;
+                elem.originalScrollTopMax = elem.scrollTopMax;
             
-                for(let child of e.children) {
+                for(let child of elem.children) {
                     let clone = child.cloneNode(true)
                     clone.classList.add("autoscroll-visual")
-                    e.appendChild(clone)
+                    elem.appendChild(clone)
 
-                    if(e.scrollHeight > e.originalScrollHeight + e.clientHeight) {
+                    if(elem.scrollHeight > elem.originalScrollHeight + elem.clientHeight) {
                         break;
                     }
                 }
@@ -139,14 +138,21 @@ window.handleAutoscroll = function() {
     if(settings.autoscroll) {
         let autoscrollElements = $(".autoscroll");
 
-        for(let e of autoscrollElements) {
-            if(e.clientHeight < e.scrollHeight) { // is the autoscroll element overflowing
-                if(e.scrollTop < e.originalScrollHeight) { // is it NOT scrolled to the bottom
-                    e.scrollBy({
+        for(let elem of autoscrollElements) {
+            if(elem.clientHeight < elem.scrollHeight) { // is the autoscroll element overflowing
+                if(elem.scrollTop >= elem.scrollTopMax) { // rescue if scrolled to bottom somehow
+                    window.initAutoscroll();
+                    elem.scroll({
+                        top: 0
+                    })
+                }
+                
+                if(elem.scrollTop < elem.originalScrollHeight) { // must be further scrolled
+                    elem.scrollBy({
                         top: autoscrollPixelPerFrame
                     });
-                } else { // scrolled to the bottom
-                    e.scroll({
+                } else { // scrolled to the reset point
+                    elem.scroll({
                         top: 0
                     });
                 }
