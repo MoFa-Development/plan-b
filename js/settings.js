@@ -14,6 +14,7 @@ window.settings = {
  * default available accent colors
  */
 const COLORS = ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#039BE5", "#00ACC1", "#00897B", "#43A047"];
+const TIME_SHOW_NEXT_DAY = 16 //:00 o' clock in 24-hour format
 
 settings.autoscroll = false;
 
@@ -21,16 +22,16 @@ settings.autoscroll = false;
  * show settings menu
  */
 window.showSettings = function() {
-    document.getElementById("settings-overlay-container").style.visibility = "visible";
-    document.getElementById("settings-overlay-container").style.opacity = 1;
+    $("#settings-overlay-container")[0].style.visibility = "visible";
+    $("#settings-overlay-container")[0].style.opacity = 1;
 }
 
 /**
  * hide settings menu
  */
 window.hideSettings = function() {
-    document.getElementById("settings-overlay-container").style.visibility = "hidden";
-    document.getElementById("settings-overlay-container").style.opacity = 0;
+    $("#settings-overlay-container")[0].style.visibility = "hidden";
+    $("#settings-overlay-container")[0].style.opacity = 0;
 }
 
 /**
@@ -50,6 +51,11 @@ window.applyUrlParameters = function() {
  */
 window.loadSettings = function loadSettings() {
     
+    // If it's later than TIME_SHOW_NEXT_DAY o' clock, show the next day
+    if(new Date().getHours() > TIME_SHOW_NEXT_DAY) {
+        settings.currentDateOffset = 1;
+    }
+
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
@@ -65,7 +71,7 @@ window.loadSettings = function loadSettings() {
         document.querySelector('body').classList.remove("dark"); // darkmode off
     }
 
-    document.getElementById("dark-mode-switch").checked = settings.darkmode; // set dark mode switch in settings menu
+    $("#dark-mode-switch")[0].checked = settings.darkmode; // set dark mode switch in settings menu
 
 
     // get autoscroll preference from cookie
@@ -77,27 +83,27 @@ window.loadSettings = function loadSettings() {
 
     // apply autoscroll setting
     if(settings.autoscroll) {
-        document.getElementById("substitutions").classList.add("autoscroll");
+        $("#substitutions")[0].classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "90%";
     } else {
-        document.getElementById("substitutions").classList.remove("autoscroll");
+        $("#substitutions")[0].classList.remove("autoscroll");
         document.body.style.setProperty("--side-margin", "20%");
         document.body.style.fontSize = "100%";
     }
 
-    document.getElementById("autoscroll-switch").checked = settings.autoscroll;
+    $("#autoscroll-switch")[0].checked = settings.autoscroll;
 
 
     // add accent color selects to settings menu
     let c;
     for(c of COLORS){
         let colorSelector = document.createElement("div");
-        colorSelector.setAttribute("style", "background: " + c);
-        colorSelector.setAttribute("id", "color" + c);
-        colorSelector.setAttribute("class", "colorSelector");
+        colorSelector.style.background = c;
+        colorSelector.id = "color" + c;
+        colorSelector.classList.add("colorSelector");
         colorSelector.setAttribute("onclick","colorClick(this);");
-        document.getElementById("colors").appendChild(colorSelector);
+        $("#colors")[0].appendChild(colorSelector);
     }
 
     // get accent color from cookie, generate dynamic dark accent color, pass colors to CSS
@@ -112,19 +118,18 @@ window.loadSettings = function loadSettings() {
             document.getElementById("color" + accent_color.toUpperCase()).classList.add("selected");
     }
 
-
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
         settings.is_teacher = getCookie("is_teacher") == "true"    
     }
 
     if(settings.is_teacher) {
-        document.getElementById("substitutions").classList.add("teacher");
+        $("#substitutions")[0].classList.add("teacher");
     } else {
-        document.getElementById("substitutions").classList.remove("teacher");
+        $("#substitutions")[0].classList.remove("teacher");
     }
 
-    document.getElementById("is-teacher").checked = settings.is_teacher; // set teacher mode switch in settings menu
+    $("#is-teacher")[0].checked = settings.is_teacher; // set teacher mode switch in settings menu
 }
 
 /**
@@ -142,9 +147,9 @@ window.setIsTeacher = function(obj) {
     }
 
     if(settings.is_teacher) {
-        document.getElementById("substitutions").classList.add("teacher");
+        $("#substitutions")[0].classList.add("teacher");
     } else {
-        document.getElementById("substitutions").classList.remove("teacher");
+        $("#substitutions")[0].classList.remove("teacher");
     }
 
     setCookie("is_teacher", settings.is_teacher, 9999);
@@ -163,9 +168,9 @@ window.setDarkmode = function(obj) {
     setCookie("darkmode", settings.darkmode, 9999);
 
     if(settings.darkmode) {
-        document.querySelector('body').classList.add("dark");
+        document.body.classList.add("dark");
     } else {
-        document.querySelector('body').classList.remove("dark");
+        document.body.classList.remove("dark");
     }
 }
 
@@ -180,14 +185,20 @@ window.setAutoscroll = function(obj) {
     setCookie("autoscroll", settings.autoscroll, 9999);
 
     if(settings.autoscroll) {
-        document.getElementById("substitutions").classList.add("autoscroll");
+        $("#substitutions")[0].classList.add("autoscroll");
         document.body.style.setProperty("--side-margin", "10%");
         document.body.style.fontSize = "90%";
+
+        window.initAutoscroll();
     } else {
-        document.getElementById("substitutions").classList.remove("autoscroll");
+        $("#substitutions")[0].classList.remove("autoscroll");
         document.body.style.setProperty("--side-margin", "20%");
         document.body.style.fontSize = "100%";
+        
+        window.clearAutoscroll();
     }
+
+    window.RESET_AUTOSCROLL = true;
 }
 
 /**

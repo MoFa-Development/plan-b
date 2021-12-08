@@ -1,11 +1,11 @@
 window.errorMessage = function(error) {
     console.debug(error);
 
-    document.getElementById("messages").innerHTML = "";
-    document.getElementById("affected-elements").innerHTML = "";
-    document.getElementById("affected-elements").classList = [];
+    $("#messages")[0].innerHTML = "";
+    $("#affected-elements")[0].innerHTML = "";
+    $("#affected-elements")[0].classList = [];
 
-    document.getElementById("substitutions").innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten. <br><sub>("+error+")</sub></p>";
+    $("#substitutions")[0].innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten. <br><sub>("+error+")</sub></p>";
 }
 
 /**
@@ -37,16 +37,19 @@ window.getCookie = function(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    
-    for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
+    
     return "";
 }
 
@@ -58,7 +61,6 @@ window.getCookie = function(cname) {
  * @returns 
  */
 window.shadeColor = function(color, percent) {
-
     let R = parseInt(color.substring(1,3),16);
     let G = parseInt(color.substring(3,5),16);
     let B = parseInt(color.substring(5,7),16);
@@ -83,25 +85,25 @@ window.shadeColor = function(color, percent) {
  * @param {String} id Element id
  */
 window.reset_animation = function(id) {
-  var el = document.getElementById(id);
-  el.style.animation = 'none';
-  el.offsetHeight; //trigger reflow
-  el.style.animation = null; 
+    var elem = $('#'+id)[0];
+    elem.style.animation = 'none';
+    elem.offsetHeight; //trigger reflow
+    elem.style.animation = null; 
 }
 
 /**
  * Check if lists have at least one common element
  * 
- * @param {Array} a 
- * @param {Array} b 
+ * @param {Array} a
+ * @param {Array} b
  * @returns {boolean}
  */
 window.listsIntersect = function(a, b) {
-  for (var i = 0; i < a.length; i++) {
-    if(b.includes(a[i])) {
-      return true;
+    for (var i = 0; i < a.length; i++) {
+        if(b.includes(a[i])) {
+            return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }

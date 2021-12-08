@@ -47,6 +47,11 @@ a:hover {
     color: var(--accent);
 }
 
+spacer {
+    display: block;
+    height: 3em;
+}
+
 button {
     border: none;
     color: var(--text-color-primary);
