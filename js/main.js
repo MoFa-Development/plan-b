@@ -9,3 +9,4 @@ import './components.js';
 'use strict';
 
 initEvents();
+draw();

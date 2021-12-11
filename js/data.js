@@ -146,9 +146,6 @@ window.Day = class {
         this.student_substitutions.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
         
         //#endregion
-    
-        combineSplitSubsts(this.teacher_substitutions);
-        combineSplitSubsts(this.student_substitutions);
     }
 
     get substitutions() {
@@ -197,27 +194,6 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
     }
 
     return dataCache[dateOffset].day;
-}
-
-/**
- * @param data
- * @return new version of data with combined substitutions
- */
- window.combineSplitSubsts = function(substitutions) {
-    substitutions.forEach(subst => {
-        let alike_substs = substitutions.filter(s => (
-            s.course_long == subst.course_long &&
-            s.classes_raw == subst.classes_raw &&
-            s.teachers_raw == subst.teachers_raw &&
-            s.room == subst.room &&
-            s.type == subst.type &&
-            s.message == subst.message
-        ));
-
-        if(alike_substs.length > 1) {
-            // TODO -> issue #9
-        }
-    });
 }
 
 /**

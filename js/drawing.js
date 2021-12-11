@@ -8,7 +8,7 @@ const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
 window.handleAffectedElementsOverflow = function() {
-    let element = $("#affected-elements")[0];
+    let element = $(".affected-elements")[0];
 
     let element_width = element.clientWidth;
     let scroll = element.scrollLeft;
@@ -55,7 +55,7 @@ window.Message.prototype.toElem = function() {
  * generate message elements for messages of the day and add them to the messages container
  */
 window.Day.prototype.drawMessages = function() {
-    let messages = $("#messages")[0];
+    let messages = $(".messages")[0];
 
     while (messages.firstChild) {
         messages.removeChild(messages.firstChild);
@@ -74,7 +74,7 @@ window.Day.prototype.drawMessages = function() {
  * generate affected element selects and add them to the selection bar
  */
 window.Day.prototype.drawAffectedElements = function() {
-    let affectedElementsBarObj = $("#affected-elements")[0];
+    let affectedElementsBarObj = $(".affected-elements")[0];
 
     if(this.substitutions.length == 0) {
         affectedElementsBarObj.style.visibility = "hidden";
@@ -251,7 +251,7 @@ window.Substitution.prototype.toElem = function() {
  */
 window.Day.prototype.drawSubstitutions = function() {
 
-    let substitutionsElement = $("#substitutions")[0];
+    let substitutionsElement = $(".substitutions")[0];
 
     while (substitutionsElement.firstChild) {
         substitutionsElement.removeChild(substitutionsElement.firstChild);
@@ -302,7 +302,7 @@ window.Day.prototype.drawSubstitutions = function() {
             if(currentAffected != lastAffected) {
                 collectionElement = document.createElement("div");
                 collectionElement.classList.add("subst-collection");
-                substitutions.appendChild(collectionElement);
+                substitutionsElement.appendChild(collectionElement);
 
                 lastAffected = currentAffected;
             }
@@ -364,7 +364,7 @@ window.Day.prototype.draw = function() {
     } catch (error) {
         console.debug(this);
         
-        let affectedElementsBarObj = $("#affected-elements")[0];
+        let affectedElementsBarObj = $(".affected-elements")[0];
 
         if(this.substitutions.length == 0) {
             affectedElementsBarObj.style.visibility = "hidden";

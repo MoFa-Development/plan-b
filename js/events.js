@@ -15,7 +15,6 @@ const TIMEOUT_INACTIVE = 5000;
 const EVENTS = [
     ["load", window.loadSettings],
     ["load", window.initGimmicks],
-    ["load", window.draw],
     ["load", () => {
         // hiding the settings button
         setInterval(handleInactivity, 1000);
