@@ -80,8 +80,6 @@ window.loadSettings = function loadSettings() {
         document.body.classList.add("monitor-mode");
         
         for(let elem of $(".substitutions")) {
-            console.debug(elem)
-            
             elem.classList.add("autoscroll")
         }
         //window.initAutscroll()
@@ -106,8 +104,6 @@ window.loadSettings = function loadSettings() {
         colorSelector.classList.add("colorSelector");
         colorSelector.setAttribute("onclick","colorClick(this);");
         colorsElem.appendChild(colorSelector);
-        console.debug("colorsElem: ", colorsElem);
-        console.debug("color: ", c);
     }
 
     // get accent color from cookie, generate dynamic dark accent color, pass colors to CSS
