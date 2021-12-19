@@ -1,5 +1,3 @@
-import './events.js';
-
 /**
  * globally reachable settings object  
  */
@@ -86,7 +84,7 @@ window.loadSettings = function loadSettings() {
             
             elem.classList.add("autoscroll")
         }
-        window.initAutscroll()
+        //window.initAutscroll()
     } else {
         document.body.classList.remove("monitor-mode");
         
@@ -100,13 +98,16 @@ window.loadSettings = function loadSettings() {
 
     // add accent color selects to settings menu
     let c;
+    let colorsElem = $("#colors")[0];
     for(c of COLORS){
         let colorSelector = document.createElement("div");
         colorSelector.style.background = c;
         colorSelector.id = "color" + c;
         colorSelector.classList.add("colorSelector");
         colorSelector.setAttribute("onclick","colorClick(this);");
-        $("#colors")[0].appendChild(colorSelector);
+        colorsElem.appendChild(colorSelector);
+        console.debug("colorsElem: ", colorsElem);
+        console.debug("color: ", c);
     }
 
     // get accent color from cookie, generate dynamic dark accent color, pass colors to CSS

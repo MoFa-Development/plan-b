@@ -1,3 +1,5 @@
+import "./settings.js"
+
 const autoscrollFPS = 30;
 window.autoscrollPixelPerFrame = 1;
 const autoscrollInterval = 1000 / autoscrollFPS;
@@ -13,18 +15,6 @@ const TIMEOUT_INACTIVE = 5000;
  * list of events with corresponding handler functions
  */
 const EVENTS = [
-    ["load", window.loadSettings],
-    ["load", window.initGimmicks],
-    ["load", () => {
-        // hiding the settings button
-        setInterval(handleInactivity, 1000);
-
-        // autoscroll
-        setInterval(handleAutoscroll, autoscrollInterval);
-        
-        // data refreshing
-        setInterval(draw, 1000*60*refreshIntervalMinutes);
-    }],
     ["keyup", (e) => {
         if(e.code == "Escape") {
             hideSettings();
@@ -57,6 +47,19 @@ window.handleInactivity = function() {
     } else {
         document.body.classList.remove("inactive");
     }
+}
+
+window.generalInit = function() {
+    loadSettings();
+    initGimmicks();
+    initAutoscroll();
+
+    // hiding the settings button
+    setInterval(handleInactivity, 1000);
+    // autoscroll
+    setInterval(handleAutoscroll, autoscrollInterval);
+    // data refreshing
+    setInterval(draw, 1000*60*refreshIntervalMinutes);
 }
 
 /**
