@@ -2,23 +2,6 @@ window.Substitution = class {
     constructor(data_row) {
         this.periods     = data_row.data[0];
         this.begin       = parseInt(this.periods);
-        this.course_long = data_row.data[2];
-        
-        if(this.course_long) {
-            let course_long_split = this.course_long.split("_");
-            
-            if(course_long_split.length == 3) {
-                this.course_check = course_long_split[0];
-                this.class_check = course_long_split[1];
-                this.teacher_check = course_long_split[2];
-                
-                // Only set teacher_check if a teacher is specified in course_long
-                // example: SPL1_12_1
-                if(!/^([A-Z]*)$/.test(this.teacher_check)) {
-                    this.teacher_check = ""; 
-                }
-            }
-        }
 
         this.course       = data_row.data[3];
         this.room         = data_row.data[4];

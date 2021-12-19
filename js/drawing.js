@@ -174,14 +174,6 @@ window.Substitution.prototype.toElem = function() {
         var course_change_html = "";
         var teacher_note_html = "";
 
-        if(this.course_check && this.course.replace(" ", "") != this.course_check.replace(" ", "")) {
-            course_change_html = " (<span class=\"cancelStyle\">" + this.course_check + "</span>)";
-        }
-
-        if(this.teacher_check && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes)) {
-            teacher_note_html = " ("+this.teacher_check+")"
-        }
-
         let courseElement = document.createElement("p");
         courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.course + course_change_html + teacher_note_html + "</div>";
         courseElement.id = "course"
@@ -198,14 +190,13 @@ window.Substitution.prototype.toElem = function() {
         substElement.appendChild(roomElement);
     }
 
-    // only draw teacher label if type is not cancelled or room change
-    if(this.teachers_raw && settings.is_teacher || this.teachers_raw && this.type != "Entfall" && this.type != "Raum&auml;nderung") {
-        
+    // only draw teacher label if...
+    if(this.teachers_raw // data is given
+        && (settings.is_teacher // is teacher 
+            || listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes) // classes from FORCE_SHOW_TEACHER_CLASSES are included 
+            || this.type != "Entfall" && this.type != "Raum&auml;nderung") // substitution is not of type 'cancelled' or 'room change'
+    ) { 
         var teacher_change_html = "";
-
-        if(this.teacher_check && this.teachers_raw != this.teacher_check && !this.teachers_raw.includes("cancelStyle")) {
-            teacher_change_html = " (<span class=\"cancelStyle\">"+ this.teacher_check +"</span>)";
-        }
 
         let teacherElement = document.createElement("p");
         teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.teachers_raw + teacher_change_html + "</div>";
