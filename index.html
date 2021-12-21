@@ -60,9 +60,9 @@
 		<div id="escape-bottom" onclick="hideSettings();"></div>
 		<div id="escape-top" onclick="hideSettings();"></div>
 		<div id="settings-overlay">
-			<h3>Einstellungen</h3>
+			<h1>Einstellungen</h1>
 
-			<h4>Ansicht</h4>
+			<h2>Ansicht</h2>
 			
 			<p class="settings-label">Lehreransicht
 				<label class="switch">
@@ -78,7 +78,7 @@
 				</label>	
 			</p>
 
-			<h4>Darstellung</h4>
+			<h2>Darstellung</h2>
 
 			<p class="settings-label">Akzentfarbe</p>
 			<div id="colors"></div>
@@ -90,7 +90,7 @@
 				</label>	
 			</p>
 
-			<h3>About</h3>
+			<h1>About</h1>
 			<a href="https://github.com/Antricks/substitution-table" target="_blank"><p><img src="icons/github.svg" class="icon" alt="Github Icon">GitHub Repo</p></a>
 
 			<div id="settings-footer">
@@ -99,10 +99,11 @@
 			</div>
 		</div>
 	</div>
-	<div id="messages"></div>
-	<div id="affected-elements"></div>
-	<div id="substitutions"></div>
+	<div class="messages"></div>
+	<div class="affected-elements"></div>
+	<div class="substitutions"></div>
 	<loading-hint id="loading">Vertretungen laden...</loading-hint>
+	<noscript><p id="noscript-hint">Für die Nutzung dieses Vertretungsplans ist JavaScript notwendig.</p></noscript>
 	<div id="gimmick"></div>
 </body>
 </html>

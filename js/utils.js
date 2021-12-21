@@ -1,11 +1,11 @@
 window.errorMessage = function(error) {
     console.debug(error);
 
-    $("#messages")[0].innerHTML = "";
-    $("#affected-elements")[0].innerHTML = "";
-    $("#affected-elements")[0].classList = [];
+    $(".messages")[0].innerHTML = "";
+    $(".affected-elements")[0].innerHTML = "";
+    $(".affected-elements")[0].classList = [];
 
-    $("#substitutions")[0].innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten. <br><sub>("+error+")</sub></p>";
+    $(".substitutions")[0].innerHTML = "<p class=\"no-subst-msg\"><img src=\"icons/cancelled.svg\" class=\"icon\">Es ist ein Fehler aufgetreten. <br><sub>("+error+")</sub></p>";
 }
 
 /**

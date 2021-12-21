@@ -50,12 +50,6 @@ window.applyUrlParameters = function() {
  * get darkmode preference from browser if no darkmode cookie available
  */
 window.loadSettings = function loadSettings() {
-    
-    // If it's later than TIME_SHOW_NEXT_DAY o' clock, show the next day
-    if(new Date().getHours() > TIME_SHOW_NEXT_DAY) {
-        settings.currentDateOffset = 1;
-    }
-
     applyUrlParameters();
 
     if(getCookie("darkmode")) {
@@ -83,13 +77,18 @@ window.loadSettings = function loadSettings() {
 
     // apply autoscroll setting
     if(settings.autoscroll) {
-        $("#substitutions")[0].classList.add("autoscroll");
-        document.body.style.setProperty("--side-margin", "10%");
-        document.body.style.fontSize = "90%";
+        document.body.classList.add("monitor-mode");
+        
+        for(let elem of $(".substitutions")) {
+            elem.classList.add("autoscroll")
+        }
+        //window.initAutscroll()
     } else {
-        $("#substitutions")[0].classList.remove("autoscroll");
-        document.body.style.setProperty("--side-margin", "20%");
-        document.body.style.fontSize = "100%";
+        document.body.classList.remove("monitor-mode");
+        
+        for(let elem of $(".substitutions")) {
+            elem.classList.remove("autoscroll")
+        }
     }
 
     $("#autoscroll-switch")[0].checked = settings.autoscroll;
@@ -97,13 +96,14 @@ window.loadSettings = function loadSettings() {
 
     // add accent color selects to settings menu
     let c;
+    let colorsElem = $("#colors")[0];
     for(c of COLORS){
         let colorSelector = document.createElement("div");
         colorSelector.style.background = c;
         colorSelector.id = "color" + c;
         colorSelector.classList.add("colorSelector");
         colorSelector.setAttribute("onclick","colorClick(this);");
-        $("#colors")[0].appendChild(colorSelector);
+        colorsElem.appendChild(colorSelector);
     }
 
     // get accent color from cookie, generate dynamic dark accent color, pass colors to CSS
@@ -124,9 +124,9 @@ window.loadSettings = function loadSettings() {
     }
 
     if(settings.is_teacher) {
-        $("#substitutions")[0].classList.add("teacher");
+        $(".substitutions")[0].classList.add("teacher");
     } else {
-        $("#substitutions")[0].classList.remove("teacher");
+        $(".substitutions")[0].classList.remove("teacher");
     }
 
     $("#is-teacher")[0].checked = settings.is_teacher; // set teacher mode switch in settings menu
@@ -147,9 +147,9 @@ window.setIsTeacher = function(obj) {
     }
 
     if(settings.is_teacher) {
-        $("#substitutions")[0].classList.add("teacher");
+        $(".substitutions")[0].classList.add("teacher");
     } else {
-        $("#substitutions")[0].classList.remove("teacher");
+        $(".substitutions")[0].classList.remove("teacher");
     }
 
     setCookie("is_teacher", settings.is_teacher, 9999);
@@ -185,17 +185,18 @@ window.setAutoscroll = function(obj) {
     setCookie("autoscroll", settings.autoscroll, 9999);
 
     if(settings.autoscroll) {
-        $("#substitutions")[0].classList.add("autoscroll");
-        document.body.style.setProperty("--side-margin", "10%");
-        document.body.style.fontSize = "90%";
-
-        window.initAutoscroll();
-    } else {
-        $("#substitutions")[0].classList.remove("autoscroll");
-        document.body.style.setProperty("--side-margin", "20%");
-        document.body.style.fontSize = "100%";
+        document.body.classList.add("monitor-mode");
         
-        window.clearAutoscroll();
+        for(let elem of $(".substitutions")) {
+            elem.classList.add("autoscroll")
+        }
+        window.initAutoscroll()
+    } else {
+        document.body.classList.remove("monitor-mode");
+        
+        for(let elem of $(".substitutions")) {
+            elem.classList.remove("autoscroll")
+        }
     }
 
     window.RESET_AUTOSCROLL = true;

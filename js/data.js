@@ -2,23 +2,6 @@ window.Substitution = class {
     constructor(data_row) {
         this.periods     = data_row.data[0];
         this.begin       = parseInt(this.periods);
-        this.course_long = data_row.data[2];
-        
-        if(this.course_long) {
-            let course_long_split = this.course_long.split("_");
-            
-            if(course_long_split.length == 3) {
-                this.course_check = course_long_split[0];
-                this.class_check = course_long_split[1];
-                this.teacher_check = course_long_split[2];
-                
-                // Only set teacher_check if a teacher is specified in course_long
-                // example: SPL1_12_1
-                if(!/^([A-Z]*)$/.test(this.teacher_check)) {
-                    this.teacher_check = ""; 
-                }
-            }
-        }
 
         this.course       = data_row.data[3];
         this.room         = data_row.data[4];
@@ -146,9 +129,6 @@ window.Day = class {
         this.student_substitutions.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
         
         //#endregion
-    
-        combineSplitSubsts(this.teacher_substitutions);
-        combineSplitSubsts(this.student_substitutions);
     }
 
     get substitutions() {
@@ -197,27 +177,6 @@ window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
     }
 
     return dataCache[dateOffset].day;
-}
-
-/**
- * @param data
- * @return new version of data with combined substitutions
- */
- window.combineSplitSubsts = function(substitutions) {
-    substitutions.forEach(subst => {
-        let alike_substs = substitutions.filter(s => (
-            s.course_long == subst.course_long &&
-            s.classes_raw == subst.classes_raw &&
-            s.teachers_raw == subst.teachers_raw &&
-            s.room == subst.room &&
-            s.type == subst.type &&
-            s.message == subst.message
-        ));
-
-        if(alike_substs.length > 1) {
-            // TODO -> issue #9
-        }
-    });
 }
 
 /**

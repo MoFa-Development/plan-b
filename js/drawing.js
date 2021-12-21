@@ -8,7 +8,7 @@ const FORCE_SHOW_TEACHER_CLASSES = ["11", "12"];
  * - showing shadows on the overflowed side(s) of the affected elements bar
  */
 window.handleAffectedElementsOverflow = function() {
-    let element = $("#affected-elements")[0];
+    let element = $(".affected-elements")[0];
 
     let element_width = element.clientWidth;
     let scroll = element.scrollLeft;
@@ -55,7 +55,7 @@ window.Message.prototype.toElem = function() {
  * generate message elements for messages of the day and add them to the messages container
  */
 window.Day.prototype.drawMessages = function() {
-    let messages = $("#messages")[0];
+    let messages = $(".messages")[0];
 
     while (messages.firstChild) {
         messages.removeChild(messages.firstChild);
@@ -74,7 +74,7 @@ window.Day.prototype.drawMessages = function() {
  * generate affected element selects and add them to the selection bar
  */
 window.Day.prototype.drawAffectedElements = function() {
-    let affectedElementsBarObj = $("#affected-elements")[0];
+    let affectedElementsBarObj = $(".affected-elements")[0];
 
     if(this.substitutions.length == 0) {
         affectedElementsBarObj.style.visibility = "hidden";
@@ -174,14 +174,6 @@ window.Substitution.prototype.toElem = function() {
         var course_change_html = "";
         var teacher_note_html = "";
 
-        if(this.course_check && this.course.replace(" ", "") != this.course_check.replace(" ", "")) {
-            course_change_html = " (<span class=\"cancelStyle\">" + this.course_check + "</span>)";
-        }
-
-        if(this.teacher_check && listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes)) {
-            teacher_note_html = " ("+this.teacher_check+")"
-        }
-
         let courseElement = document.createElement("p");
         courseElement.innerHTML = "<img src=\"icons/book-open-variant.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.course + course_change_html + teacher_note_html + "</div>";
         courseElement.id = "course"
@@ -198,14 +190,13 @@ window.Substitution.prototype.toElem = function() {
         substElement.appendChild(roomElement);
     }
 
-    // only draw teacher label if type is not cancelled or room change
-    if(this.teachers_raw && settings.is_teacher || this.teachers_raw && this.type != "Entfall" && this.type != "Raum&auml;nderung") {
-        
+    // only draw teacher label if...
+    if(this.teachers_raw // data is given
+        && (settings.is_teacher // is teacher 
+            || listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes) // classes from FORCE_SHOW_TEACHER_CLASSES are included 
+            || this.type != "Entfall" && this.type != "Raum&auml;nderung") // substitution is not of type 'cancelled' or 'room change'
+    ) { 
         var teacher_change_html = "";
-
-        if(this.teacher_check && this.teachers_raw != this.teacher_check && !this.teachers_raw.includes("cancelStyle")) {
-            teacher_change_html = " (<span class=\"cancelStyle\">"+ this.teacher_check +"</span>)";
-        }
 
         let teacherElement = document.createElement("p");
         teacherElement.innerHTML = "<img src=\"icons/teacher.svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.teachers_raw + teacher_change_html + "</div>";
@@ -251,7 +242,7 @@ window.Substitution.prototype.toElem = function() {
  */
 window.Day.prototype.drawSubstitutions = function() {
 
-    let substitutionsElement = $("#substitutions")[0];
+    let substitutionsElement = $(".substitutions")[0];
 
     while (substitutionsElement.firstChild) {
         substitutionsElement.removeChild(substitutionsElement.firstChild);
@@ -302,7 +293,7 @@ window.Day.prototype.drawSubstitutions = function() {
             if(currentAffected != lastAffected) {
                 collectionElement = document.createElement("div");
                 collectionElement.classList.add("subst-collection");
-                substitutions.appendChild(collectionElement);
+                substitutionsElement.appendChild(collectionElement);
 
                 lastAffected = currentAffected;
             }
@@ -364,7 +355,7 @@ window.Day.prototype.draw = function() {
     } catch (error) {
         console.debug(this);
         
-        let affectedElementsBarObj = $("#affected-elements")[0];
+        let affectedElementsBarObj = $(".affected-elements")[0];
 
         if(this.substitutions.length == 0) {
             affectedElementsBarObj.style.visibility = "hidden";
