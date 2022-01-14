@@ -12,7 +12,7 @@ body {
     --standard-box-shadow: .1em .2em .5em var(--shadow);
 
     --round-radius: .7em;
-    
+
     --side-margin: 20%;
 
     --affected-elements-height: 2.5em;
@@ -28,7 +28,7 @@ body {
 
     background-color: var(--background);
     color: var(--text-color-primary);
-    
+
     font-family: 'Roboto', sans-serif;
     color: var(--text-color-primary);
     letter-spacing: .03em;
@@ -89,12 +89,12 @@ loading-hint, #noscript-hint {
 
 .filter-icon {
     position: absolute;
-    
+
     bottom: unset;
     right: unset;
     left: unset;
     top: unset;
-    
+
     left: calc(var(--side-margin) - 2.2em);
     transition: left .5s;
 }
@@ -120,7 +120,7 @@ loading-hint, #noscript-hint {
     padding: 0;
 
     min-height: var(--affected-elements-height);
-    
+
     justify-content: center;
     align-items: center;
 
@@ -130,13 +130,13 @@ loading-hint, #noscript-hint {
 
     background-color: var(--background-secondary);
     border-radius: var(--round-radius);
-    
+
     outline-width: 5px;
     outline-color: var(--text-color-primary);
 
     overflow-x: auto;
     overflow-y: hidden;
-    /*white-space: nowrap;*/  
+    /*white-space: nowrap;*/
 
     box-shadow: var(--standard-box-shadow);
 
@@ -161,14 +161,14 @@ loading-hint, #noscript-hint {
 
 .affected-element {
     display: flex;
-    
+
     width: auto;
     min-height: var(--affected-elements-height);
 
     align-items: center;
     justify-content: center;
     text-align: center;
-    
+
     padding-left: .5em;
     padding-right: .5em;
 
@@ -397,7 +397,7 @@ input:checked + .slider:before {
 #settings-overlay {
     position: relative;
     display: block;
-    background-color: var(--background-secondary);    
+    background-color: var(--background-secondary);
 
     margin-left: auto;
     margin-right: auto;
@@ -768,14 +768,14 @@ body.dark a:hover {
 @media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
     body {
         --font-size-normal: 14pt;
-        --font-size-monitor-mode: 12pt;    
+        --font-size-monitor-mode: 12pt;
     }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (max-width: 1000px) {
     body {
         --font-size-normal: 20pt;
-        --font-size-monitor-mode: 16pt;    
+        --font-size-monitor-mode: 16pt;
     }
 
     #settings-btn {
@@ -787,7 +787,7 @@ body.dark a:hover {
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (min-width: 1000px) {
     body {
         --font-size-normal: 24pt;
-        --font-size-monitor-mode: 20pt;  
+        --font-size-monitor-mode: 20pt;
     }
 
     #settings-btn {
@@ -799,7 +799,7 @@ body.dark a:hover {
 @media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
     body {
         --font-size-normal: 24pt;
-        --font-size-monitor-mode: 20pt;    
+        --font-size-monitor-mode: 20pt;
     }
 
     #settings-btn {
