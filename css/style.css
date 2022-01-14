@@ -764,6 +764,7 @@ body.dark a {
 body.dark a:hover {
     color: var(--accent-dark);
 }
+
 /*
 @media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
     body {
