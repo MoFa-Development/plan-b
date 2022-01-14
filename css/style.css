@@ -17,8 +17,8 @@ body {
 
     --affected-elements-height: 2.5em;
 
-    --font-size-normal: 100%;
-    --font-size-monitor-mode: 90%;
+    --font-size-normal: 16px;
+    --font-size-monitor-mode: 14px;
 
     display: flex;
     flex-direction: column;
@@ -763,49 +763,6 @@ body.dark a {
 
 body.dark a:hover {
     color: var(--accent-dark);
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
-    body {
-        --font-size-normal: 14pt;
-        --font-size-monitor-mode: 12pt;
-    }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (max-width: 1000px) {
-    body {
-        --font-size-normal: 20pt;
-        --font-size-monitor-mode: 16pt;
-    }
-
-    #settings-btn {
-        width: 7em;
-        height: 7em;
-    }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (min-width: 1000px) {
-    body {
-        --font-size-normal: 24pt;
-        --font-size-monitor-mode: 20pt;
-    }
-
-    #settings-btn {
-        width: 7em;
-        height: 7em;
-    }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
-    body {
-        --font-size-normal: 24pt;
-        --font-size-monitor-mode: 20pt;
-    }
-
-    #settings-btn {
-        width: 7em;
-        height: 7em;
-    }
 }
 
 @media screen and (orientation: portrait) {
