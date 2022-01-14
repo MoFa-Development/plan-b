@@ -8,39 +8,21 @@ const refreshIntervalMinutes = 5;
 
 window.RESET_AUTOSCROLL = false;
 
-window.lastMouseMovedTimestamp = 0;
+window.lastInteractionTimestamp = 0;
 const TIMEOUT_INACTIVE = 5000;
 
-/**
- * list of events with corresponding handler functions
- */
-const EVENTS = [
-    ["keyup", (e) => {
-        if(e.code == "Escape") {
-            hideSettings();
-        }
-    }],
-    ["mousemove", (e) => {
-        window.lastMouseMovedTimestamp = Date.now();
-        document.body.classList.remove("inactive");
-    }],
-    ["resize", (e) => {
-        window.handleAffectedElementsOverflow();
-        window.initAutoscroll();
-    }],
-    ["deviceorientation", (e) => {
-        window.handleAffectedElementsOverflow();
-        window.initAutoscroll();
-    }]
-];
 
+window.handleInteraction = function() {
+    window.lastInteractionTimestamp = Date.now();
+    document.body.classList.remove("inactive");
+}
 
 /**
  * Hide settings
  */
 window.handleInactivity = function() {
     
-    if(settings.autoscroll && Date.now() - lastMouseMovedTimestamp > TIMEOUT_INACTIVE) {
+    if(settings.autoscroll && Date.now() - lastInteractionTimestamp > TIMEOUT_INACTIVE) {
         if(!document.body.classList.contains("inactive")) {
             document.body.classList.add("inactive");
         }
@@ -60,26 +42,6 @@ window.generalInit = function() {
     setInterval(handleAutoscroll, autoscrollInterval);
     // data refreshing
     setInterval(draw, 1000*60*refreshIntervalMinutes);
-}
-
-/**
- * load and add events with corresponding handler functions
- */
-window.initEvents = function() {  
-    let addEvent
-
-    if(window.addEventListener) {
-        addEvent = window.addEventListener;
-    } else {
-        addEvent = window.attachEvent;
-    }
-
-    let event_name
-    let func
-
-    for([event_name, func] of EVENTS) {
-        addEvent(event_name, func);
-    }
 }
 
 window.clearAutoscroll = function() {
@@ -181,4 +143,46 @@ window.prevDay = function() {
     draw();
     reset_animation("title-day");
     $("#title-day")[0].style.animation="slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)";
+}
+
+/**
+ * list of events with corresponding handler functions
+ */
+const EVENTS = [
+    ["keyup", (e) => {
+        if(e.code == "Escape") {
+            hideSettings();
+        }
+    }],
+    ["mousemove", handleInteraction],
+    ["touchstart", handleInteraction],
+    ["touchmove", handleInteraction],
+    ["resize", (e) => {
+        window.handleAffectedElementsOverflow();
+        window.initAutoscroll();
+    }],
+    ["deviceorientation", (e) => {
+        window.handleAffectedElementsOverflow();
+        window.initAutoscroll();
+    }]
+];
+
+/**
+ * load and add events with corresponding handler functions
+ */
+ window.initEvents = function() {  
+    let addEvent
+
+    if(window.addEventListener) {
+        addEvent = window.addEventListener;
+    } else {
+        addEvent = window.attachEvent;
+    }
+
+    let event_name
+    let func
+
+    for([event_name, func] of EVENTS) {
+        addEvent(event_name, func);
+    }
 }
