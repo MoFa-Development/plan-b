@@ -774,8 +774,8 @@ body.dark a:hover {
 
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) and (max-width: 1000px) {
     body {
-        --font-size-normal: 24pt;
-        --font-size-monitor-mode: 20pt;    
+        --font-size-normal: 20pt;
+        --font-size-monitor-mode: 16pt;    
     }
 
     #settings-btn {
@@ -798,8 +798,8 @@ body.dark a:hover {
 
 @media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
     body {
-        --font-size-normal: 56pt;
-        --font-size-monitor-mode: 48pt;    
+        --font-size-normal: 24pt;
+        --font-size-monitor-mode: 20pt;    
     }
 
     #settings-btn {
