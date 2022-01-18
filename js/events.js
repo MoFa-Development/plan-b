@@ -93,8 +93,10 @@ window.initAutoscroll = function() {
 window.handleAutoscroll = function() {
     if(RESET_AUTOSCROLL) {
         window.initAutoscroll();
-        for(let e of $(".autoscroll")) {
-            e.scrollTop = 0;
+        for(let elem of $(".autoscroll")) {
+            elem.scroll({
+                top: 0
+            });
         }
 
         window.RESET_AUTOSCROLL = false;
