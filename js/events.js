@@ -1,7 +1,7 @@
 import "./settings.js"
 
 const autoscrollFPS = 30;
-window.autoscrollPixelPerFrame = 1;
+window.autoscrollScrollPerFrame = 1;
 const autoscrollInterval = 1000 / autoscrollFPS;
 
 const refreshIntervalMinutes = 5;
@@ -113,7 +113,7 @@ window.handleAutoscroll = function() {
                 
                 if(elem.scrollTop < elem.originalScrollHeight) { // must be further scrolled
                     elem.scrollBy({
-                        top: autoscrollPixelPerFrame
+                        top: autoscrollScrollPerFrame
                     });
                 } else { // scrolled to the reset point
                     elem.scroll({

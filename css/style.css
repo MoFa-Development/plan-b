@@ -616,60 +616,62 @@ body.monitor-mode .substitutions {
     grid-column: 1;
 }
 
-body.monitor-mode .substitutions .subst-element {
-    display: grid;
-    column-gap: 1em;
-    padding-left: 1em;
-    padding-right: 1em;
-    grid-template-columns: 10fr 6fr 8fr 12fr 8fr 10fr 14fr;
-}
-
-body.monitor-mode .substitutions.teacher .subst-element {
-    grid-template-columns: 10fr 8fr 10fr 12fr 12fr 8fr 14fr;
-}
-
-body.monitor-mode .substitutions .subst-element > #classes {
-    grid-column: 1;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #periods {
-    grid-column: 2;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #course {
-    grid-column: 3;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #type {
-    grid-column: 4;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #room {
-    grid-column: 5;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #teacher {
-    grid-column: 6;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions .subst-element > #message {
-    grid-column: 7;
-    grid-row: 1;
-}
-
-body.monitor-mode .substitutions.teacher .subst-element > #teacher {
-    grid-column: 1;
-}
-
-body.monitor-mode .substitutions.teacher .subst-element > #classes {
-    grid-column: 6;
-    grid-row: 1;
+@media screen and (orientation: landscape) {
+    body.monitor-mode .substitutions .subst-element {
+        display: grid;
+        column-gap: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
+        grid-template-columns: 10fr 6fr 8fr 12fr 8fr 10fr 14fr;
+    }
+    
+    body.monitor-mode .substitutions.teacher .subst-element {
+        grid-template-columns: 10fr 8fr 10fr 12fr 12fr 8fr 14fr;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #classes {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #periods {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #course {
+        grid-column: 3;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #type {
+        grid-column: 4;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #room {
+        grid-column: 5;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #teacher {
+        grid-column: 6;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions .subst-element > #message {
+        grid-column: 7;
+        grid-row: 1;
+    }
+    
+    body.monitor-mode .substitutions.teacher .subst-element > #teacher {
+        grid-column: 1;
+    }
+    
+    body.monitor-mode .substitutions.teacher .subst-element > #classes {
+        grid-column: 6;
+        grid-row: 1;
+    }   
 }
 
 .substitutions.teacher .subst-element > #teacher {
@@ -765,10 +767,19 @@ body.dark a:hover {
     color: var(--accent-dark);
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+
+@media screen and (orientation: portrait) {
     body {
-        --font-size-normal: 30px;
-        --font-size-monitor-mode: 25px;
+        --side-margin: 10%;
+    }
+}
+
+/* Dynamic Font scaling and I will never be friends...*/
+
+@media screen and (-webkit-min-device-pixel-ratio: 1) and (orientation: portrait) {
+    body {
+        --font-size-normal: 36px;
+        --font-size-monitor-mode: 33px;
     }
 
     #settings-btn {
@@ -777,10 +788,27 @@ body.dark a:hover {
     }
 }
 
-
-@media screen and (orientation: portrait) {
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
     body {
-        --side-margin: 10%;
+        --font-size-normal: 36px;
+        --font-size-monitor-mode: 33px;
+    }
+
+    #settings-btn {
+        width: 7em;
+        height: 7em;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    body {
+        --font-size-normal: 36px;
+        --font-size-monitor-mode: 33px;
+    }
+
+    #settings-btn {
+        width: 7em;
+        height: 7em;
     }
 }
 

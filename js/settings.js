@@ -199,6 +199,7 @@ window.setAutoscroll = function(obj) {
         }
     }
 
+    window.initAutoscroll();
     window.RESET_AUTOSCROLL = true;
 }
 
