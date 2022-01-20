@@ -4,7 +4,7 @@
     "description": "Minimalistischer, alternativer Vertretungsplan basierend auf der WebUntis-API",
     "display": "fullscreen",
     "theme_color": "#26a69a",
-    "background_color": "#3a3c3f",
+    "background_color": "#ffffff",
     "start_url": "./index.html",
     "scope": "./",
     "icons": [
