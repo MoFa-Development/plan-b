@@ -1,5 +1,5 @@
 /**
- * globally reachable settings object  
+ * globally reachable settings object
  */
 window.settings = {
     currentDateOffset: 0,
@@ -39,7 +39,7 @@ window.hideSettings = function() {
  */
 window.applyUrlParameters = function() {
     var urlParams = new URLSearchParams(location.search);
-    
+
     for(var pair of urlParams.entries()) {
         setCookie(pair[0].toLowerCase(), pair[1].toLowerCase().split(";")[0], 9999);
     }
@@ -59,13 +59,7 @@ window.loadSettings = function loadSettings() {
     }
 
     // apply darkmode setting
-    if(settings.darkmode) {
-        document.querySelector('body').classList.add("dark"); // darkmode on
-    } else {
-        document.querySelector('body').classList.remove("dark"); // darkmode off
-    }
-
-    $("#dark-mode-switch")[0].checked = settings.darkmode; // set dark mode switch in settings menu
+    setDarkmode(settings.darkmode);
 
 
     // get autoscroll preference from cookie
@@ -76,23 +70,7 @@ window.loadSettings = function loadSettings() {
     }
 
     // apply autoscroll setting
-    if(settings.autoscroll) {
-        document.body.classList.add("monitor-mode");
-        
-        for(let elem of $(".substitutions")) {
-            elem.classList.add("autoscroll")
-        }
-        //window.initAutscroll()
-    } else {
-        document.body.classList.remove("monitor-mode");
-        
-        for(let elem of $(".substitutions")) {
-            elem.classList.remove("autoscroll")
-        }
-    }
-
-    $("#autoscroll-switch")[0].checked = settings.autoscroll;
-
+    setAutoscroll(settings.autoscroll)
 
     // add accent color selects to settings menu
     let c;
@@ -120,51 +98,42 @@ window.loadSettings = function loadSettings() {
 
     // get teacher mode preference from cookie
     if(getCookie("is_teacher")) {
-        settings.is_teacher = getCookie("is_teacher") == "true"    
+        settings.isTeacher = getCookie("is_teacher") == "true"
     }
 
-    if(settings.is_teacher) {
-        $(".substitutions")[0].classList.add("teacher");
-    } else {
-        $(".substitutions")[0].classList.remove("teacher");
-    }
-
-    $("#is-teacher")[0].checked = settings.is_teacher; // set teacher mode switch in settings menu
+    // apply is teacher setting
+    setIsTeacher(settings.isTeacher);
 }
 
-/**
- * handle onclick on teacher mode switch
- * 
- * @param {HTMLElement} obj clicked checkbox element
- */
-window.setIsTeacher = function(obj) {
-    settings.is_teacher = obj.checked;
+window.setIsTeacher = function(isTeacher) {
+    settings.isTeacher = isTeacher;
 
-    if(settings.is_teacher) {
+    $("#teacher-switch")[0].checked = settings.isTeacher;
+    setCookie("is_teacher", settings.isTeacher, 9999);
+
+    if(settings.isTeacher) {
         settings.selectedClass = "";
     } else {
         settings.selectedTeacher = "";
     }
 
-    if(settings.is_teacher) {
+    if(settings.isTeacher) {
         $(".substitutions")[0].classList.add("teacher");
     } else {
         $(".substitutions")[0].classList.remove("teacher");
     }
 
-    setCookie("is_teacher", settings.is_teacher, 9999);
     draw();
 }
 
-
 /**
- * handle onclick on darkmode switch
- * 
- * @param {HTMLElement} obj clicked checkbox element
+ * sets darkmode setting and applies it.
+ * @param {boolean} darkmode value to apply to darkmode setting
  */
-window.setDarkmode = function(obj) {
-    settings.darkmode = obj.checked;
+window.setDarkmode = function(darkmode) {
+    settings.darkmode = darkmode;
 
+    $("#darkmode-switch")[0].checked = settings.darkmode;
     setCookie("darkmode", settings.darkmode, 9999);
 
     if(settings.darkmode) {
@@ -175,25 +144,25 @@ window.setDarkmode = function(obj) {
 }
 
 /**
- * handle onclick on autoscroll switch
- * 
- * @param {HTMLElement} obj clicked checkbox element
+ * sets autoscroll setting and applies it.
+ * @param {boolean} autoscroll value to apply to autoscroll setting
  */
-window.setAutoscroll = function(obj) {
-    settings.autoscroll = obj.checked;
+window.setAutoscroll = function(autoscroll) {
+    settings.autoscroll = autoscroll;
 
+    $("#autoscroll-switch")[0].checked = settings.autoscroll;
     setCookie("autoscroll", settings.autoscroll, 9999);
 
     if(settings.autoscroll) {
         document.body.classList.add("monitor-mode");
-        
+
         for(let elem of $(".substitutions")) {
             elem.classList.add("autoscroll")
         }
         window.initAutoscroll()
     } else {
         document.body.classList.remove("monitor-mode");
-        
+
         for(let elem of $(".substitutions")) {
             elem.classList.remove("autoscroll")
         }
@@ -205,7 +174,6 @@ window.setAutoscroll = function(obj) {
 
 /**
  * handle onclick on accent color select element
- * 
  * @param {HTMLElement} obj clicked checkbox element
  */
 window.colorClick = function(obj) {
@@ -213,26 +181,26 @@ window.colorClick = function(obj) {
         el.classList.remove("selected");
     });
     obj.classList.add("selected");
-    
+
     let accent_color = rgb2hex(obj.style.backgroundColor);
-    let accent_dark = shadeColor(accent_color, -20); 
+    let accent_dark = shadeColor(accent_color, -20);
 
     document.body.style.setProperty('--accent', accent_color);
     document.body.style.setProperty('--accent-dark', accent_dark);
-    
+
     setCookie("accent_color", accent_color, 9999);
 }
 
 /**
  * set or unset selected teacher / class
- * 
+ *
  * @param {HTMLElement} elem selectedElement HTMLElement
  * @param {*} data API data of the current day
  */
 window.Day.prototype.setSelectedElement = function(elem) {
-    if(settings.is_teacher) {
+    if(settings.isTeacher) {
         settings.selectedClass = "";
-        
+
         if (settings.selectedTeacher == elem) {
             settings.selectedTeacher = "";
         } else {

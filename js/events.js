@@ -18,10 +18,9 @@ window.handleInteraction = function() {
 }
 
 /**
- * Hide settings
- */
+* Hide settings
+*/
 window.handleInactivity = function() {
-    
     if(settings.autoscroll && Date.now() - lastInteractionTimestamp > TIMEOUT_INACTIVE) {
         if(!document.body.classList.contains("inactive")) {
             document.body.classList.add("inactive");
@@ -51,10 +50,10 @@ window.clearAutoscroll = function() {
 }
 
 /**
- * initialize autoscroll (must be called at every redraw)
- */
+* initialize autoscroll (must be called at every redraw)
+*/
 window.initAutoscroll = function() {
-    
+
     window.clearAutoscroll();
 
     if(settings.autoscroll) {
@@ -70,7 +69,7 @@ window.initAutoscroll = function() {
 
                 elem.originalScrollHeight = elem.scrollHeight;
                 elem.originalScrollTopMax = elem.scrollTopMax;
-            
+
                 for(let child of elem.children) {
                     let clone = child.cloneNode(true)
                     clone.classList.add("autoscroll-visual")
@@ -88,8 +87,8 @@ window.initAutoscroll = function() {
 }
 
 /**
- * handle next autoscroll animation frame
- */
+* handle next autoscroll animation frame
+*/
 window.handleAutoscroll = function() {
     if(RESET_AUTOSCROLL) {
         window.initAutoscroll();
@@ -101,7 +100,7 @@ window.handleAutoscroll = function() {
 
         window.RESET_AUTOSCROLL = false;
     }
-    
+
     if(settings.autoscroll) {
         let autoscrollElements = $(".autoscroll");
 
@@ -113,7 +112,7 @@ window.handleAutoscroll = function() {
                         top: 0
                     })
                 }
-                
+
                 if(elem.scrollTop < elem.originalScrollHeight) { // must be further scrolled
                     elem.scrollBy({
                         top: autoscrollScrollPerFrame
@@ -129,8 +128,8 @@ window.handleAutoscroll = function() {
 }
 
 /**
- * handle onclick on next day button
- */ 
+* handle onclick on next day button
+*/
 window.nextDay = function() {
     settings.currentDateOffset++;
     draw();
@@ -139,8 +138,8 @@ window.nextDay = function() {
 }
 
 /**
- * handle onclick on previous day button
- */
+* handle onclick on previous day button
+*/
 window.prevDay = function() {
     settings.currentDateOffset--;
     draw();
@@ -149,8 +148,8 @@ window.prevDay = function() {
 }
 
 /**
- * list of events with corresponding handler functions
- */
+* list of events with corresponding handler functions
+*/
 const EVENTS = [
     ["keyup", (e) => {
         if(e.code == "Escape") {
@@ -171,9 +170,9 @@ const EVENTS = [
 ];
 
 /**
- * load and add events with corresponding handler functions
- */
- window.initEvents = function() {  
+* load and add events with corresponding handler functions
+*/
+window.initEvents = function() {
     let addEvent
 
     if(window.addEventListener) {

@@ -8,7 +8,7 @@ window.Substitution = class {
         this.teachers_raw = data_row.data[5];
         this.type         = data_row.data[6];
         this.message      = data_row.data[7];
-        
+
         this.cssClasses   = data_row.cssClasses;
         this.group        = data_row.group;
 
@@ -41,15 +41,15 @@ window.Message = class {
 window.Day = class {
     teacher_substitutions = [];
     student_substitutions = [];
-    messages = []; 
+    messages = [];
 
     constructor(data) {
         this.date = data.payload.date;
         this.nextDate = data.payload.nextDate;
         this.weekDay = data.payload.weekDay;
-        
+
         this.lastUpdate = data.payload.lastUpdate;
-        
+
         data.payload.messageData.messages.forEach((message_data) => {
             this.messages.push(new Message(message_data));
         });
@@ -59,7 +59,7 @@ window.Day = class {
 
         // sort affected classes by year
         this.affectedClasses = this.affectedClasses.sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
-        
+
         // filter out placeholders that shouldn't appear in affected elements
         this.affectedClasses = this.affectedClasses.filter(
             (affectedClass) => !PLACEHOLDERS.includes(affectedClass)
@@ -73,7 +73,7 @@ window.Day = class {
         data.payload.rows.forEach((element) => {
             let subst_type = element.data[6];
             let teacher_data_raw = element.data[5];
-            
+
             let teacher_data_text = teacher_data_raw.replace(/(<([^>]+)>)/ig, '');
             teacher_data_text = teacher_data_text.replace(/[\(\)\,]/ig, '');
 
@@ -97,7 +97,7 @@ window.Day = class {
             (affectedTeacher) => !PLACEHOLDERS.includes(affectedTeacher)
         )
         //#endregion
-    
+
         data.payload.rows.forEach((row) => {
             let subst = new Substitution(row);
             this.teacher_substitutions.push(subst);
@@ -105,34 +105,34 @@ window.Day = class {
         });
 
         //#region sort substitutions for teachers
-        
-        // sort by substitution begin 
+
+        // sort by substitution begin
         this.teacher_substitutions.sort((a, b) => a.begin - b.begin);
 
         // sort by first teacher in teacher info
         // this means the substituting teacher is relevant for sorting, not the substituted
         // if there's only one teacher, we don't have a problem in the first place
         this.teacher_substitutions.sort((a, b) => a.teachers[0].toUpperCase() > b.teachers[0].toUpperCase());
-        
+
         //#endregion
 
         //#region sort substitutions for students
-        
+
         // sort by subject
         this.student_substitutions.sort((a, b) => a.course.toUpperCase() > b.course.toUpperCase());
-        
+
         // sort by substitution begin
         this.student_substitutions.sort((a, b) => a.begin - b.begin);
-        
+
         // sort by first affected class
         this.student_substitutions.sort((a, b) => a.classes[0].toUpperCase() > b.classes[0].toUpperCase());
         this.student_substitutions.sort((a, b) => parseInt(a.group.replace(/\D/g,'')) - parseInt(b.group.replace(/\D/g,'')));
-        
+
         //#endregion
     }
 
     get substitutions() {
-        if(settings.is_teacher) {
+        if(settings.isTeacher) {
             return this.teacher_substitutions;
         } else {
             return this.student_substitutions;
@@ -148,7 +148,8 @@ const PLACEHOLDERS = [
     "---",
     "-",
     "...",
-    "."
+    ".",
+    ""
 ]
 
 const REFRESH_CACHE_MILL = 2*60*1000;
@@ -164,12 +165,12 @@ class CacheEntry {
 
 /**
  * Returns data from cache if data new enough, otherwise fetches new data and returns
- * @param {int} dateOffset 
+ * @param {int} dateOffset
  * @returns day object of specified date offset
  */
 window.getCachedDay = async function(dateOffset = settings.currentDateOffset) {
     if(!dataCache[dateOffset] || dataCache[dateOffset].timestamp < new Date().getTime()-REFRESH_CACHE_MILL) {
-        
+
         await getData(dateOffset).then(data => {
             dataCache[dateOffset] = new CacheEntry(data);
             console.debug("dataCache["+dateOffset.toString()+"] = ", dataCache[dateOffset]);

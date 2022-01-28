@@ -22,7 +22,7 @@
 	<meta property="twitter:title" content="Vertretungsplan">
 	<meta property="twitter:description" content="Minimalistischer, alternativer Vertretungsplan für das ÖG">
 	<meta property="twitter:image" content="img/banner.png">
-    
+
 	<meta name="twitter:dnt" content="on">
 
 	<!-- Icons -->
@@ -34,7 +34,7 @@
 	<!-- Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&display=swap" rel="stylesheet">
 
 	<!-- Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -43,7 +43,7 @@
 </head>
 <body>
 	<script src="js/main.js" type="module"></script>
-	
+
 	<div id="navbar">
 		<button id="btn-prev-day" class="navbar-btn"><img src="icons/arrow-left.svg" class="navbar-arrow" alt="Vorheriger Tag"></button>
 		<div id="title-box">
@@ -61,19 +61,19 @@
 			<h1>Einstellungen</h1>
 
 			<h2>Ansicht</h2>
-			
+
 			<p class="settings-label">Lehreransicht
 				<label class="switch">
-					<input id="is-teacher" type="checkbox" onchange="setIsTeacher(this);">
+					<input id="teacher-switch" type="checkbox" onchange="setIsTeacher(this.checked);">
 					<span class="slider round"></span>
 				</label>
 			</p>
 
 			<p class="settings-label">Monitor
 				<label class="switch">
-					<input id="autoscroll-switch" type="checkbox" onchange="setAutoscroll(this);">
+					<input id="autoscroll-switch" type="checkbox" onchange="setAutoscroll(this.checked);">
 					<span class="slider round"></span>
-				</label>	
+				</label>
 			</p>
 
 			<h2>Darstellung</h2>
@@ -83,9 +83,9 @@
 
 			<p class="settings-label">Dark mode
 				<label class="switch">
-					<input id="dark-mode-switch" type="checkbox" onchange="setDarkmode(this);">
+					<input id="darkmode-switch" type="checkbox" onchange="setDarkmode(this.checked);">
 					<span class="slider round"></span>
-				</label>	
+				</label>
 			</p>
 
 			<h1>About</h1>
@@ -105,4 +105,3 @@
 	<div id="gimmick"></div>
 </body>
 </html>
-

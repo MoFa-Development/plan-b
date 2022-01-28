@@ -63,7 +63,7 @@ window.Day.prototype.drawMessages = function() {
 
     this.messages.forEach(msg => {
         let messageElement = msg.toElem();
-        
+
         if(messageElement) {
             messages.appendChild(messageElement);
         }
@@ -90,11 +90,11 @@ window.Day.prototype.drawAffectedElements = function() {
     filterIconObj.src = "icons/filter.svg"
     filterIconObj.classList.add("icon", "filter-icon");
     affectedElementsBarObj.appendChild(filterIconObj);
-    
+
     let affectedElements;
-    
+
     // dynamically get affected teachers / classes based on is_teacher
-    if (settings.is_teacher) {
+    if (settings.isTeacher) {
         affectedElements = this.affectedTeachers;
     } else {
         affectedElements = this.affectedClasses;
@@ -107,18 +107,18 @@ window.Day.prototype.drawAffectedElements = function() {
         let affectedElementObj = document.createElement("div");
         affectedElementObj.innerText = affectedElement;
         affectedElementObj.classList.add("affected-element");
-        
+
         if (affectedElement == settings.selectedTeacher || affectedElement == settings.selectedClass) {
             affectedElementObj.classList.add("selected");
         }
 
         affectedElementObj.onclick = function() {
             window.RESET_AUTOSCROLL = true;
-            
+
             day.setSelectedElement(affectedElement);
 
             //manage highlighting of selected element
-        
+
             let element;
             for(element of affectedElementsBarObj.children) {
                 if(element.innerText == settings.selectedClass || element.innerText == settings.selectedTeacher) {
@@ -136,22 +136,22 @@ window.Day.prototype.drawAffectedElements = function() {
 }
 
 window.Substitution.prototype.toElem = function() {
-    
+
     //#region EXIT STATEMENTS
-    
+
     if(this.group != this.classes[0]) // do not draw duplicate substitution more than once
         return null;
 
     if(settings.selectedClass && !this.classes.includes(settings.selectedClass)) // only draw filtered for class
         return null;
 
-    if(settings.selectedTeacher && !this.teachers_raw.includes(settings.selectedTeacher)) // only draw filtered for teacher 
+    if(settings.selectedTeacher && !this.teachers_raw.includes(settings.selectedTeacher)) // only draw filtered for teacher
         return null;
 
-    if(settings.is_teacher && this.type == "Entfall") // if teacher, do not draw cancelled classes
+    if(settings.isTeacher && this.type == "Entfall") // if teacher, do not draw cancelled classes
         return null;
 
-    if(settings.is_teacher && settings.selectedTeacher && this.teachers_raw.includes("<span class=\"cancelStyle\">"+settings.selectedTeacher+"</span>")) // do not inform the teacher who is being substituted
+    if(settings.isTeacher && settings.selectedTeacher && this.teachers_raw.includes("<span class=\"cancelStyle\">"+settings.selectedTeacher+"</span>")) // do not inform the teacher who is being substituted
         return null;
 
     //#endregion EXIT STATEMENTS
@@ -192,10 +192,10 @@ window.Substitution.prototype.toElem = function() {
 
     // only draw teacher label if...
     if(this.teachers_raw // data is given
-        && (settings.is_teacher // is teacher 
-            || listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes) // classes from FORCE_SHOW_TEACHER_CLASSES are included 
+        && (settings.isTeacher // is teacher
+            || listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes) // classes from FORCE_SHOW_TEACHER_CLASSES are included
             || this.type != "Entfall" && this.type != "Raum&auml;nderung") // substitution is not of type 'cancelled' or 'room change'
-    ) { 
+    ) {
         var teacher_change_html = "";
 
         let teacherElement = document.createElement("p");
@@ -208,15 +208,15 @@ window.Substitution.prototype.toElem = function() {
     // set subst type icon based on type, do not draw subst type label when type is "Text"
     if(this.type && this.type != "Text") {
         let typeElement = document.createElement("p");
-        
+
         let icon = "information";
-        
+
         if(this.type == "Entfall") {
             icon = "cancelled";
         } else if(this.type == "Raum&auml;nderung") {
             icon = "swap";
         }
-        
+
         typeElement.innerHTML = "<img src=\"icons/"+ icon +".svg\" class=\"subst-icon\"> <div class=\"subst-data-val\">" + this.type + "</div>";
         typeElement.id = "type"
         typeElement.classList.add("subst-data")
@@ -249,7 +249,7 @@ window.Day.prototype.drawSubstitutions = function() {
     }
 
     if (this.substitutions.length == 0) {
-        
+
         //no substitutions in the first place
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
@@ -257,7 +257,7 @@ window.Day.prototype.drawSubstitutions = function() {
 
         substitutionsElement.appendChild(noSubstMessage);
 
-    } else if (!settings.is_teacher && settings.selectedClass != "" && !this.affectedClasses.includes(settings.selectedClass)) {
+    } else if (!settings.isTeacher && settings.selectedClass != "" && !this.affectedClasses.includes(settings.selectedClass)) {
 
         // selected class is not affected
         let noSubstMessage = document.createElement("p");
@@ -266,8 +266,8 @@ window.Day.prototype.drawSubstitutions = function() {
 
         substitutionsElement.appendChild(noSubstMessage);
 
-    } else if (settings.is_teacher && settings.selectedTeacher != "" && !this.affectedTeachers.includes(settings.selectedTeacher)) {
-        
+    } else if (settings.isTeacher && settings.selectedTeacher != "" && !this.affectedTeachers.includes(settings.selectedTeacher)) {
+
         // selected teacher is not affected
         let noSubstMessage = document.createElement("p");
         noSubstMessage.classList.add("no-subst-msg");
@@ -283,13 +283,13 @@ window.Day.prototype.drawSubstitutions = function() {
         //draw substitutions
         this.substitutions.forEach(subst => {
             let currentAffected;
-            
-            if(settings.is_teacher) {
+
+            if(settings.isTeacher) {
                 currentAffected = subst.teachers_raw;
             } else {
                 currentAffected = subst.classes_raw;
             }
-            
+
             if(currentAffected != lastAffected) {
                 collectionElement = document.createElement("div");
                 collectionElement.classList.add("subst-collection");
@@ -300,7 +300,7 @@ window.Day.prototype.drawSubstitutions = function() {
 
 
             let substElement = subst.toElem();
-            
+
             if(substElement) {
                 if(variation) {
                     substElement.classList.add("variation");
@@ -319,7 +319,7 @@ window.Day.prototype.drawSubstitutions = function() {
  */
 window.Day.prototype.draw = function() {
     let dateTitleElement = $("#title-day")[0];
-    
+
     try {
         // hide next day button if last day with data
         let next_day_btn = $("#btn-next-day")[0];
@@ -354,7 +354,7 @@ window.Day.prototype.draw = function() {
 
     } catch (error) {
         console.debug(this);
-        
+
         let affectedElementsBarObj = $(".affected-elements")[0];
 
         if(this.substitutions.length == 0) {
@@ -373,10 +373,10 @@ window.Day.prototype.draw = function() {
  * master draw function, called on load or day change
  */
 window.draw = function() {
-    
+
     let loadingElement = $("#loading")[0];
     loadingElement.style.visibility = "visible";
-    
+
     getCachedDay(settings.currentDateOffset).then((day) => {
         day.draw();
         initAutoscroll()
