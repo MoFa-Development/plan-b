@@ -1,2 +1,2 @@
 // Initialize components
-Bay.loadComponent("components/loading-hint.html");
+Bay.loadComponent('components/loading-hint.html')

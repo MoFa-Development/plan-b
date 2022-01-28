@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
-import './components.js';
-import './utils.js';
-import './data.js';
-import './drawing.js';
-import './events.js';
-import './gimmicks.js';
-import './settings.js';
+import './components.js'
+import './utils.js'
+import './data.js'
+import './drawing.js'
+import './events.js'
+import './gimmicks.js'
+import './settings.js'
 
-generalInit();
-initEvents();
-draw();
+window.generalInit()
+window.initEvents()
+window.draw()
