@@ -31,7 +31,6 @@ window.handleAffectedElementsOverflow = function () {
     element.classList.remove('overflow-right', 'overflow-both')
   }
 }
-
 window.Message.prototype.toElem = function () {
   const messageElement = document.createElement('div')
   messageElement.classList.add('message')
@@ -107,27 +106,30 @@ window.Day.prototype.drawAffectedElements = function () {
     affectedElementObj.innerText = affectedElement
     affectedElementObj.classList.add('affected-element')
 
-    if (affectedElement === window.settings.selectedTeacher ||
-        affectedElement === window.settings.selectedClass) {
+    if (affectedElement === window.settings.filter) {
       affectedElementObj.classList.add('selected')
     }
 
     affectedElementObj.onclick = function () {
       window.RESET_AUTOSCROLL = true
-
-      day.setSelectedElement(affectedElement)
-
+ 
+      if(window.settings.filter === affectedElement) {
+        setSelectedElement("") // remove filter if clicked again 
+      } else {
+        setSelectedElement(affectedElement) // else change to new filter
+      }
+      
       // manage highlighting of selected element
-
       let element
       for (element of affectedElementsBarObj.children) {
-        if (element.innerText === window.settings.selectedClass ||
-            element.innerText === window.settings.selectedTeacher) {
+        if (element.innerText === window.settings.filter) {
           element.classList.add('selected')
         } else {
           element.classList.remove('selected')
         }
       }
+
+      day.drawSubstitutions()
     }
 
     affectedElementsBarObj.appendChild(affectedElementObj)
@@ -137,32 +139,31 @@ window.Day.prototype.drawAffectedElements = function () {
 }
 
 window.Substitution.prototype.toElem = function () {
-  // #region EXIT STATEMENTS
+  // #region EXCEPTIONS
 
   if (this.group !== this.classes[0]) { // do not draw duplicate substitution more than once
     return null
   }
 
-  if (window.settings.selectedClass &&
-      !this.classes.includes(window.settings.selectedClass)) { // only draw filtered for class
-    return null
+  if(window.settings.isTeacher) { // exceptions for teachers
+    if (window.settings.filter && !this.teachers_raw.includes(window.settings.filter)) { // only draw filtered
+      return null
+    }
+  
+    if (this.type === 'Entfall') { // do not draw cancelled classes
+      return null
+    }
+  
+    if (window.settings.filter && this.teachers_raw.includes('<span class=\'cancelStyle\'>' + window.settings.filter + '</span>')) { // do not inform the teacher who is being substituted
+      return null
+    }
+  } else { // exceptions for students
+    if (window.settings.filter && !this.classes.includes(window.settings.filter)) { // only draw filtered
+      return null
+    }
   }
 
-  if (window.settings.selectedTeacher &&
-      !this.teachers_raw.includes(window.settings.selectedTeacher)) { // only draw filtered for teacher
-    return null
-  }
-
-  if (window.settings.isTeacher && this.type === 'Entfall') { // if teacher, do not draw cancelled classes
-    return null
-  }
-
-  if (window.settings.isTeacher && window.settings.selectedTeacher &&
-      this.teachers_raw.includes('<span class=\'cancelStyle\'>' + window.settings.selectedTeacher + '</span>')) { // do not inform the teacher who is being substituted
-    return null
-  }
-
-  // #endregion EXIT STATEMENTS
+  // #endregion EXCEPTIONS
 
   const substElement = document.createElement('div')
 
@@ -262,23 +263,30 @@ window.Day.prototype.drawSubstitutions = function () {
     noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen'
 
     substitutionsElement.appendChild(noSubstMessage)
-  } else if (!window.settings.isTeacher && window.settings.selectedClass !== '' &&
-             !this.affectedClasses.includes(window.settings.selectedClass)) {
+  } else if (!window.settings.isTeacher && window.settings.filter !== '' &&
+             !this.affectedClasses.includes(window.settings.filter)) {
+    
     // selected class is not affected
+
     const noSubstMessage = document.createElement('p')
     noSubstMessage.classList.add('no-subst-msg')
-    noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen für die ' + window.settings.selectedClass
+    noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen für die ' + window.settings.filter
 
     substitutionsElement.appendChild(noSubstMessage)
-  } else if (window.settings.isTeacher && window.settings.selectedTeacher !== '' &&
-             !this.affectedTeachers.includes(window.settings.selectedTeacher)) {
+
+  } else if (window.settings.isTeacher && window.settings.filter !== '' &&
+             !this.affectedTeachers.includes(window.settings.filter)) {
+    
     // selected teacher is not affected
+    
     const noSubstMessage = document.createElement('p')
     noSubstMessage.classList.add('no-subst-msg')
-    noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen für Sie (' + window.settings.selectedTeacher + ')'
+    noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen (' + window.settings.filter + ')'
 
     substitutionsElement.appendChild(noSubstMessage)
+  
   } else {
+    
     let collectionElement
     let lastAffected
     let variation = false

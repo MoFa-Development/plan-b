@@ -2,9 +2,8 @@
 * globally reachable settings object
 */
 window.settings = {
+  filter: '',
   currentDateOffset: 0,
-  selectedClass: '',
-  selectedTeacher: '',
   is_teacher: false,
   darkmode: false,
   autoscroll: false
@@ -49,6 +48,12 @@ window.applyUrlParameters = function () {
 */
 window.loadSettings = function loadSettings () {
   window.applyUrlParameters()
+
+  if (window.getCookie('filter')) {
+    window.settings.filter = window.getCookie('filter')
+  } else {
+    window.settings.filter = ""
+  }
 
   if (window.getCookie('darkmode')) {
     window.settings.darkmode = window.getCookie('darkmode') === 'true' // get darkmode preference from cookie
@@ -197,24 +202,7 @@ window.colorClick = function (obj) {
 * @param {HTMLElement} elem selectedElement HTMLElement
 * @param {*} data API data of the current day
 */
-window.Day.prototype.setSelectedElement = function (elem) {
-  if (window.settings.isTeacher) {
-    window.settings.selectedClass = ''
-
-    if (window.settings.selectedTeacher === elem) {
-      window.settings.selectedTeacher = ''
-    } else {
-      window.settings.selectedTeacher = elem
-    }
-  } else {
-    window.settings.selectedTeacher = ''
-
-    if (window.settings.selectedClass === elem) {
-      window.settings.selectedClass = ''
-    } else {
-      window.settings.selectedClass = elem
-    }
-  }
-
-  this.drawSubstitutions()
+window.setSelectedElement = function (elem) {
+  window.settings.filter = elem
+  window.setCookie('filter', elem)
 }
