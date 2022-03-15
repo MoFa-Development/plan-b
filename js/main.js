@@ -9,6 +9,14 @@ import './events.js'
 import './gimmicks.js'
 
 
-window.generalInit()
 window.initEvents()
-window.draw()
+window.loadSettings()
+window.initGimmicks()
+window.initAutoscroll()
+
+// data refreshing
+setInterval(window.draw, 1000 * 60 * refreshIntervalMinutes)
+// autoscroll
+setInterval(window.handleAutoscroll, autoscrollInterval)
+// checking for inactivity
+setInterval(window.handleInactivity, 1000)

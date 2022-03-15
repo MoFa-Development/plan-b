@@ -2,14 +2,16 @@ import './settings.js'
 
 window.RESET_AUTOSCROLL = false
 
-const autoscrollFPS = 30
-const autoscrollScrollPerFrame = 1
-const autoscrollInterval = 1000 / autoscrollFPS
+window.autoscrollInterval = 1000 / 30
+window.refreshIntervalMinutes = 5
 
-const refreshIntervalMinutes = 5
+window.autoscrollElements = null;
+const autoscrollScrollPerFrame = 1
 
 let lastInteractionTimestamp = 0
 const TIMEOUT_INACTIVE = 5000
+
+
 
 window.handleInteraction = function () {
   lastInteractionTimestamp = Date.now()
@@ -29,20 +31,7 @@ window.handleInactivity = function () {
   }
 }
 
-window.generalInit = function () {
-  window.loadSettings()
-  window.initGimmicks()
-  window.initAutoscroll()
-
-  // hiding the settings button
-  setInterval(window.handleInactivity, 1000)
-  // autoscroll
-  setInterval(window.handleAutoscroll, autoscrollInterval)
-  // data refreshing
-  setInterval(window.draw, 1000 * 60 * refreshIntervalMinutes)
-}
-
-window.clearAutoscroll = function () {
+window.clearAutoscrollClones = function () {
   for (const clone of $('.autoscroll-visual')) {
     clone.remove()
   }
@@ -52,14 +41,12 @@ window.clearAutoscroll = function () {
 * initialize autoscroll (must be called at every redraw)
 */
 window.initAutoscroll = function () {
-  window.clearAutoscroll()
+  window.clearAutoscrollClones()
+
+  window.autoscrollElements = document.getElementsByClassName("autoscroll")
 
   if (window.settings.autoscroll) {
-    document.body.style.height = '100vh'
-
-    const autoscrollElements = $('.autoscroll')
-
-    for (const elem of autoscrollElements) {
+    for (const elem of window.autoscrollElements) {
       if (elem.clientHeight < elem.scrollHeight) {
         const spacer = document.createElement('spacer')
 
@@ -80,8 +67,6 @@ window.initAutoscroll = function () {
         }
       }
     }
-  } else {
-    document.body.style.height = '100%'
   }
 }
 
@@ -89,10 +74,15 @@ window.initAutoscroll = function () {
 * handle next autoscroll animation frame
 */
 window.handleAutoscroll = function () {
+  if(!window.autoscrollElements) {
+    console.debug("no autoscroll elements")
+    return;
+  }
+
   if (window.RESET_AUTOSCROLL) {
     window.initAutoscroll()
 
-    for (const elem of $('.autoscroll')) {
+    for (const elem of window.autoscrollElements) {
       elem.scroll({
         top: 0
       })
@@ -102,9 +92,7 @@ window.handleAutoscroll = function () {
   }
 
   if (window.settings.autoscroll) {
-    const autoscrollElements = $('.autoscroll')
-
-    for (const elem of autoscrollElements) {
+    for (const elem of window.autoscrollElements) {
       if (elem.clientHeight < elem.scrollHeight) { // is the autoscroll element overflowing
         if (elem.scrollTop >= elem.scrollTopMax) { // rescue if scrolled to bottom somehow
           window.initAutoscroll()

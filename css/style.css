@@ -39,6 +39,7 @@ body {
 
 body.monitor-mode {
     font-size: var(--font-size-monitor-mode);
+    max-height: 100vh;
 }
 
 #settings-overlay p {
@@ -723,12 +724,6 @@ body.monitor-mode .substitutions {
 
     .filter-icon {
         visibility: hidden;
-    }
-}
-
-@media screen and (prefers-color-scheme: dark) {
-    :root {
-        color-scheme: dark;
     }
 }
 

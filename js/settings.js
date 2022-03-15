@@ -13,8 +13,6 @@ const COLORS = ['#E53935', '#D81B60', '#8E24AA', '#5E35B1', '#3949AB', '#1E88E5'
 
 const TIME_SHOW_NEXT_DAY = 16 // :00 o' clock in 24-hour format
 
-window.settings.autoscroll = false
-
 /**
 * show settings menu
 */
@@ -142,8 +140,10 @@ window.setDarkmode = function (darkmode) {
 
   if (window.settings.darkmode) {
     document.body.classList.add('dark')
+    document.documentElement.style.colorScheme = "dark";
   } else {
     document.body.classList.remove('dark')
+    document.documentElement.style.colorScheme = "light";
   }
 }
 
@@ -163,8 +163,6 @@ window.setAutoscroll = function (autoscroll) {
     for (const elem of $('.substitutions')) {
       elem.classList.add('autoscroll')
     }
-
-    window.initAutoscroll()
   } else {
     document.body.classList.remove('monitor-mode')
 
@@ -173,7 +171,6 @@ window.setAutoscroll = function (autoscroll) {
     }
   }
 
-  window.initAutoscroll()
   window.RESET_AUTOSCROLL = true
 }
 
