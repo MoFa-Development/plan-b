@@ -1,0 +1,87 @@
+<template>
+    <label class="switch">
+        <input id="cb" type="checkbox" onchange="getRootNode().host.changed(this);">
+        <span class="slider round"></span>
+    </label>
+</template>
+
+<script>
+    this.data = {
+        toggled: false
+    }
+
+    this.changed = function(checkbox) {
+        this.data.toggled = checkbox.checked
+        this.dispatchEvent(new Event("change"))
+    }
+
+    this["$_toggled"] = function(val) {
+        this.shadowRoot.querySelector( "#cb" ).checked = val
+        return val
+    }
+</script>
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 3em;
+        height: 1.4em;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+    }
+    
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--background-tertiary);
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 1em;
+        width: 1em;
+        left: .2em;
+        bottom: .2em;
+        background-color: white;
+        -webkit-transition: .2s, width 0s, height 0s;
+        transition: .2s, width 0s, height 0s;
+        transition-timing-function: cubic-bezier(.4,1.56,.51,.99);
+    }
+    
+    input:checked + .slider {
+        background-color: var(--accent);
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px var(--accent);
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(1.6em);
+        -ms-transform: translateX(1.6em);
+        transform: translateX(1.6em);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: var(--round-radius);
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>

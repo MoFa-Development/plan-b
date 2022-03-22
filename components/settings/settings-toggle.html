@@ -1,0 +1,29 @@
+<template>
+    <p class="settings-label">{{ label }}
+        <label class="switch">
+            <slider-round id="slider" onchange="getRootNode().host.changed(this);"/>
+        </label>
+    </p>
+</template>
+
+<script>
+
+    this.setupComponent = function() {
+        this.shadowRoot.querySelector( "#slider" ).data.toggled = this.data.value
+    }
+
+    this.changed = function(slider) {
+        this.data.value = slider.data.toggled
+        this["on_change"](this.data.value)
+    }
+
+    this["$_value"] = function(val) {
+        this.shadowRoot.querySelector( "#slider" ).data.toggled = val
+        return val
+    }
+
+</script>
+
+<style>
+
+</style>

@@ -16,6 +16,181 @@ const TIME_SHOW_NEXT_DAY = 16 // :00 o' clock in 24-hour format
 window.settings.autoscroll = false
 
 /**
+ * @name Settings
+ * @description Object for the handling of all settings
+ * @method load Loads categories and settings from cookies
+ * @method save Saves all category and setting data as a json object in a cookie
+ * @method get Returns the setting object with the given setting_key
+ * @method set Sets the value of the setting with the given setting_key
+ * @method add_setting
+ * @method add_category
+ * @method show
+ * @method hide
+ */
+window.Settings = {
+    saved: {},
+    categories: {},
+    init: function() {
+        Settings.load()
+    },
+    load: function() {
+        Settings.saved = JSON.parse(window.getCookie("settings"))
+
+
+        // GET parameters overwrite all settings with the given key
+        var urlParams = new URLSearchParams(window.location.search)
+        for (var pair of urlParams.entries()) {
+            Settings.set_saved_val(pair[0], pair[1])
+        }
+    },
+    save: function() {
+
+        for(var category of Object.keys(Settings.categories)) {
+            let settings = this.saved[category].settings
+            for(var child of Settings.categories[category].childNodes) {
+                if(child instanceof Setting) {
+                    settings[child.key] = {
+                        default: child.default_val,
+                        on_change: child.on_change,
+                        saved_val: child.data.value
+                    }
+                }
+            }
+
+            this.saved[category] = {
+                settings: settings
+            }
+        }
+        window.setCookie("settings", JSON.stringify(this.saved), 9999)
+    },
+    get: function(setting_key) {
+        var setting
+        for(var category of Settings.categories) {
+            setting = category[setting_key] ?? setting
+        }
+        return setting
+    },
+    set: function(setting_key, value) {
+        for(var category of Settings.categories) {
+            if(category[setting_key])
+                category[setting_key].data.value = value
+        }
+    },
+    get_saved_val: function(setting_key) {
+        var setting_val
+        for(var category of Object.keys(Settings.saved)) {
+            setting_val = Settings.saved[category].settings[setting_key] ? Settings.saved[category].settings[setting_key].saved_val : setting_val
+        }
+        return setting_val
+    },
+    set_saved_val: function(setting_key, value) {
+        for(var category of Settings.saved) {
+            if(category.settings[setting_key])
+                category.settings[setting_key].saved_val = value
+        }
+    },
+    add_category: function(category_key, label) {
+        let category = document.createElement('settings-category')
+        $('#settings-overlay')[0].appendChild(category)
+        Settings.categories[category_key] = category
+
+        // Custom Elements don't get upgraded; Workaround: Timeout
+        customElements.upgrade(category)
+        setTimeout(function() {
+            window.customElements.whenDefined('settings-category').then(() => {
+                category.initialize(category_key, label)
+            })
+        }, 2500);
+    },
+    add_setting: function(category_key, key, component, label, default_val, on_change) {
+        if(Settings.categories[category_key]) {
+            let setting = document.createElement(component)
+
+            // Custom Elements don't get upgraded; Workaround: Timeout
+            customElements.upgrade(setting)
+            window.customElements.whenDefined(component).then(() => {
+                setTimeout(function() {
+                    window.Settings.categories[category_key].add_setting(setting)
+                    setting.initialize(key, label, default_val, on_change, Settings.get_saved_val(key))
+                }, 2500);
+            })
+            
+        }
+        else {
+            throw Error("Settings category not found: " + category_key)
+        }
+    },
+    show() {
+        $('#settings-overlay-container')[0].style.visibility = 'visible'
+        $('#settings-overlay-container')[0].style.opacity = 1
+    },
+    hide: function() {
+        $('#settings-overlay-container')[0].style.visibility = 'hidden'
+        $('#settings-overlay-container')[0].style.opacity = 0
+    }
+}
+
+/**
+ * @name Setting
+ * @description Class representing one setting option
+ * @param {string} key 
+ * @param {string} label
+ * @param {any} default_val
+ * @param {string} on_change
+ * @param {string} saved_val
+ * @param {boolean} displayed
+ */
+window.Setting = class Setting extends HTMLElement {
+    initialize(key, label, default_val, on_change, saved_val = undefined, displayed = true) {
+        this.key = key
+        var val = default_val.call(this, saved_val)
+        this.addData("value", val === undefined ? saved_val : val)
+        this.addData("label", label)
+        this.displayed = displayed
+        this.on_change = on_change
+
+        // Adjust components to current value
+        this["setupComponent"]()
+
+        // Run on_change function to directly apply changes
+        this["on_change"](this.data.value)
+    }
+    set displayed(val) {
+        this.style.display = val ? '' : 'none';
+    }
+}
+
+/**
+ * @name SettingsCategory
+ * @description Class representing a settings category
+ * @param {string} key
+ * @param {string} label
+ * @param {boolean} displayed
+ */
+ window.SettingsCategory = class SettingsCategory extends HTMLElement {
+    initialize(key, label, displayed = true) {
+        this.key = key
+        this.addData("label", label)
+        this.displayed = displayed
+    }
+    add_setting(setting) {
+        this.appendChild(setting)
+    }
+    set displayed(val) {
+        this.style.display = val ? '' : 'none';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/**
 * show settings menu
 */
 window.showSettings = function () {
@@ -46,7 +221,7 @@ window.applyUrlParameters = function () {
 * load and apply settings stored in cookies,
 * get darkmode preference from browser if no darkmode cookie available
 */
-window.loadSettings = function loadSettings () {
+window.initSettings = function () {
   window.applyUrlParameters()
 
   if (window.getCookie('filter')) {
@@ -129,23 +304,22 @@ window.setIsTeacher = function (isTeacher) {
 
   window.draw()
 }
-
 /**
 * sets darkmode setting and applies it.
 * @param {boolean} darkmode value to apply to darkmode setting
 */
 window.setDarkmode = function (darkmode) {
-  window.settings.darkmode = darkmode
-
-  $('#darkmode-switch')[0].checked = window.settings.darkmode
-  window.setCookie('darkmode', window.settings.darkmode, 9999)
-
-  if (window.settings.darkmode) {
-    document.body.classList.add('dark')
-  } else {
-    document.body.classList.remove('dark')
+    window.settings.darkmode = darkmode
+  
+    $('#darkmode-switch')[0].checked = window.settings.darkmode
+    window.setCookie('darkmode', window.settings.darkmode, 9999)
+  
+    if (window.settings.darkmode) {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
   }
-}
 
 /**
 * sets autoscroll setting and applies it.

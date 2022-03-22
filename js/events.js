@@ -1,5 +1,3 @@
-import './settings.js'
-
 window.RESET_AUTOSCROLL = false
 
 const autoscrollFPS = 30
@@ -30,7 +28,7 @@ window.handleInactivity = function () {
 }
 
 window.generalInit = function () {
-  window.loadSettings()
+  window.initSettings()
   window.initGimmicks()
   window.initAutoscroll()
 
