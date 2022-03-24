@@ -18,7 +18,7 @@ window.handleInteraction = function () {
 * Hide settings
 */
 window.handleInactivity = function () {
-  if (window.settings.autoscroll && Date.now() - lastInteractionTimestamp > TIMEOUT_INACTIVE) {
+  if (window.Settings.get("autoscroll") && Date.now() - lastInteractionTimestamp > TIMEOUT_INACTIVE) {
     if (!document.body.classList.contains('inactive')) {
       document.body.classList.add('inactive')
     }
@@ -28,7 +28,7 @@ window.handleInactivity = function () {
 }
 
 window.generalInit = function () {
-  window.initSettings()
+  Settings.init()
   window.initGimmicks()
   window.initAutoscroll()
 
@@ -52,7 +52,7 @@ window.clearAutoscroll = function () {
 window.initAutoscroll = function () {
   window.clearAutoscroll()
 
-  if (window.settings.autoscroll) {
+  if (window.Settings.get("autoscroll")) {
     document.body.style.height = '100vh'
 
     const autoscrollElements = $('.autoscroll')
@@ -99,7 +99,7 @@ window.handleAutoscroll = function () {
     window.RESET_AUTOSCROLL = false
   }
 
-  if (window.settings.autoscroll) {
+  if (window.Settings.get("autoscroll")) {
     const autoscrollElements = $('.autoscroll')
 
     for (const elem of autoscrollElements) {

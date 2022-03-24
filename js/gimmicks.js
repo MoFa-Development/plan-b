@@ -2,7 +2,7 @@
 * load and add gimmicks with corresponding handler functions
 */
 window.initGimmicks = async function () {
-  if (!window.settings.autoscroll) {
+  if (!window.Settings.get("autoscroll")) {
     return
   }
 

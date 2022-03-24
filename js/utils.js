@@ -107,3 +107,11 @@ window.listsIntersect = function (a, b) {
 
   return false
 }
+
+window.tryTimed = async function (func) {
+    try {
+        func.call()
+    } catch(e) {
+        await setTimeout(() => {window.tryTimed(func)}, 500)
+    }
+}

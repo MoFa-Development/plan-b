@@ -383,14 +383,14 @@ window.Day.prototype.draw = function () {
 */
 window.draw = function () {
   const loadingElement = $('#loading')[0]
-  loadingElement.style.visibility = 'visible'
+  loadingElement.style.display = ''
 
   window.getCachedDay(window.settings.currentDateOffset).then((day) => {
     day.draw()
     window.initAutoscroll()
   })
 
-  loadingElement.style.visibility = 'hidden'
+  loadingElement.style.display = 'none'
 
   window.getCachedDay(window.settings.currentDateOffset + 1)
   window.getCachedDay(window.settings.currentDateOffset - 1)
