@@ -131,7 +131,12 @@ window.Settings = {
         window.apply_settings()
     },
     load: function() {
-        Settings.saved = JSON.parse(window.getCookie("settings"))
+        try {
+            Settings.saved = JSON.parse(window.getCookie("settings"))
+        }
+        catch(e) {
+            Settings.saved = {}
+        }
 
 
         // GET parameters overwrite all settings with the given key
