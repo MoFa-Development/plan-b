@@ -1,7 +1,13 @@
 
 window.apply_settings = function() {
 
+
+    //
+    // Ansicht
+    //
     Settings.add_category("view", "Ansicht")
+
+    // Lehreransicht
     Settings.add_setting("view", "is_teacher", "settings-toggle", "Lehreransicht", (saved) => {
         if(saved !== undefined)
             return saved
@@ -17,6 +23,8 @@ window.apply_settings = function() {
         }
         Settings.save()
     })
+
+    // Autoscroll
     Settings.add_setting("view", "autoscroll", "settings-toggle", "Autoscroll", (saved) => {
         if(saved !== undefined)
             return saved
@@ -45,7 +53,12 @@ window.apply_settings = function() {
         Settings.save()
     })
 
+    //
+    // Darstellung
+    //
     Settings.add_category("appearance", "Darstellung")
+
+    // Dark Mode
     Settings.add_setting("appearance", "darkmode", "settings-toggle", "Dark mode", (saved) => {
         if (saved === undefined) {
             return  window.matchMedia('screen and (prefers-color-scheme: dark)').matches // get darkmode preference from browser
@@ -60,8 +73,28 @@ window.apply_settings = function() {
         Settings.save()
     })
 
+    // Akzentfarbeconst
+    Settings.add_setting("appearance", "accent-color", "settings-colors", "Akzentfarbe", (saved) => {
+        if (saved === undefined) {
+            return  COLORS[0]
+        }
+        return saved
+    }, (val) => {
+        const accentColor = val
+        const accentDark = window.shadeColor(val, -20)
+    
+        document.querySelector('body').style.setProperty('--accent', accentColor)
+        document.querySelector('body').style.setProperty('--accent-dark', accentDark)
 
+        Settings.save()
+    })
+
+    //
+    // About
+    //
     Settings.add_category("about", "About")
+
+    // GitHub Repo
     Settings.add_setting("about", "link", "link-github", "GitHub Repo", (saved) => {}, (val) => {})
 }
 
@@ -75,8 +108,6 @@ window.settings = {
   darkmode: false,
   autoscroll: false
 }
-
-const COLORS = ['#E53935', '#D81B60', '#8E24AA', '#5E35B1', '#3949AB', '#1E88E5', '#039BE5', '#00ACC1', '#00897B', '#43A047']
 
 const TIME_SHOW_NEXT_DAY = 16 // :00 o' clock in 24-hour format
 
