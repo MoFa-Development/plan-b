@@ -111,12 +111,6 @@ window.Settings = {
     init: function() {
         Settings.load()
         window.apply_settings()
-
-        // GET parameters overwrite all settings with the given key
-        var urlParams = new URLSearchParams(window.location.search)
-        for (var pair of urlParams.entries()) {
-            Settings.set(pair[0], pair[1])
-        }
     },
     load: function() {
         try {
@@ -208,12 +202,23 @@ window.Settings = {
             loadingElement.style.display = ''
 
 
+            var saved_val = Settings.get(key)
+
+            // GET parameters overwrite all settings with the given key
+            var urlParams = new URLSearchParams(window.location.search)
+            for (var pair of urlParams.entries()) {
+                if(pair[0] === key) {
+                    saved_val = pair[1]
+                }
+            }
+
+
             // Custom Elements don't get upgraded; Workaround: tryTimed() tries every 500 miliseconds
             customElements.upgrade(setting)
             customElements.whenDefined(component).then(async () => {
 
                 await window.tryTimed(() => {
-                    setting.initialize(key, label, default_val, on_change, Settings.get(key))
+                    setting.initialize(key, label, default_val, on_change, saved_val)
                 })
                 await window.tryTimed(() => {
                     window.Settings.categories[category_key].add_setting(setting)
