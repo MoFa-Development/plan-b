@@ -37,8 +37,8 @@
     }
 
     this.setupComponent = function() {
-        this.querySelector( "#colors" ).innerHTML = this.data.colors.map(function(color) {
-            return "<div class='colorSelector' onclick='parentElement.parentElement.changed(this)' style='background-color: " + color + "'></div>"
+        this.querySelector( "#colors" ).innerHTML = this.data.colors.map(function(color, index) {
+            return "<div id='" + index.toString() + "' class='colorSelector' onclick='parentElement.parentElement.changed(this)' style='background-color: " + color + "'></div>"
         }).join("")
         this["$_value"](this.data.value)
     }
@@ -48,18 +48,33 @@
             el.classList.remove('selected')
         })
         colorSelector.classList.add('selected')
-        this.data.value = window.rgb2hex(colorSelector.style.backgroundColor)
+        this.data.value = colorSelector.id
+
         this["on_change"](this.data.value)
     }
 
     this["$_value"] = function(val) {
+        this.updateSelection(val)
+        return val
+    }
+
+    this.updateColor = function(colorSelector) {
+        // Update logic
+        const accentColor = window.rgb2hex(colorSelector.style.backgroundColor)
+        const accentDark = window.shadeColor(accentColor, -20)
+    
+        document.querySelector('body').style.setProperty('--accent', accentColor)
+        document.querySelector('body').style.setProperty('--accent-dark', accentDark)
+    }
+
+    this.updateSelection = function(val) {
         var colors = this.querySelectorAll(".colorSelector")
         for (var i = 0; i < colors.length; i++) {
-            if(window.rgb2hex(colors[i].style.backgroundColor) == val) {
+            if(i == val) {
                 colors[i].classList.add("selected")
+                this.updateColor(colors[i])
             }
         }
-        return val
     }
 
 </script>
