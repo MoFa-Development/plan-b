@@ -51,12 +51,12 @@
 		</div>
 		<button id="btn-next-day" class="navbar-btn"><img src="icons/arrow-right.svg" class="navbar-arrow" alt="Nächster Tag"></button>
 	</div>
-	<button id="settings-btn" onclick="showSettings()"><img src="icons/settings.svg" class="settings-btn-icon" alt="Einstellungen"></button>
+	<button id="settings-btn" onclick="Settings.show()"><img src="icons/settings.svg" class="settings-btn-icon" alt="Einstellungen"></button>
 	<div id="settings-overlay-container">
-		<div id="escape-right" onclick="hideSettings();"></div>
-		<div id="escape-left" onclick="hideSettings();"></div>
-		<div id="escape-bottom" onclick="hideSettings();"></div>
-		<div id="escape-top" onclick="hideSettings();"></div>
+		<div id="escape-right" onclick="Settings.hide();"></div>
+		<div id="escape-left" onclick="Settings.hide();"></div>
+		<div id="escape-bottom" onclick="Settings.hide();"></div>
+		<div id="escape-top" onclick="Settings.hide();"></div>
 		<div id="settings-overlay">
 
 			<h1>Einstellungen</h1>
