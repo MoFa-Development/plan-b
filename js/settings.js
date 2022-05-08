@@ -1,4 +1,3 @@
-
 window.apply_settings = function() {
 
 
@@ -112,6 +111,12 @@ window.Settings = {
     init: function() {
         Settings.load()
         window.apply_settings()
+
+        // GET parameters overwrite all settings with the given key
+        var urlParams = new URLSearchParams(window.location.search)
+        for (var pair of urlParams.entries()) {
+            Settings.set(pair[0], pair[1])
+        }
     },
     load: function() {
         try {
@@ -119,13 +124,6 @@ window.Settings = {
         }
         catch(e) {
             Settings.saved = {}
-        }
-
-
-        // GET parameters overwrite all settings with the given key
-        var urlParams = new URLSearchParams(window.location.search)
-        for (var pair of urlParams.entries()) {
-            Settings.set_saved_val(pair[0], pair[1])
         }
     },
     save: function() {
@@ -151,30 +149,38 @@ window.Settings = {
     },
     get: function(setting_key) {
         var setting
-        for(var category of Object.keys(Settings.saved)) {
-            setting = Settings.saved[category].settings[setting_key] ?? setting
+        try {
+            setting = Settings.get_setting(setting_key).saved_val
+        } catch(e) {
+            for(var category of Object.keys(Settings.saved)) {
+                for(var child of Object.keys(Settings.saved[category].settings)) {
+                    if(child === setting_key) {
+                        setting = Settings.saved[category].settings[child].saved_val ?? setting
+                    }
+                }
+            }
         }
-        
+        return setting
+    },
+    get_setting: function(setting_key) {
+        var setting
+        for(var category of Object.keys(Settings.categories)) {
+            for(var child of Settings.categories[category].childNodes) {
+                if(child instanceof Setting) {
+                    if(child.key === setting_key) {
+                        setting = child ?? setting
+                    }
+                }
+            }
+        }
         return setting
     },
     set: function(setting_key, value) {
-        for(var category of Object.keys(Settings.saved)) {
-            if(Settings.saved[category].settings[setting_key])
-                Settings.saved[category].settings[setting_key].data.value = value
-        }
-    },
-    get_saved_val: function(setting_key) {
-        var setting_val
-        for(var category of Object.keys(Settings.saved)) {
-            setting_val = Settings.saved[category].settings[setting_key] ? Settings.saved[category].settings[setting_key].saved_val : setting_val
-        }
-        return setting_val
-    },
-    set_saved_val: function(setting_key, value) {
-        for(var category of Object.keys(Settings.saved)) {
-            if(Settings.saved[category].settings[setting_key])
-                Settings.saved[category].settings[setting_key].saved_val = value
-        }
+        // Try as soon as setting is intialized
+        tryTimed(() => {
+            Settings.get_setting(setting_key).data.value = value
+            Settings.get_setting(setting_key)["on_change"](value)
+        });
     },
     add_category: function(category_key, label) {
         let category = document.createElement('settings-category')
@@ -207,7 +213,7 @@ window.Settings = {
             customElements.whenDefined(component).then(async () => {
 
                 await window.tryTimed(() => {
-                    setting.initialize(key, label, default_val, on_change, Settings.get_saved_val(key))
+                    setting.initialize(key, label, default_val, on_change, Settings.get(key))
                 })
                 await window.tryTimed(() => {
                     window.Settings.categories[category_key].add_setting(setting)
