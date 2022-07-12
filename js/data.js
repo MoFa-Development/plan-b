@@ -59,7 +59,7 @@ window.Day = class {
 
     // sort affected classes by year
     this.affectedClasses = this.affectedClasses.sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replace(/\D/g, '')))
-
+    
     // filter out placeholders that shouldn't appear in affected elements
     this.affectedClasses = this.affectedClasses.filter(
       (affectedClass) => !PLACEHOLDERS.includes(affectedClass)
@@ -170,6 +170,9 @@ class CacheEntry {
 window.getCachedDay = async function (dateOffset = window.settings.currentDateOffset) {
   if (!window.dataCache[dateOffset] || window.dataCache[dateOffset].timestamp < new Date().getTime() - REFRESH_CACHE_MILL) {
     await window.getData(dateOffset).then(data => {
+      if(data.payload.date === null) { // does the day even exist?
+        return null
+      }
       window.dataCache[dateOffset] = new CacheEntry(data)
       console.debug('dataCache[' + dateOffset.toString() + '] = ', window.dataCache[dateOffset])
     }).catch(error => window.errorMessage(error))
