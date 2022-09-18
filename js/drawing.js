@@ -93,7 +93,7 @@ window.Day.prototype.drawAffectedElements = function () {
   let affectedElements
 
   // dynamically get affected teachers / classes based on is_teacher
-  if (window.settings.isTeacher) {
+  if (window.Settings.get("is_teacher")) {
     affectedElements = this.affectedTeachers
   } else {
     affectedElements = this.affectedClasses
@@ -145,7 +145,7 @@ window.Substitution.prototype.toElem = function () {
     return null
   }
 
-  if(window.settings.isTeacher) { // exceptions for teachers
+  if(window.Settings.get("is_teacher")) { // exceptions for teachers
     if (window.settings.filter && !this.teachers_raw.includes(window.settings.filter)) { // only draw filtered
       return null
     }
@@ -201,7 +201,7 @@ window.Substitution.prototype.toElem = function () {
 
   // only draw teacher label if...
   if (this.teachers_raw && // data is given
-      (window.settings.isTeacher || // is teacher
+      (window.Settings.get("is_teacher") || // is teacher
       window.listsIntersect(FORCE_SHOW_TEACHER_CLASSES, this.classes) || // classes from FORCE_SHOW_TEACHER_CLASSES are included
       (this.type !== 'Entfall' && this.type !== 'Raum&aumlnderung')) // substitution is not of type 'cancelled' or 'room change'
   ) {
@@ -263,7 +263,7 @@ window.Day.prototype.drawSubstitutions = function () {
     noSubstMessage.innerHTML = '<img src=\'icons/cancelled.svg\' class=\'icon\'>Keine Vertretungen'
 
     substitutionsElement.appendChild(noSubstMessage)
-  } else if (!window.settings.isTeacher && window.settings.filter !== '' &&
+  } else if (!window.Settings.get("is_teacher") && window.settings.filter !== '' &&
              !this.affectedClasses.includes(window.settings.filter)) {
     
     // selected class is not affected
@@ -274,7 +274,7 @@ window.Day.prototype.drawSubstitutions = function () {
 
     substitutionsElement.appendChild(noSubstMessage)
 
-  } else if (window.settings.isTeacher && window.settings.filter !== '' &&
+  } else if (window.Settings.get("is_teacher") && window.settings.filter !== '' &&
              !this.affectedTeachers.includes(window.settings.filter)) {
     
     // selected teacher is not affected
@@ -295,7 +295,7 @@ window.Day.prototype.drawSubstitutions = function () {
     this.substitutions.forEach(subst => {
       let currentAffected
 
-      if (window.settings.isTeacher) {
+      if (window.Settings.get("is_teacher")) {
         currentAffected = subst.teachers_raw
       } else {
         currentAffected = subst.classes_raw

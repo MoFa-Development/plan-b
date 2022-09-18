@@ -131,7 +131,7 @@ window.Day = class {
   }
 
   get substitutions () {
-    if (window.settings.isTeacher) {
+    if (window.Settings.get("is_teacher")) {
       return this.teacher_substitutions
     } else {
       return this.student_substitutions

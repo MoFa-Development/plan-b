@@ -20,6 +20,7 @@ window.apply_settings = function() {
             window.settings.selectedTeacher = ''
             $('.substitutions')[0].classList.remove('teacher')
         }
+        window.draw()
         Settings.save()
     })
 
@@ -36,7 +37,11 @@ window.apply_settings = function() {
               for (const elem of $('.substitutions')) {
                 elem.classList.add('autoscroll')
               }
-              window.initAutoscroll()
+
+              // Workaround for get parameters updating delayed :/
+              setTimeout(() => {
+                  window.initAutoscroll();
+              }, 1000);
           
         } else {
             document.body.classList.remove('monitor-mode')
@@ -45,8 +50,6 @@ window.apply_settings = function() {
                 elem.classList.remove('autoscroll')
             }
         }
-          
-        window.initAutoscroll()
         window.RESET_AUTOSCROLL = true
 
         Settings.save()
@@ -144,7 +147,7 @@ window.Settings = {
     get: function(setting_key) {
         var setting
         try {
-            setting = Settings.get_setting(setting_key).saved_val
+            setting = Settings.get_setting(setting_key).data.value
         } catch(e) {
             for(var category of Object.keys(Settings.saved)) {
                 for(var child of Object.keys(Settings.saved[category].settings)) {
