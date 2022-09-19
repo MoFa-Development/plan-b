@@ -95,7 +95,6 @@ window.apply_settings = function () {
     Settings.add_setting("about", "link", "link-github", "GitHub Repo", (saved) => { }, (val) => { });
 };
 
-
 /**
  * @name Settings
  * @description Object for the handling of all settings

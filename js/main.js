@@ -10,7 +10,6 @@ import './events.js';
 import './gimmicks.js';
 import './components.js';
 
-
 window.initEvents();
 window.Settings.init();
 window.initGimmicks();

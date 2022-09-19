@@ -11,6 +11,8 @@ const autoscrollScrollPerFrame = 1;
 let lastInteractionTimestamp = 0;
 const TIMEOUT_INACTIVE = 5000;
 
+
+
 window.handleInteraction = function () {
     lastInteractionTimestamp = Date.now();
     document.body.classList.remove('inactive');
@@ -30,20 +32,20 @@ window.handleInactivity = function () {
 };
 
 window.generalInit = function () {
-  Settings.init();
-  window.initGimmicks();
-  window.initAutoscroll();
+    Settings.init();
+    window.initGimmicks();
+    window.initAutoscroll();
 
-  // hiding the settings button
-  setInterval(window.handleInactivity, 1000);
-  // autoscroll
-  setInterval(window.handleAutoscroll, autoscrollInterval);
-  // data refreshing
-  setInterval(window.draw, 1000 * 60 * refreshIntervalMinutes);
+    // hiding the settings button
+    setInterval(window.handleInactivity, 1000);
+    // autoscroll
+    setInterval(window.handleAutoscroll, autoscrollInterval);
+    // data refreshing
+    setInterval(window.draw, 1000 * 60 * refreshIntervalMinutes);
 };
 
 window.clearAutoscroll = function () {
-  for (const clone of $('.autoscroll-visual')) {
+    for (const clone of $('.autoscroll-visual')) {
         clone.remove();
     }
 };
