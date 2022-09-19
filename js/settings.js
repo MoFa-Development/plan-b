@@ -1,99 +1,99 @@
-window.apply_settings = function() {
+/*jshint esversion: 6 */
 
-
+window.apply_settings = function () {
     //
     // Ansicht
     //
-    Settings.add_category("view", "Ansicht")
+    Settings.add_category("view", "Ansicht");
 
     // Lehreransicht
     Settings.add_setting("view", "is_teacher", "settings-toggle", "Lehreransicht", (saved) => {
-        if(saved !== undefined)
-            return saved
-        else
-            return false
+        if (saved === undefined) {
+            return false;
+        }
+        return saved;
     }, (val) => {
         if (val) {
-            window.settings.selectedClass = ''
-            $('.substitutions')[0].classList.add('teacher')
+            window.settings.selectedClass = '';
+            $('.substitutions')[0].classList.add('teacher');
         } else {
-            window.settings.selectedTeacher = ''
-            $('.substitutions')[0].classList.remove('teacher')
+            window.settings.selectedTeacher = '';
+            $('.substitutions')[0].classList.remove('teacher');
         }
-        window.draw()
-        Settings.save()
-    })
+        window.draw();
+        Settings.save();
+    });
 
     // Autoscroll
     Settings.add_setting("view", "autoscroll", "settings-toggle", "Autoscroll", (saved) => {
-        if(saved !== undefined)
-            return saved
-        else
-            return false
+        if (saved === undefined) {
+            return false;
+        }
+        return saved;
     }, (val) => {
         if (val) {
-              document.body.classList.add('monitor-mode')
-          
-              for (const elem of $('.substitutions')) {
-                elem.classList.add('autoscroll')
-              }
+            document.body.classList.add('monitor-mode');
 
-              // Workaround for get parameters updating delayed :/
-              setTimeout(() => {
-                  window.initAutoscroll();
-              }, 1000);
-          
-        } else {
-            document.body.classList.remove('monitor-mode')
-          
             for (const elem of $('.substitutions')) {
-                elem.classList.remove('autoscroll')
+                elem.classList.add('autoscroll');
+            }
+
+            // Workaround for get parameters updating delayed :/
+            setTimeout(() => {
+                window.initAutoscroll();
+            }, 1000);
+
+        } else {
+            document.body.classList.remove('monitor-mode');
+
+            for (const elem of $('.substitutions')) {
+                elem.classList.remove('autoscroll');
             }
         }
-        window.RESET_AUTOSCROLL = true
+        window.RESET_AUTOSCROLL = true;
 
-        Settings.save()
-    })
+        Settings.save();
+    });
 
     //
     // Darstellung
     //
-    Settings.add_category("appearance", "Darstellung")
+    Settings.add_category("appearance", "Darstellung");
 
     // Dark Mode
     Settings.add_setting("appearance", "darkmode", "settings-toggle", "Dark mode", (saved) => {
         if (saved === undefined) {
-            return  window.matchMedia('screen and (prefers-color-scheme: dark)').matches // get darkmode preference from browser
+            return window.matchMedia('screen and (prefers-color-scheme: dark)').matches; // get darkmode preference from browser
         }
-        return saved
+        return saved;
     }, (val) => {
         if (val) {
-            document.body.classList.add('dark')
+            document.body.classList.add('dark');
         } else {
-            document.body.classList.remove('dark')
+            document.body.classList.remove('dark');
         }
-        Settings.save()
-    })
+        Settings.save();
+    });
 
     // Akzentfarbe
     Settings.add_setting("appearance", "accent-color", "settings-colors", "Akzentfarbe", (saved) => {
         if (saved === undefined) {
-            return 0
+            return 0;
         }
-        return saved
+        return saved;
     }, (val) => {
         // Update logic within component
-        Settings.save()
-    })
+        Settings.save();
+    });
 
     //
     // About
     //
-    Settings.add_category("about", "About")
+    Settings.add_category("about", "About");
 
     // GitHub Repo
-    Settings.add_setting("about", "link", "link-github", "GitHub Repo", (saved) => {}, (val) => {})
-}
+    Settings.add_setting("about", "link", "link-github", "GitHub Repo", (saved) => { }, (val) => { });
+};
 
 
 /**
@@ -111,138 +111,140 @@ window.apply_settings = function() {
 window.Settings = {
     saved: {},
     categories: {},
-    init: function() {
-        Settings.load()
-        window.apply_settings()
+    init: function () {
+        Settings.load();
+        window.apply_settings();
     },
-    load: function() {
+    load: function () {
         try {
-            Settings.saved = JSON.parse(window.getCookie("settings"))
+            Settings.saved = JSON.parse(window.getCookie("settings"));
         }
-        catch(e) {
-            Settings.saved = {}
+        catch (e) {
+            Settings.saved = {};
         }
     },
-    save: function() {
+    save: function () {
 
-        for(var category of Object.keys(Settings.categories)) {
+        for (var category of Object.keys(Settings.categories)) {
 
-            for(var child of Settings.categories[category].childNodes) {
-                if(child instanceof Setting) {
-                    if(child.key === undefined) // If setting is not initialized yet, don't save it
-                        continue
-                    if(Settings.saved[category] === undefined)
-                        Settings.saved[category] = {settings:{}}
+            for (var child of Settings.categories[category].childNodes) {
+                if (child instanceof Setting) {
+                    if (child.key === undefined) // If setting is not initialized yet, don't save it
+                        continue;
+                    if (Settings.saved[category] === undefined)
+                        Settings.saved[category] = { settings: {} };
                     Settings.saved[category].settings[child.key] = {
-                            //default: child.default_val,
-                            //on_change: child.on_change,
-                            saved_val: child.data.value
-                    }
+                        //default: child.default_val,
+                        //on_change: child.on_change,
+                        saved_val: child.data.value
+                    };
                 }
             }
 
         }
-        window.setCookie("settings", JSON.stringify(Settings.saved), 9999)
+        window.setCookie("settings", JSON.stringify(Settings.saved), 9999);
     },
-    get: function(setting_key) {
-        var setting
+    get: function (setting_key) {
+        var setting;
         try {
-            setting = Settings.get_setting(setting_key).data.value
-        } catch(e) {
-            for(var category of Object.keys(Settings.saved)) {
-                for(var child of Object.keys(Settings.saved[category].settings)) {
-                    if(child === setting_key) {
-                        setting = Settings.saved[category].settings[child].saved_val ?? setting
+            setting = Settings.get_setting(setting_key).data.value;
+        } catch (e) {
+            for (var category of Object.keys(Settings.saved)) {
+                for (var child of Object.keys(Settings.saved[category].settings)) {
+                    if (child === setting_key) {
+                        setting = Settings.saved[category].settings[child].saved_val ?? setting;
                     }
                 }
             }
         }
-        return setting
+        return setting;
     },
-    get_setting: function(setting_key) {
-        var setting
-        for(var category of Object.keys(Settings.categories)) {
-            for(var child of Settings.categories[category].childNodes) {
-                if(child instanceof Setting) {
-                    if(child.key === setting_key) {
-                        setting = child ?? setting
+    get_setting: function (setting_key) {
+        var setting;
+        for (var category of Object.keys(Settings.categories)) {
+            for (var child of Settings.categories[category].childNodes) {
+                if (child instanceof Setting) {
+                    if (child.key === setting_key) {
+                        setting = child ?? setting;
                     }
                 }
             }
         }
-        return setting
+        return setting;
     },
-    set: function(setting_key, value) {
+    set: function (setting_key, value) {
         // Try as soon as setting is intialized
         tryTimed(() => {
-            Settings.get_setting(setting_key).data.value = value
-            Settings.get_setting(setting_key)["on_change"](value)
+            Settings.get_setting(setting_key).data.value = value;
+            Settings.get_setting(setting_key).on_change(value);
         });
     },
-    add_category: function(category_key, label) {
-        let category = document.createElement('settings-category')
-        $('#settings-overlay')[0].appendChild(category)
-        Settings.categories[category_key] = category
+    add_category: function (category_key, label) {
+        let category = document.createElement('settings-category');
+        $('#settings-overlay')[0].appendChild(category);
+        Settings.categories[category_key] = category;
 
 
-        const loadingElement = $('#settings-loading')[0]
-        loadingElement.style.display = ''
+        const loadingElement = $('#settings-loading')[0];
+        loadingElement.style.display = '';
 
         // Custom Elements don't get upgraded; Workaround: tryTimed() tries every 500 miliseconds
-        customElements.upgrade(category)
-        window.customElements.whenDefined('settings-category').then( async() => {
+        customElements.upgrade(category);
+        window.customElements.whenDefined('settings-category').then(async () => {
 
-            await window.tryTimed(() => {category.initialize(category_key, label)})
+            await window.tryTimed(() => {
+                category.initialize(category_key, label);
+            });
 
-            loadingElement.style.display = 'none'
-        })
+            loadingElement.style.display = 'none';
+        });
     },
-    add_setting: function(category_key, key, component, label, default_val, on_change) {
-        if(Settings.categories[category_key]) {
-            let setting = document.createElement(component)
+    add_setting: function (category_key, key, component, label, default_val, on_change) {
+        if (Settings.categories[category_key]) {
+            let setting = document.createElement(component);
 
-            const loadingElement = $('#settings-loading')[0]
-            loadingElement.style.display = ''
+            const loadingElement = $('#settings-loading')[0];
+            loadingElement.style.display = '';
 
 
-            var saved_val = Settings.get(key)
+            var saved_val = Settings.get(key);
 
             // GET parameters overwrite all settings with the given key
-            var urlParams = new URLSearchParams(window.location.search)
+            var urlParams = new URLSearchParams(window.location.search);
             for (var pair of urlParams.entries()) {
-                if(pair[0] === key) {
-                    saved_val = pair[1]
+                if (pair[0] === key) {
+                    saved_val = pair[1];
                 }
             }
 
 
             // Custom Elements don't get upgraded; Workaround: tryTimed() tries every 500 miliseconds
-            customElements.upgrade(setting)
+            customElements.upgrade(setting);
             customElements.whenDefined(component).then(async () => {
 
                 await window.tryTimed(() => {
-                    setting.initialize(key, label, default_val, on_change, saved_val)
-                })
+                    setting.initialize(key, label, default_val, on_change, saved_val);
+                });
                 await window.tryTimed(() => {
-                    window.Settings.categories[category_key].add_setting(setting)
-                })
+                    window.Settings.categories[category_key].add_setting(setting);
+                });
 
-                loadingElement.style.display = 'none'
-            })
+                loadingElement.style.display = 'none';
+            });
         }
         else {
-            throw Error("Settings category not found: " + category_key)
+            throw Error("Settings category not found: " + category_key);
         }
     },
     show() {
-        $('#settings-overlay-container')[0].style.visibility = 'visible'
-        $('#settings-overlay-container')[0].style.opacity = 1
+        $('#settings-overlay-container')[0].style.visibility = 'visible';
+        $('#settings-overlay-container')[0].style.opacity = 1;
     },
-    hide: function() {
-        $('#settings-overlay-container')[0].style.visibility = 'hidden'
-        $('#settings-overlay-container')[0].style.opacity = 0
+    hide: function () {
+        $('#settings-overlay-container')[0].style.visibility = 'hidden';
+        $('#settings-overlay-container')[0].style.opacity = 0;
     }
-}
+};
 
 /**
  * @name Setting
@@ -256,23 +258,23 @@ window.Settings = {
  */
 window.Setting = class Setting extends HTMLElement {
     initialize(key, label, default_val, on_change, saved_val = undefined, displayed = true) {
-        this.key = key
-        var val = default_val.call(this, saved_val)
-        this.addData("value", val === undefined ? saved_val : val)
-        this.addData("label", label)
-        this.displayed = displayed
-        this.on_change = on_change
+        this.key = key;
+        let val = default_val.call(this, saved_val);
+        this.addData("value", val === undefined ? saved_val : val);
+        this.addData("label", label);
+        this.displayed = displayed;
+        this.on_change = on_change;
 
         // Adjust components to current value
-        this["setupComponent"]()
+        this.setupComponent();
 
         // Run on_change function to directly apply changes
-        this["on_change"](this.data.value)
+        this.on_change(this.data.value);
     }
     set displayed(val) {
         this.style.display = val ? '' : 'none';
     }
-}
+};
 
 /**
  * @name SettingsCategory
@@ -281,26 +283,21 @@ window.Setting = class Setting extends HTMLElement {
  * @param {string} label
  * @param {boolean} displayed
  */
- window.SettingsCategory = class SettingsCategory extends HTMLElement {
+window.SettingsCategory = class SettingsCategory extends HTMLElement {
     initialize(key, label, displayed = true) {
-        this.key = key
-        this.addData("label", label)
-        this.displayed = displayed
+        this.key = key;
+        this.addData("label", label);
+        this.displayed = displayed;
     }
     add_setting(setting) {
-        this.appendChild(setting)
+        this.appendChild(setting);
     }
     set displayed(val) {
         this.style.display = val ? '' : 'none';
     }
-}
-
-
-
-
+};
 
 // TODO: Implement hidden class/teacher filter setting
-
 
 /////////////////
 // Legacy code //
@@ -312,6 +309,6 @@ window.Setting = class Setting extends HTMLElement {
 window.settings = {
     filter: '',
     currentDateOffset: 0,
-}
-  
-const TIME_SHOW_NEXT_DAY = 16 // :00 o' clock in 24-hour format
+};
+
+const TIME_SHOW_NEXT_DAY = 16; // :00 o' clock in 24-hour format
