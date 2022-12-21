@@ -1,0 +1,80 @@
+<template>
+    <p class="settings-label">{{ label }}
+        <div id="colors">
+            
+        </div>
+    </p>
+</template>
+
+<style>
+    .colorSelector {
+        display: inline-block;
+        border-radius: 25%;
+        height: 2em;
+        width: 2em;
+        margin: 0.5em;
+        cursor: pointer;
+        box-shadow: 0 0 0 2pt var(--shadow);
+
+        transition: transform .1s;
+    }
+
+    .colorSelector:hover {
+        transform: scale(1.1);
+    }
+
+    .colorSelector.selected {
+        box-shadow: 0 0 0 2pt var(--text-color-primary);
+    }
+</style>
+
+<script>
+
+    // TODO: Split this up with a colorSelector component
+
+    this.data = {
+        colors: ['#E53935', '#D81B60', '#8E24AA', '#5E35B1', '#3949AB', '#1E88E5', '#039BE5', '#00ACC1', '#00897B', '#43A047']
+    }
+
+    this.setupComponent = function() {
+        this.querySelector( "#colors" ).innerHTML = this.data.colors.map(function(color, index) {
+            return "<div id='" + index.toString() + "' class='colorSelector' onclick='parentElement.parentElement.changed(this)' style='background-color: " + color + "'></div>"
+        }).join("")
+        this["$_value"](this.data.value)
+    }
+
+    this.changed = function(colorSelector) {
+        Array.from(this.getElementsByClassName('colorSelector')).forEach((el) => {
+            el.classList.remove('selected')
+        })
+        colorSelector.classList.add('selected')
+        this.data.value = colorSelector.id
+
+        this["on_change"](this.data.value)
+    }
+
+    this["$_value"] = function(val) {
+        this.updateSelection(val)
+        return val
+    }
+
+    this.updateColor = function(colorSelector) {
+        // Update logic
+        const accentColor = window.rgb2hex(colorSelector.style.backgroundColor)
+        const accentDark = window.shadeColor(accentColor, -20)
+    
+        document.querySelector('body').style.setProperty('--accent', accentColor)
+        document.querySelector('body').style.setProperty('--accent-dark', accentDark)
+    }
+
+    this.updateSelection = function(val) {
+        var colors = this.querySelectorAll(".colorSelector")
+        for (var i = 0; i < colors.length; i++) {
+            if(i == val) {
+                colors[i].classList.add("selected")
+                this.updateColor(colors[i])
+            }
+        }
+    }
+
+</script>

@@ -417,26 +417,6 @@ input:checked + .slider:before {
     overflow-x: hidden;
 }
 
-.colorSelector {
-    display: inline-block;
-    border-radius: 25%;
-    height: 2em;
-    width: 2em;
-    margin: 0.5em;
-    cursor: pointer;
-    box-shadow: 0 0 0 2pt var(--shadow);
-
-    transition: transform .1s;
-}
-
-.colorSelector:hover {
-    transform: scale(1.1);
-}
-
-.colorSelector.selected {
-    box-shadow: 0 0 0 2pt var(--text-color-primary);
-}
-
 #settings-footer {
     position: absolute;
     bottom: 1em;
