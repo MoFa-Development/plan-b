@@ -34,7 +34,7 @@ window.getGimmicksData = async function () {
 * initialize gimmick object
 */
 window.initGimmick = function (gimmick) {
-    const el = $('#gimmick');
+    const el = $('#gimmick')[0];
     el.innerHTML = gimmick.content;
     el.style = gimmick.styles;
 };
